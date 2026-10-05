@@ -1,0 +1,256 @@
+{
+  "es": {
+    "name": "Ariana Montiel",
+    "title": "Frontend Developer",
+    "contact": {
+      "phone": "+54 9 351 555 0198",
+      "email": "ariana.montiel@example.com",
+      "location": "Rosario, Argentina",
+      "linkedin": "linkedin.com/in/ariana-montiel-example",
+      "github": "github.com/ariana-montiel-example"
+    },
+    "summary": "Frontend Developer con más de 6 años construyendo aplicaciones React en producción para equipos de logística y retail, incluidos los últimos tres años modernizando una consola de operaciones de carga en tiempo real en Aeronix Logistics con React, TypeScript, Redux Toolkit y Vite.\n\nSólida experiencia construyendo librerías de componentes compartidas e interfaces accesibles, con estados de error claros y código bien testeado, incluido un design system de más de 30 componentes accesibles usados por dos equipos. Cómodo con Context API cuando encaja, y con SOLID y Clean Code como práctica diaria.\n\nInglés avanzado, con más de 3 años de comunicación diaria con equipos de Estados Unidos, y el desarrollo con agentes de IA como forma principal de trabajar, con tests y revisión humana en cada cambio.\n\nBusco oportunidades remotas en Frontend de nivel Senior o Semi-Senior y sigo aprendiendo dentro del ecosistema React y el tooling moderno de frontend.",
+    "skills": [
+      {
+        "category": "Frontend",
+        "items": "React (hooks y Context API), TypeScript, Redux Toolkit, React Query, Sass/SCSS, Accesibilidad web"
+      },
+      {
+        "category": "Engineering",
+        "items": "SOLID y Clean Code, Vite, Vitest, Playwright, REST APIs, Git"
+      },
+      {
+        "category": "Backend (familiar)",
+        "items": "Node.js, PostgreSQL - de proyectos personales"
+      },
+      {
+        "category": "AI tooling",
+        "items": "Coding agents, Prompt engineering, Python (básico)"
+      },
+      {
+        "category": "Workflow",
+        "items": "Agile/Scrum, code review, coaching"
+      },
+      {
+        "category": "Languages",
+        "items": "Español (nativo), Inglés (Avanzado, más de 3 años diarios con equipos de Estados Unidos)"
+      }
+    ],
+    "experience": [
+      {
+        "company": "Aeronix Logistics",
+        "role": "Frontend Developer",
+        "startDate": "Abr 2021",
+        "endDate": "Ago 2026",
+        "projects": [
+          {
+            "name": "Freightline Control (consola de operaciones de carga)",
+            "startDate": "Ene 2023",
+            "endDate": "Ago 2026",
+            "bullets": [
+              "Modernicé la consola de operaciones de carga de Aeronix, una aplicación React en tiempo real que reemplazó decenas de planillas y herramientas internas.",
+              "Adopté el desarrollo con agentes de IA como forma principal de trabajar: investigación, implementación, revisión y testing del output, con revisión humana en cada cambio.",
+              "Diseñé un design system compartido con más de 30 componentes accesibles, usado por dos equipos y versionado con cambios controlados.",
+              "Migré el manejo de estado y el fetching de datos a Redux Toolkit y React Query, eliminando capas de boilerplate y simplificando los flujos.",
+              "Levanté la cobertura de tests con Vitest y React Testing Library hasta sostener releases semanales con regresiones controladas.",
+              "Reduje el tiempo de carga inicial con code splitting y lazy loading de módulos pesados, midiendo el impacto en cada release.",
+              "Audité y corregí accesibilidad en los flujos principales: HTML semántico, foco visible, contraste y navegación por teclado.",
+              "Armé prompts y guías de flujo de trabajo para el equipo, acortando tareas repetitivas sin saltear la revisión de código."
+            ]
+          },
+          {
+            "name": "Portal de clientes (autoservicio)",
+            "startDate": "Abr 2021",
+            "endDate": "Dic 2022",
+            "bullets": [
+              "Construí formularios de alta y cotización con validación en cliente, estados de error claros y guardado de borradores.",
+              "Integré la app con APIs REST internas y externas, modelando estados de carga, errores y reintentos.",
+              "Escribí la suite E2E de los flujos de alta con Playwright, corriendo en CI ante cada merge."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "Solmar Retail Tech",
+        "role": "Frontend Developer",
+        "startDate": "Ene 2019",
+        "endDate": "Mar 2021",
+        "projects": [
+          {
+            "name": "Checkout de tienda online",
+            "startDate": "Ene 2019",
+            "endDate": "Mar 2021",
+            "bullets": [
+              "Desarrollé el flujo de checkout completo en React, con carrito, medios de pago y confirmación, para más de veinte tiendas de la marca.",
+              "Acompañé la adopción de tests de comportamiento en el equipo, enfocados en flujos de usuario y no en detalles de implementación.",
+              "Trabajé en sprints quincenales con refinamiento, daily y retrospectiva, colaborando con diseño y backend."
+            ]
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Northfield Code Academy",
+        "degree": "Bootcamp Full Stack Web Development",
+        "startDate": "Feb 2018",
+        "endDate": "Dic 2018",
+        "note": "Bootcamp intensivo de 9 meses con proyecto final en equipo"
+      },
+      {
+        "institution": "Universidad del Puerto Norte",
+        "degree": "Licenciatura en Sistemas",
+        "startDate": "Mar 2015",
+        "endDate": "Dic 2017",
+        "note": "3 años aprobados, carrera incompleta"
+      }
+    ],
+    "certifications": [
+      {
+        "name": "AI Fluency for Developers",
+        "note": "Uso práctico de herramientas de IA en flujos de desarrollo"
+      }
+    ],
+    "projects": [
+      {
+        "name": "Kitchen Stock (control de despensa)",
+        "url": "https://example.com/kitchen-stock",
+        "date": "2025",
+        "description": "App React para seguir stock de despensa y armado de listas de compra, con tests E2E propios y despliegue continuo."
+      },
+      {
+        "name": "Focus Timer (temporizador de sesiones)",
+        "url": "https://example.com/focus-timer",
+        "date": "2024",
+        "description": "Temporizador de sesiones de estudio con estadísticas semanales, construido como laboratorio de performance y accesibilidad."
+      }
+    ]
+  },
+  "en": {
+    "name": "Ariana Montiel",
+    "title": "Frontend Developer",
+    "contact": {
+      "phone": "+54 9 351 555 0198",
+      "email": "ariana.montiel@example.com",
+      "location": "Rosario, Argentina",
+      "linkedin": "linkedin.com/in/ariana-montiel-example",
+      "github": "github.com/ariana-montiel-example"
+    },
+    "summary": "Frontend Developer with more than 6 years building production React applications for logistics and retail teams, including the last three years modernizing a real-time cargo operations console at Aeronix Logistics with React, TypeScript, Redux Toolkit and Vite.\n\nSolid experience building shared component libraries and accessible interfaces with clear error states and well-tested code, including a design system of more than 30 accessible components used by two teams. Comfortable with Context API where it fits, and with SOLID and Clean Code as daily practice.\n\nAdvanced English with more than 3 years of daily communication with US-based teams, and AI agentic development as my main way of working, with tests and human review on every change.\n\nOpen to Senior or Semi-Senior remote Frontend opportunities, and continuously learning across the React ecosystem and modern frontend tooling.",
+    "skills": [
+      {
+        "category": "Frontend",
+        "items": "React (hooks and Context API), TypeScript, Redux Toolkit, React Query, Sass/SCSS, Web accessibility"
+      },
+      {
+        "category": "Engineering",
+        "items": "SOLID and Clean Code, Vite, Vitest, Playwright, REST APIs, Git"
+      },
+      {
+        "category": "Backend (familiar)",
+        "items": "Node.js, PostgreSQL - from personal projects"
+      },
+      {
+        "category": "AI tooling",
+        "items": "Coding agents, Prompt engineering, Python (basic)"
+      },
+      {
+        "category": "Workflow",
+        "items": "Agile/Scrum, code review, coaching"
+      },
+      {
+        "category": "Languages",
+        "items": "Spanish (native), English (Advanced, more than 3 years daily with US-based teams)"
+      }
+    ],
+    "experience": [
+      {
+        "company": "Aeronix Logistics",
+        "role": "Frontend Developer",
+        "startDate": "Apr 2021",
+        "endDate": "Aug 2026",
+        "projects": [
+          {
+            "name": "Freightline Control (cargo operations console)",
+            "startDate": "Jan 2023",
+            "endDate": "Aug 2026",
+            "bullets": [
+              "Modernized Aeronix's cargo operations console, a real-time React application that replaced dozens of spreadsheets and internal tools.",
+              "Adopted AI agentic development as my main way of working: research, implementation, review and testing of the output, with human review on every change.",
+              "Designed a shared design system with more than 30 accessible components, used by two teams and versioned with controlled changes.",
+              "Migrated state management and data fetching to Redux Toolkit and React Query, removing boilerplate layers and simplifying the flows.",
+              "Raised test coverage with Vitest and React Testing Library until weekly releases were sustainable with controlled regressions.",
+              "Cut initial load time with code splitting and lazy loading of heavy modules, measuring the impact on every release.",
+              "Audited and fixed accessibility in the main flows: semantic HTML, visible focus, contrast and keyboard navigation.",
+              "Wrote prompts and workflow guides for the team, shortening repetitive tasks without skipping code review."
+            ]
+          },
+          {
+            "name": "Customer portal (self-service)",
+            "startDate": "Apr 2021",
+            "endDate": "Dec 2022",
+            "bullets": [
+              "Built signup and quoting forms with client-side validation, clear error states and draft saving.",
+              "Integrated the app with internal and external REST APIs, modeling loading states, errors and retries.",
+              "Wrote the E2E suite for the signup flows with Playwright, running in CI on every merge."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "Solmar Retail Tech",
+        "role": "Frontend Developer",
+        "startDate": "Jan 2019",
+        "endDate": "Mar 2021",
+        "projects": [
+          {
+            "name": "Online store checkout",
+            "startDate": "Jan 2019",
+            "endDate": "Mar 2021",
+            "bullets": [
+              "Built the complete checkout flow in React, with cart, payment methods and confirmation, for more than twenty brand stores.",
+              "Drove the adoption of behavior-focused tests in the team, targeting user flows instead of implementation details.",
+              "Worked in two-week sprints with refinement, daily and retrospective, collaborating with design and backend."
+            ]
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Northfield Code Academy",
+        "degree": "Full Stack Web Development Bootcamp",
+        "startDate": "Feb 2018",
+        "endDate": "Dec 2018",
+        "note": "9-month intensive bootcamp with a final team project"
+      },
+      {
+        "institution": "Universidad del Puerto Norte",
+        "degree": "Computer Science Degree",
+        "startDate": "Mar 2015",
+        "endDate": "Dec 2017",
+        "note": "3 years completed, degree unfinished"
+      }
+    ],
+    "certifications": [
+      {
+        "name": "AI Fluency for Developers",
+        "note": "Practical use of AI tooling in development workflows"
+      }
+    ],
+    "projects": [
+      {
+        "name": "Kitchen Stock (pantry tracker)",
+        "url": "https://example.com/kitchen-stock",
+        "date": "2025",
+        "description": "React app to track pantry stock and build shopping lists, with its own E2E tests and continuous deployment."
+      },
+      {
+        "name": "Focus Timer (session timer)",
+        "url": "https://example.com/focus-timer",
+        "date": "2024",
+        "description": "Study session timer with weekly statistics, built as a performance and accessibility lab."
+      }
+    ]
+  }
+}

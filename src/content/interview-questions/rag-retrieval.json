@@ -1,0 +1,137 @@
+{
+  "area": "rag-retrieval",
+  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "questions": [
+    {
+      "id": "ai-agents-rag-pipeline-and-failure-modes",
+      "area": "rag-retrieval",
+      "topic": "rag",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Explain a RAG pipeline and the main ways it can fail."
+      },
+      "answer": {
+        "en": "Retrieval-augmented generation retrieves relevant external content for a query, places selected evidence into the model context, and asks the model to answer using that grounding. Failures can occur before generation: parsing or chunking loses meaning, indexing is stale, the query does not match the representation, access control is missing, or retrieval returns irrelevant or incomplete passages. Generation can then misread evidence, overstate certainty, or answer beyond it. Evaluate retrieval and answer quality separately, preserve document permissions and provenance, and make “not enough evidence” a valid outcome. RAG improves access to evidence; it does not guarantee truth."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Google Cloud: Grounding overview",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview"
+        },
+        {
+          "label": "OpenAI: Evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "retrieval",
+        "grounding"
+      ]
+    },
+    {
+      "id": "ai-agents-rag-vs-fine-tuning",
+      "area": "rag-retrieval",
+      "topic": "rag",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How would you decide between RAG, prompting, and fine-tuning for a product requirement?"
+      },
+      "answer": {
+        "en": "Use prompting for instructions, format, and task behavior; use RAG when the answer depends on changing, private, or source-attributed information; consider fine-tuning when a stable behavior or style is repeatedly required and you have suitable training data. These choices are not mutually exclusive. First define the failure and measure a baseline with a representative evaluation set. RAG cannot repair a reasoning or policy problem, and fine-tuning is not a substitute for current facts or authorization. Prefer the least complex intervention that improves the measured requirement, while accounting for maintenance, privacy, latency, cost, and rollback."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Google Cloud: Grounding overview",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview"
+        },
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ],
+      "tags": [
+        "rag",
+        "fine-tuning",
+        "architecture"
+      ]
+    },
+    {
+      "id": "rag-retrieval-grounding-beyond-vector-search",
+      "area": "rag-retrieval",
+      "topic": "grounding",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "Vector RAG was the first attempt at grounding a model in company data. What other ways do you have?"
+      },
+      "answer": {
+        "en": "A knowledge graph when relationships between entities matter more than similarity. A semantic layer over structured data when the question is really a query. Direct tool calls to internal APIs. Hybrid retrieval that combines keyword and vector search with re-ranking. And the unglamorous part: pipelines that turn text, PDF, HTML and images into readable chunks and keep the index up to date. The design question is what goes in the prompt and what the model retrieves or queries by itself, because every option trades latency, freshness and maintenance differently."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Andrew Ng: grounding the model in data",
+          "url": "https://x.com/AndrewYNg/status/2090840747738374568"
+        },
+        {
+          "label": "nothiring.me: que es un AI Engineer",
+          "url": "http://nothiring.me/blog/roles/ai-engineer-espana"
+        }
+      ],
+      "tags": [
+        "rag",
+        "grounding",
+        "architecture"
+      ]
+    },
+    {
+      "id": "rag-retrieval-when-not-to-use-rag",
+      "area": "rag-retrieval",
+      "topic": "rag-tradeoffs",
+      "level": "senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "When would you NOT use RAG?"
+      },
+      "answer": {
+        "en": "When the data is structured and queryable, answer with a SQL query or a tool call instead of retrieving text. When everything relevant fits reliably in the context window, just put it there. When the task is style or format adaptation at scale, fine-tuning or a strong system prompt beats retrieval. When freshness is the only problem, a scheduled prompt update or cache invalidation may be enough. RAG adds a pipeline to maintain (chunking, indexing, freshness) plus retrieval latency and cost, so if the failure mode it fixes is not present, it is over-engineering. The interviewer is listening for trade-off fluency: retrieval speed against context length, and prompting against fine-tuning."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "rag",
+        "tradeoffs",
+        "architecture"
+      ]
+    }
+  ]
+}

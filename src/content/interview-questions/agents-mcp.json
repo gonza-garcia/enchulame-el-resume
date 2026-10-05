@@ -1,0 +1,317 @@
+{
+  "area": "agents-mcp",
+  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "questions": [
+    {
+      "id": "agents-mcp-programming-with-agents",
+      "area": "agents-mcp",
+      "topic": "agentic-workflow",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "What does it mean to program effectively with AI coding agents, and how do you verify their output?"
+      },
+      "answer": {
+        "en": "It starts with a mental model of how the agent works and where it fails: it follows specifications well and improvises badly. So the craft shifts to shaping the work: clear specs, explicit acceptance criteria, small verifiable steps. Then verification: run the tests and the type checks yourself and review the changes instead of trusting the output, so every change goes through the same check. Decide per task what to delegate and what to inspect, and intervene when the agent diverges instead of hoping. Interviewers increasingly ask how you prompt and verify, not only whether you can code."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Andrew Ng: AI engineering skills map",
+          "url": "https://x.com/AndrewYNg/status/2088302050706686198"
+        },
+        {
+          "label": "nothiring.me: que es un AI Engineer",
+          "url": "http://nothiring.me/blog/roles/ai-engineer-espana"
+        },
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "agents",
+        "workflow",
+        "verification"
+      ]
+    },
+    {
+      "id": "agents-mcp-tool-safety-and-exfiltration",
+      "area": "agents-mcp",
+      "topic": "agent-security",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How do you stop an agent from exfiltrating data or running dangerous tools?"
+      },
+      "answer": {
+        "en": "Design tools with least privilege: narrow allowlists of actions, validated arguments, and no generic shell or network access unless the task truly requires it. Sandbox execution where possible. Treat retrieved text as untrusted input, because documents can carry prompt injection. Require human approval for consequential actions such as payments, deletions or sends. Log every tool call for audit, set budgets and timeouts, and define termination conditions so the agent cannot loop into a dangerous state. Skipping safety signals weak production awareness in interviews."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Andrew Ng: building agentic systems",
+          "url": "https://x.com/AndrewYNg/status/2090840747738374568"
+        },
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "security",
+        "agents",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "ai-agents-agent-loop-stop-conditions",
+      "area": "agents-mcp",
+      "topic": "agent-loops",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What is the core agent loop, and what controls must surround it?"
+      },
+      "answer": {
+        "en": "A basic agent loop gives the model a goal and available tools, receives a proposed action, executes that action, feeds back the environment result, and repeats until the task is complete or the runtime stops it. The model supplies decisions; the runtime owns execution. Put hard limits around iterations, elapsed time, tokens, tool calls, spend, and failure retries. Add cancellation, timeouts, idempotency, tracing, and a clear terminal state. For consequential actions, pause for user confirmation or route to a human. A loop without budgets and observability is an uncontrolled distributed workflow, not a production agent."
+      },
+      "codeBlocks": [
+        {
+          "language": "ts",
+          "code": "for (let step = 0; step < MAX_STEPS; step++) {\n  const turn = await model.run(state);\n  if (turn.final) return turn.answer;\n  const result = await executeValidatedTool(turn.toolCall);\n  state = appendObservation(state, result);\n}\nthrow new Error('agent step budget exceeded');",
+          "caption": "The runtime, not the model, owns the stop condition."
+        }
+      ],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "label": "OpenAI: Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling"
+        }
+      ],
+      "tags": [
+        "agent-loop",
+        "budgets"
+      ]
+    },
+    {
+      "id": "ai-agents-function-calling-flow",
+      "area": "agents-mcp",
+      "topic": "function-calling",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Walk through a safe function-calling request from the model to the final answer."
+      },
+      "answer": {
+        "en": "The application sends the model the conversation and a small set of tool definitions. The model may return one or more tool calls with a name and arguments; it does not execute your code. The runtime must identify the allowed function, parse and validate the arguments, apply authorization and business rules, execute the operation, and return a tool result associated with the call ID. The application then sends the preserved model output plus those results back for a final response or more calls. Treat every call as untrusted input, make side effects idempotent where possible, and enforce timeouts, budgets, and audit logging."
+      },
+      "codeBlocks": [
+        {
+          "language": "ts",
+          "code": "for (const call of response.toolCalls) {\n  const args = toolSchema.parse(JSON.parse(call.arguments));\n  authorize(user, call.name, args);\n  const result = await tools[call.name](args);\n  messages.push({ role: 'tool', tool_call_id: call.id, content: JSON.stringify(result) });\n}",
+          "caption": "Validate and authorize before executing a model-proposed tool call."
+        }
+      ],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling"
+        }
+      ],
+      "tags": [
+        "tools",
+        "authorization"
+      ]
+    },
+    {
+      "id": "ai-agents-mcp-architecture",
+      "area": "agents-mcp",
+      "topic": "mcp",
+      "level": "semi-senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What does MCP standardize, and how is it different from a provider-specific function-calling API?"
+      },
+      "answer": {
+        "en": "MCP is an open protocol for connecting an AI application to external context and capabilities. Its architecture separates hosts, clients, and servers; communication uses JSON-RPC, stateful connections, and capability negotiation. Servers can expose resources, prompts, and tools, while clients can offer features such as sampling, roots, and elicitation. Function calling is a model/API mechanism for expressing a tool request. MCP standardizes the integration boundary and discovery across hosts and servers; it does not make a tool trustworthy or remove the need for runtime authorization, validation, consent, and isolation."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "MCP specification",
+          "url": "https://modelcontextprotocol.io/specification/latest"
+        },
+        {
+          "label": "OpenAI: Function calling",
+          "url": "https://developers.openai.com/api/docs/guides/function-calling"
+        }
+      ],
+      "tags": [
+        "mcp",
+        "protocols"
+      ]
+    },
+    {
+      "id": "ai-agents-side-effects-and-idempotency",
+      "area": "agents-mcp",
+      "topic": "function-calling",
+      "level": "staff-lead",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do you prevent retries or repeated tool calls from duplicating a consequential side effect?"
+      },
+      "answer": {
+        "en": "Do not rely on the model to remember whether an action happened. Give the operation an idempotency key derived from the user intent and run, persist the request and outcome, and make the server return the existing result for a repeated key. Separate preview from commit, require authorization and confirmation at the commit boundary, and use transactional or deduplicated downstream APIs where available. Bound retries and expose ambiguous outcomes for reconciliation instead of claiming success. Trace the call ID, idempotency key, actor, and result, while keeping secrets out of logs. The model can propose an action; only the service owns its side effects."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Function calling",
+          "url": "https://developers.openai.com/api/docs/guides/function-calling"
+        },
+        {
+          "label": "MCP specification: Tool safety",
+          "url": "https://modelcontextprotocol.io/specification/latest"
+        }
+      ],
+      "tags": [
+        "idempotency",
+        "side-effects",
+        "retries"
+      ]
+    },
+    {
+      "id": "ai-agents-tool-schema-design",
+      "area": "agents-mcp",
+      "topic": "function-calling",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How do tool descriptions and schemas affect agent reliability?"
+      },
+      "answer": {
+        "en": "A tool definition is an interface for the model, so its name, description, parameter names, types, enums, examples, and boundaries should be as clear as a good API contract. Make tools predictable and narrow, encode invalid states out of the schema, and avoid asking the model for values the runtime already knows. Keep the initially available set small and group or defer rarely used capabilities. Then test tool selection and arguments on realistic cases, including similar tools and failure responses. Strict schema adherence helps with shape, but it does not provide permission checks or make an unsafe side effect safe."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Function calling best practices",
+          "url": "https://platform.openai.com/docs/guides/function-calling"
+        },
+        {
+          "label": "Anthropic: Prompt engineering your tools",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ],
+      "tags": [
+        "tool-design",
+        "api-contracts"
+      ]
+    },
+    {
+      "id": "ai-agents-when-not-to-build-an-agent",
+      "area": "agents-mcp",
+      "topic": "agent-loops",
+      "level": "architect",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "At an architecture review, what evidence would justify not building an agent?"
+      },
+      "answer": {
+        "en": "An agent is unnecessary when the workflow is known, inputs are structured, and deterministic code or a single model call meets the success criteria. That choice avoids extra tool risk, latency, cost, non-determinism, and operational complexity. I would establish a baseline, measure task success and failure modes, and compare a fixed workflow, retrieval, and agentic alternative on the same evaluation set. If the agent's flexibility does not improve the business outcome enough to cover its risk and maintenance, reject it. Architecture maturity includes declining autonomy when it adds complexity without measurable value."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "architecture",
+        "simplicity"
+      ]
+    },
+    {
+      "id": "ai-agents-workflow-vs-agent",
+      "area": "agents-mcp",
+      "topic": "agent-loops",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "When should you choose a deterministic workflow instead of an autonomous agent?"
+      },
+      "answer": {
+        "en": "Use a workflow when the task decomposes into known steps and predictability, latency, and auditability matter. Use an agent when the required steps are genuinely open-ended and model-driven decisions provide enough value to justify uncertainty. Start with the simplest design: a single call with retrieval or examples may be enough; add routing, parallel work, or an agent loop only when evaluation shows a measurable improvement. Agents trade more flexibility for latency, cost, and compounding errors. Whichever design you choose, define success criteria, failure handling, human escalation, and observability before increasing autonomy."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Workflows and agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ],
+      "tags": [
+        "architecture",
+        "trade-offs"
+      ]
+    }
+  ]
+}

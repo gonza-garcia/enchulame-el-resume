@@ -1,0 +1,242 @@
+---
+import type { LocalizedText, Locale } from '../schemas/profile';
+import type { ResumeLocale } from '../schemas/resume';
+import type { BilingualProjection } from '../lib/profile-projection';
+import Layout from '../layouts/Layout.astro';
+import Toolbar from './Toolbar.astro';
+import { SECTION_TITLES as sectionTitles, positioningLabel } from '../lib/resume-sections';
+
+interface Props {
+  projections: Record<string, BilingualProjection>;
+  positionings: Array<{ id: string; title: LocalizedText }>;
+  brandName: LocalizedText;
+  brandMark: string;
+  pdfTitle: string;
+}
+const { projections, positionings, brandName, brandMark, pdfTitle } = Astro.props;
+
+const locales: Locale[] = ['en', 'es'];
+const defaultPositioning = positionings[0];
+
+const payload = {
+  projections,
+  positionings: positionings.map((positioning) => ({
+    id: positioning.id,
+    title: positioning.title,
+    label: positioningLabel(positioning.id)
+  })),
+  brand: { mark: brandMark, name: brandName }
+};
+---
+
+<Layout title={`${brandName.en} - ${defaultPositioning.title.en}`}>
+  <Toolbar
+    idPrefix=""
+    brand={{ mark: brandMark, name: brandName.en, role: defaultPositioning.title.en }}
+    pdfTitle={pdfTitle}
+    showTheme={true}
+    positionings={positionings.map((positioning) => ({
+      id: positioning.id,
+      label: positioningLabel(positioning.id)
+    }))}
+    navLinks={[
+      { href: '/adapted/', label: 'CVs adaptados' },
+      { href: '/interview/', label: 'Prep entrevistas' },
+      { href: '/learning/', label: 'Plan de estudios' }
+    ]}
+    tip="Tip: pick a language, then Print PDF for an ATS-friendly single-column résumé."
+  />
+
+  <main class="page">
+    {positionings.map((positioning) => locales.map((key) => {
+      const data = projections[positioning.id][key] as ResumeLocale;
+      return (
+        <article
+          class="lang"
+          data-lang={key}
+          data-positioning={positioning.id}
+          aria-hidden={key !== 'en' || positioning.id !== defaultPositioning.id}
+        >
+          <header>
+            <h1>{data.name}</h1>
+            <p class="titleline">{data.title}</p>
+            <p class="contactline">
+              <span>{data.contact.phone}</span><span class="sep"> • </span>
+              <a href={`mailto:${data.contact.email}`}>{data.contact.email}</a><span class="sep"> • </span>
+              <span>{data.contact.location}</span><span class="sep"> • </span>
+              <a href={`https://${data.contact.linkedin}`}>{data.contact.linkedin}</a><span class="sep"> • </span>
+              <a href={`https://${data.contact.github}`}>{data.contact.github}</a>
+            </p>
+          </header>
+
+          <section class="summary" aria-label={sectionTitles[key].summary}>
+            <h2>{sectionTitles[key].summary}</h2>
+            {data.summary.split('\n\n').map((para) => <p>{para}</p>)}
+          </section>
+
+          <section class="skills" aria-label={sectionTitles[key].skills}>
+            <h2>{sectionTitles[key].skills}</h2>
+            {data.skills.map((skill) => (
+              <div class="skill-line">
+                <span class="skill-cat">{skill.category}</span>
+                <span class="skill-items">{skill.items}</span>
+              </div>
+            ))}
+          </section>
+
+          <section aria-label={sectionTitles[key].experience}>
+            <h2>{sectionTitles[key].experience}</h2>
+            {data.experience.map((job) => (
+              <div class="job">
+                <div class="job-head">
+                  <span class="company">{job.company}</span>
+                  <span class="meta">{job.role} | {job.startDate} - {job.endDate}</span>
+                </div>
+                {job.projects.map((project) => (
+                  <div class="subproject">
+                    <div class="subproject-intro">
+                      <div class="subproject-head">
+                        <span class="subproject-name">{project.name}</span>
+                        <span class="subproject-dates">{project.startDate} - {project.endDate}</span>
+                      </div>
+                      {project.url && <a class="subproject-url" href={project.url}>{project.url}</a>}
+                    </div>
+                    <ul class="bullets">
+                      {project.bullets.map((bullet) => <li>{bullet}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </section>
+
+          <section aria-label={sectionTitles[key].education}>
+            <h2>{sectionTitles[key].education}</h2>
+            {data.education.map((edu) => (
+              <div class="edu-entry">
+                <div class="edu-head">
+                  <span class="edu-name">{edu.institution} - {edu.degree}</span>
+                  <span class="edu-dates">{edu.startDate} - {edu.endDate}</span>
+                </div>
+                {edu.note && <div class="edu-note">{edu.note}</div>}
+              </div>
+            ))}
+          </section>
+
+          <section aria-label={sectionTitles[key].certifications}>
+            <h2>{sectionTitles[key].certifications}</h2>
+            {data.certifications.map((cert) => (
+              <div class="cert-entry">
+                <div class="cert-head">
+                  <span class="cert-name">{cert.name}</span>
+                </div>
+                {cert.note && <div class="cert-note">{cert.note}</div>}
+              </div>
+            ))}
+          </section>
+
+          {data.projects.length > 0 && (
+            <section aria-label={sectionTitles[key].projects}>
+              <h2>{sectionTitles[key].projects}</h2>
+              {data.projects.map((project) => (
+                <div class="proj-entry">
+                  <div class="proj-head">
+                    <span class="proj-name">{project.name}</span>
+                    <span class="proj-meta">{[project.url, project.date].filter(Boolean).join(' | ')}</span>
+                  </div>
+                  <div class="proj-desc">{project.description}</div>
+                </div>
+              ))}
+            </section>
+          )}
+        </article>
+      );
+    }))}
+  </main>
+
+  <script type="application/json" id="resume-data" is:inline set:html={JSON.stringify(payload)}></script>
+
+  <script>
+    import { LANG_STORAGE_KEY, POSITIONING_STORAGE_KEY } from '../scripts/storage-keys';
+
+    type Locale = 'es' | 'en';
+
+    interface Payload {
+      projections: Record<string, Record<Locale, unknown>>;
+      positionings: Array<{ id: string; title: Record<Locale, string>; label?: string }>;
+      brand: { mark: string; name: Record<Locale, string> };
+    }
+
+    const dataEl = document.getElementById('resume-data');
+    const payload: Payload = dataEl
+      ? JSON.parse(dataEl.textContent || '{}')
+      : { projections: {}, positionings: [], brand: { mark: '', name: { es: '', en: '' } } };
+
+    const defaultPositioning = payload.positionings[0]?.id ?? '';
+
+    function readStored(key: string, allowed: string[], fallback: string): string {
+      try {
+        const saved = localStorage.getItem(key);
+        if (saved && allowed.includes(saved)) return saved;
+      } catch {
+        // localStorage no disponible
+      }
+      return fallback;
+    }
+
+    function currentLang(): Locale {
+      return readStored(LANG_STORAGE_KEY, ['es', 'en'], 'en') as Locale;
+    }
+
+    function currentPositioning(): string {
+      const ids = payload.positionings.map((positioning) => positioning.id);
+      return readStored(POSITIONING_STORAGE_KEY, ids, defaultPositioning);
+    }
+
+    function applyState() {
+      const lang = currentLang();
+      const positioning = currentPositioning();
+
+      for (const art of document.querySelectorAll('article.lang')) {
+        const on =
+          art.getAttribute('data-lang') === lang && art.getAttribute('data-positioning') === positioning;
+        art.classList.toggle('active', on);
+        art.setAttribute('aria-hidden', String(!on));
+      }
+
+      (window as unknown as { __exportResume?: unknown }).__exportResume =
+        payload.projections[positioning] ?? null;
+
+      const nameEl = document.querySelector<HTMLElement>('.brand-name');
+      if (nameEl) nameEl.textContent = payload.brand.name[lang] ?? payload.brand.name.en;
+      const roleEl = document.querySelector<HTMLElement>('.brand-role');
+      const active = payload.positionings.find((option) => option.id === positioning);
+      if (roleEl && active) roleEl.textContent = active.title[lang] ?? active.title.en;
+
+      for (const button of document.querySelectorAll<HTMLButtonElement>('button[data-positioning]')) {
+        const id = button.getAttribute('data-positioning');
+        button.setAttribute('aria-pressed', String(id === positioning));
+        const option = payload.positionings.find((candidate) => candidate.id === id);
+        if (option) button.textContent = option.label ?? option.title[lang] ?? option.title.en;
+      }
+    }
+
+    applyState();
+
+    document.addEventListener('toolbar:lang-change', () => applyState());
+    document.addEventListener('toolbar:positioning-change', () => applyState());
+
+    document.addEventListener('toolbar:export-json', () => {
+      const projection = payload.projections[currentPositioning()]?.[currentLang()];
+      const blob = new Blob([JSON.stringify(projection ?? {}, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</Layout>

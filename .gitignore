@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-e2e/
+.astro/
+
+# Logs
+*.log
+dev.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Opencode tooling (no commiteable, pertenece al setup local)
+.agents/
+opencode.jsonc
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Datos de la persona usuaria: el perfil real y el plan real no se commitean; los ejemplos si
+src/content/profile.json
+src/content/learning-plan.json
+
+# Ofertas reales: solo las ofertas demo ficticias (fixtures del producto) se commitean.
+# Las carpetas demo se listan por nombre a proposito: ninguna oferta de usuario puede
+# entrar a git por accidente sin editar esta lista.
+docs/job-offers/*
+!docs/job-offers/2026-10-05-aurora-labs-reactjs-frontend-developer/
+!docs/job-offers/2026-10-05-nimbus-software-senior-frontend-engineer/

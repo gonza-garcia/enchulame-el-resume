@@ -1,0 +1,241 @@
+{
+  "area": "llm-fundamentals",
+  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "questions": [
+    {
+      "id": "ai-agents-prompting-basics",
+      "area": "llm-fundamentals",
+      "topic": "prompting",
+      "level": "junior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What makes a prompt dependable instead of merely clever?"
+      },
+      "answer": {
+        "en": "A dependable prompt states the task, constraints, input boundaries, desired output, and what to do when information is missing. It separates trusted instructions from user or retrieved data, uses examples only when they clarify an expected pattern, and avoids ambiguous goals such as “be smart.” Prompt quality is empirical: create representative cases, include edge cases and adversarial inputs, compare alternatives, and keep the better version under regression tests. Prompting cannot replace authorization, validation, or deterministic code. The strongest prompt is usually the smallest one that produces the required behavior consistently on the measured dataset."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Google: Prompt design strategies",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/prompt-design-strategies"
+        },
+        {
+          "label": "OpenAI: Evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "prompting",
+        "testing"
+      ]
+    },
+    {
+      "id": "ai-agents-schema-evolution",
+      "area": "llm-fundamentals",
+      "topic": "structured-output",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How do you evolve a structured-output contract without breaking an AI client?"
+      },
+      "answer": {
+        "en": "Treat the schema as a versioned API contract. Keep changes backward-compatible where possible, make additions optional or provide defaults, and validate both the model response and downstream business invariants. If a breaking change is necessary, version the contract and deploy readers before writers, or route versions explicitly. Test refusals, missing evidence, unknown values, and provider errors rather than only valid examples. Keep generated UI or tool arguments behind an allowlist; schema validity does not make arbitrary content safe to render or execute. Record the schema version in traces and evaluate old fixtures against every new prompt or model change."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Structured Outputs",
+          "url": "https://developers.openai.com/api/docs/guides/structured-outputs"
+        }
+      ],
+      "tags": [
+        "schemas",
+        "compatibility"
+      ]
+    },
+    {
+      "id": "ai-agents-structured-output-vs-json-mode",
+      "area": "llm-fundamentals",
+      "topic": "structured-output",
+      "level": "semi-senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "When would you use structured output, and how is it different from asking for JSON in a prompt?"
+      },
+      "answer": {
+        "en": "Use structured output when application code needs a typed result such as a classification, extraction, or UI description. A JSON request in prose can still omit fields, add invalid values, or emit malformed JSON. A provider's schema-constrained mode can enforce the supported JSON Schema shape, but the application must still handle refusals, transport errors, semantic mistakes, and schema evolution. Use function calling instead when the model is selecting or parameterizing an application capability. Parse and validate at the boundary, keep the schema narrow, and do not confuse structural validity with factual correctness."
+      },
+      "codeBlocks": [
+        {
+          "language": "ts",
+          "code": "type Ticket = { category: 'hardware' | 'software' | 'other'; confidence: number };\n\nfunction acceptTicket(value: unknown): Ticket {\n  if (typeof value !== 'object' || value === null) throw new Error('invalid ticket');\n  const ticket = value as Record<string, unknown>;\n  if (!['hardware', 'software', 'other'].includes(ticket.category as string)) {\n    throw new Error('invalid category');\n  }\n  if (typeof ticket.confidence !== 'number' || ticket.confidence < 0 || ticket.confidence > 1) {\n    throw new Error('invalid confidence');\n  }\n  return { category: ticket.category as Ticket['category'], confidence: ticket.confidence };\n}",
+          "caption": "A TypeScript type alone is not runtime validation; validate structure and domain constraints at the boundary."
+        }
+      ],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Structured Outputs",
+          "url": "https://developers.openai.com/api/docs/guides/structured-outputs"
+        },
+        {
+          "label": "OpenAI: Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling"
+        }
+      ],
+      "tags": [
+        "json-schema",
+        "types"
+      ]
+    },
+    {
+      "id": "ai-agents-tokens-context-and-limits",
+      "area": "llm-fundamentals",
+      "topic": "llm-fundamentals",
+      "level": "junior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What are tokens and context, and how do they affect an AI feature?"
+      },
+      "answer": {
+        "en": "Tokens are the units a model processes, and the context is the input and conversation state available to the model for a request. Context is not infinite: instructions, user content, retrieved passages, tool definitions, tool results, and the requested output all compete for the model's limit. More context can also increase latency and cost, while irrelevant context can distract the model. A production feature should budget context deliberately: retain the instructions that matter, retrieve only relevant evidence, summarize or trim history, and measure token usage. Never assume that placing text in context makes it authoritative or guarantees that the model will use it."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Function calling and tool definitions",
+          "url": "https://platform.openai.com/docs/guides/function-calling"
+        },
+        {
+          "label": "Google: Prompt design",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design"
+        }
+      ],
+      "tags": [
+        "tokens",
+        "context"
+      ]
+    },
+    {
+      "id": "ai-agents-what-is-an-llm",
+      "area": "llm-fundamentals",
+      "topic": "llm-fundamentals",
+      "level": "junior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What is an LLM, and why should an application treat its output as probabilistic rather than as ordinary business logic?"
+      },
+      "answer": {
+        "en": "An LLM generates a sequence of tokens from context; it does not directly query your database or guarantee that a statement is true. Sampling and the model's learned distribution mean that repeated requests can differ, and fluent text can still be wrong. In an application, keep deterministic responsibilities in code: validate inputs, authorize actions, enforce schemas, and check tool results. Use the model for language understanding, generation, and bounded decisions, then measure the behavior on representative examples. This separation is the foundation for reliable agents: the model proposes, while the runtime validates and controls effects."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "label": "OpenAI: Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling"
+        }
+      ],
+      "tags": [
+        "llm",
+        "reliability"
+      ]
+    },
+    {
+      "id": "llm-fundamentals-cost-and-latency-reasoning",
+      "area": "llm-fundamentals",
+      "topic": "cost-latency",
+      "level": "senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How do you reason about token cost and latency before choosing a model for a feature?"
+      },
+      "answer": {
+        "en": "Start with an estimation the interviewer can follow: interactions per day times tokens per interaction gives tokens per day, then multiply by the price per token of each candidate model. For example, 100K daily users with 10 interactions of about 2K tokens is 2B tokens a day, and the gap between a frontier model and a smaller one is the whole budget. Then name the levers: cache stable prefixes, batch offline work, route simple requests to cheaper models, stream for perceived latency (watch time to first token and between tokens), distill or simplify the workflow when volume grows. The point is not the exact number; it is moving fluently between product scale and model pricing."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "cost",
+        "latency",
+        "model-selection"
+      ]
+    },
+    {
+      "id": "llm-fundamentals-knowledge-cutoff-and-cache",
+      "area": "llm-fundamentals",
+      "topic": "llm-fundamentals",
+      "level": "semi-senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do a model knowledge cutoff and prompt caching affect the design of a conversational product?"
+      },
+      "answer": {
+        "en": "The knowledge cutoff bounds what the model can know, so anything fresher has to arrive through retrieval or tools, and freshness must be measured explicitly. Prompt caching rewards stable prompt prefixes: put the system prompt and static context first, the volatile user turn last, and remember that changing the prefix invalidates the cache and raises both cost and latency. The two interact: cached retrieval results are cheaper to re-serve but must be invalidated when the source data changes."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Andrew Ng: LLM fundamentals, caching and knowledge cutoff",
+          "url": "https://x.com/AndrewYNg/status/2090840747738374568"
+        },
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "caching",
+        "context",
+        "cost"
+      ]
+    }
+  ]
+}

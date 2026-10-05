@@ -1,0 +1,184 @@
+{
+  "area": "behavioral-career",
+  "generatedAt": "2026-09-17T00:00:00Z",
+  "questions": [
+    {
+      "id": "behavioral-career-structure-a-star-story",
+      "area": "behavioral-career",
+      "topic": "star-stories",
+      "level": "junior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a project or accomplishment you are proud of. Walk me through it."},
+      "answer": {"en": "Use a specific STAR story rather than a list of responsibilities. **Situation:** give only the context needed to understand the problem. **Task:** state your personal responsibility and the goal. **Action:** spend most of the answer on the decisions and steps you took, using “I” even when the work was collaborative. **Result:** explain the outcome, quantify it when you can, and finish with what you learned or how it connects to this role. Keep the story focused and conversational; do not memorize a script. A strong answer makes the interviewer understand both what happened and what your contribution says about how you work."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "MIT CAPD — Using the STAR method", "url": "https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/"},
+        {"label": "Yale Office of Career Strategy — The Behavioral Interview", "url": "https://ocs.yale.edu/channels/the-behavioral-interview/"}
+      ],
+      "tags": ["star", "storytelling", "accomplishments"]
+    },
+    {
+      "id": "behavioral-career-resolve-a-work-conflict",
+      "area": "behavioral-career",
+      "topic": "conflicts",
+      "level": "semi-senior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a conflict with a teammate and how you handled it."},
+      "answer": {"en": "Choose a real disagreement about goals, evidence, scope, or working style—not a story where everyone immediately agreed. In **Situation**, explain the stakes and the differing views without blaming the other person. In **Task**, state your responsibility for getting the work or relationship back on track. In **Action**, show that you listened, clarified assumptions, discussed trade-offs directly, and adapted your communication; if useful, describe a small test or shared decision criterion. In **Result**, say what changed for the project and the relationship. A mature answer can acknowledge your own contribution to the tension and end with what you would repeat or do differently."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "University of Virginia Career Center — STAR Method", "url": "https://career.virginia.edu/resources/star-method/"},
+        {"label": "University of Miami — Behavioral Interview Preparation", "url": "https://careers.mbs.miami.edu/blog/2025/07/24/behavioral-interview-preparation/"},
+        {"label": "University of Cincinnati — STAR Method for Behavioral Interviews", "url": "https://www.uc.edu/campus-life/career-co-op-support/interviews/biginterview/star-method-behavioral-interview.html"}
+      ],
+      "tags": ["conflict", "communication", "collaboration"]
+    },
+    {
+      "id": "behavioral-career-lead-without-authority",
+      "area": "behavioral-career",
+      "topic": "ownership-leadership",
+      "level": "senior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a time you led an initiative without having formal authority."},
+      "answer": {"en": "Frame leadership as ownership of an outcome, not as having a title. Set the **Situation**: what was at risk, who was involved, and why the existing path was insufficient. State the **Task** you personally accepted. In **Action**, explain how you clarified the goal, created alignment, invited relevant expertise, made decisions, communicated progress, and handled resistance. Be explicit about how you enabled other people instead of taking all the work yourself. The **Result** should cover the delivered outcome and the team or process improvement. If the result was mixed, say so and explain the judgment you gained. Interviewers should hear initiative, accountability, influence, and respect for others."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "Harvard FAS — Interviewing", "url": "https://careerservices.fas.harvard.edu/resources/interviewing/"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"},
+        {"label": "MIT CAPD — Using the STAR method", "url": "https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/"}
+      ],
+      "tags": ["leadership", "ownership", "influence"]
+    },
+    {
+      "id": "behavioral-career-failure-and-growth",
+      "area": "behavioral-career",
+      "topic": "failures-growth",
+      "level": "senior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a failure or mistake and what you changed afterward."},
+      "answer": {"en": "Pick a consequential but bounded failure for which you can explain your role honestly. Give concise context, then state the expectation and where your approach fell short. Take responsibility without turning the answer into self-criticism or blaming circumstances. Describe the concrete actions you took: how you communicated the issue, repaired or contained the impact, sought feedback, and changed a habit, checklist, decision rule, or process. Close with evidence that the change mattered, plus the lesson you carry forward. It is acceptable for the original outcome to be negative; the answer is evaluated through self-awareness, accountability, learning, and improved behavior—not through pretending every project succeeded."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "Yale Office of Career Strategy — The Behavioral Interview", "url": "https://ocs.yale.edu/channels/the-behavioral-interview/"},
+        {"label": "Harvard FAS — Interviewing", "url": "https://careerservices.fas.harvard.edu/resources/interviewing/"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"}
+      ],
+      "tags": ["failure", "learning", "accountability"]
+    },
+    {
+      "id": "behavioral-career-cross-team-alignment",
+      "area": "behavioral-career",
+      "topic": "cross-team-collaboration",
+      "level": "senior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Describe a project where you had to align multiple teams with different goals."},
+      "answer": {"en": "Make the cross-team tension concrete: name the shared outcome, the competing constraints, and your role. Explain how you learned what each group needed, translated technical or project details for the audience, and made dependencies, decisions, and ownership visible. Strong actions include establishing a decision-making path, inviting the right people early, documenting trade-offs, and escalating only when necessary. Do not claim that alignment means everyone got their preferred outcome; explain the agreement reached and why it was good enough for the shared goal. End with measurable delivery or relationship results and a lesson about working across boundaries. Keep the story centered on what you personally did."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "Harvard FAS — Interviewing", "url": "https://careerservices.fas.harvard.edu/resources/interviewing/"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"},
+        {"label": "Yale Office of Career Strategy — The Behavioral Interview", "url": "https://ocs.yale.edu/channels/the-behavioral-interview/"}
+      ],
+      "tags": ["collaboration", "alignment", "stakeholders"]
+    },
+    {
+      "id": "behavioral-career-mentor-and-develop-others",
+      "area": "behavioral-career",
+      "topic": "mentoring",
+      "level": "senior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "clave-menos-frecuente",
+      "question": {"en": "Tell me about a time you helped someone grow or become more effective."},
+      "answer": {"en": "Use a story in which the other person’s growth—not your own heroics—is visible. Describe the starting situation and the capability or obstacle you addressed. Explain how you first understood their goals and current level, then how you chose an appropriate approach: questions, pairing, examples, feedback, practice, or a stretch assignment. Show that you gave ownership back rather than solving everything for them. In the result, describe observable improvement such as greater independence, stronger quality, or successful delivery, while avoiding unsupported personal claims. Finish with what you learned about adapting support to the learner. Mentoring can be informal; it does not require direct reports or a formal program."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "MIT CAPD — Using the STAR method", "url": "https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/"},
+        {"label": "Harvard FAS — Interviewing", "url": "https://careerservices.fas.harvard.edu/resources/interviewing/"}
+      ],
+      "tags": ["mentoring", "feedback", "growth"]
+    },
+    {
+      "id": "behavioral-career-prioritize-under-pressure",
+      "area": "behavioral-career",
+      "topic": "prioritization",
+      "level": "senior",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a time you had multiple urgent priorities. How did you decide what to do first?"},
+      "answer": {"en": "Describe the competing demands, deadlines, dependencies, and consequences—not just that you were busy. State your responsibility and the decision you had to make. In **Action**, explain the criteria you used to compare priorities, the information or people you consulted, what you explicitly deferred or dropped, and how you communicated trade-offs to stakeholders. Include how you monitored the plan and changed it when new information arrived. The result should cover what was delivered, what moved, and how expectations were managed. A strong answer does not imply that everything was completed at once; it demonstrates judgment, transparency, and effective use of time and resources under constraints."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "University of Virginia Career Center — STAR Method", "url": "https://career.virginia.edu/resources/star-method/"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"},
+        {"label": "University of Miami — Behavioral Interview Preparation", "url": "https://careers.mbs.miami.edu/blog/2025/07/24/behavioral-interview-preparation/"}
+      ],
+      "tags": ["prioritization", "judgment", "deadlines"]
+    },
+    {
+      "id": "behavioral-career-explain-a-project-end-to-end",
+      "area": "behavioral-career",
+      "topic": "project-storytelling",
+      "level": "staff-lead",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a complex project you owned from discovery through delivery."},
+      "answer": {"en": "Choose one project and tell a coherent story, not a chronological dump. Start with the problem, users or business context, constraints, and success measure. State what you owned and what you deliberately delegated. Then cover the pivotal actions: how you clarified scope, evaluated options, aligned stakeholders, managed risks and dependencies, made trade-offs, and learned from feedback. Keep implementation detail only where it explains a decision. Finish with outcomes against the original success measure, operational or team effects, and what you would change next time. At staff level, make the system around the project visible: influence, communication, decision quality, and repeatable practices matter as much as shipping."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "Yale Office of Career Strategy — The Behavioral Interview", "url": "https://ocs.yale.edu/channels/the-behavioral-interview/"},
+        {"label": "Carnegie Mellon Tepper — How to Tell a STAR Story", "url": "https://www.cmu.edu/sites/default/files/cmu-tepper-site-files/2025-06/star-story.pdf"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"}
+      ],
+      "tags": ["projects", "scope", "delivery", "storytelling"]
+    },
+    {
+      "id": "behavioral-career-disagree-with-a-manager",
+      "area": "behavioral-career",
+      "topic": "conflicts",
+      "level": "staff-lead",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "clave-menos-frecuente",
+      "question": {"en": "Tell me about a time you disagreed with your manager or a senior stakeholder."},
+      "answer": {"en": "Select a disagreement where the stakes and evidence were real, and where you remained accountable after the decision. Explain the context and the decision to be made, then describe how you formed your view: facts, user impact, risks, alternatives, or input from affected people. Show that you raised the concern directly and respectfully, listened to the other perspective, and made your recommendation easy to evaluate. If the decision went against you, say how you committed to it and monitored the outcome; if you changed the decision, explain why. The result should demonstrate judgment and trust-building, not winning an argument or criticizing the manager."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "University of Miami — Behavioral Interview Preparation", "url": "https://careers.mbs.miami.edu/blog/2025/07/24/behavioral-interview-preparation/"},
+        {"label": "Harvard FAS — Interviewing", "url": "https://careerservices.fas.harvard.edu/resources/interviewing/"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"}
+      ],
+      "tags": ["disagreement", "stakeholders", "judgment"]
+    },
+    {
+      "id": "behavioral-career-scale-a-collaborative-practice",
+      "area": "behavioral-career",
+      "topic": "ownership-leadership",
+      "level": "architect",
+      "roles": ["frontend", "backend", "fullstack"],
+      "frequency": "muy-preguntada",
+      "question": {"en": "Tell me about a change you made that improved how multiple teams worked, not just one project."},
+      "answer": {"en": "Use a story with organizational reach and a clear before-and-after. Set the situation: a recurring coordination, quality, delivery, or learning problem and its impact. State the outcome you owned, even if you lacked authority over every team. In your actions, explain how you gathered perspectives, distinguished a local symptom from a systemic issue, designed a proportionate intervention, built sponsorship, piloted or iterated it, and made adoption possible. Include how you handled resistance and protected team autonomy. Result should include evidence of improved outcomes and what became repeatable or easier to govern. At architect level, show durable influence and learning across boundaries, not simply a large project completed."},
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {"label": "Harvard FAS — Interviewing", "url": "https://careerservices.fas.harvard.edu/resources/interviewing/"},
+        {"label": "Case Western Reserve University — Behavior Based Interviewing", "url": "https://case.edu/studentlife/careercenter/career-development/career-resources/tips-job-seekers/interviewing/behavior-based-interviewing"},
+        {"label": "MIT CAPD — Using the STAR method", "url": "https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/"}
+      ],
+      "tags": ["scale", "systems", "organizational-impact", "leadership"]
+    }
+  ]
+}

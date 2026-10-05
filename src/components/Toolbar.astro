@@ -1,0 +1,130 @@
+---
+interface ExportItem {
+  value: string;
+  label: string;
+}
+
+interface NavigationLink {
+  href: string;
+  label: string;
+}
+
+export interface ToolbarBrand {
+  mark: string;
+  name: string;
+  role: string;
+}
+
+export interface PositioningOption {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  idPrefix?: string;
+  brand: ToolbarBrand;
+  pdfTitle: string;
+  exportItems?: ExportItem[];
+  showTheme?: boolean;
+  tip?: string;
+  navLinks?: NavigationLink[];
+  showLang?: boolean;
+  positionings?: PositioningOption[];
+}
+
+const {
+  idPrefix = '',
+  brand,
+  pdfTitle,
+  exportItems = [
+    { value: 'pdf', label: 'PDF' },
+    { value: 'json', label: 'JSON' },
+    { value: 'linkedin', label: 'LinkedIn Sections' }
+  ],
+  showTheme = false,
+  tip = '',
+  navLinks = [],
+  showLang = true,
+  positionings = []
+} = Astro.props;
+
+const p = idPrefix;
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => currentPath === href.replace(/\/+$/, '');
+---
+
+<div class="toolbar" role="toolbar" aria-label="Site controls" data-pdf-title={pdfTitle}>
+  <a href="/" class="brand" aria-label="CV principal">
+    <span class="brand-mark">{brand.mark}</span>
+    <span class="brand-text">
+      <span class="brand-name">{brand.name}</span>
+      <span class="brand-role">{brand.role}</span>
+    </span>
+  </a>
+  {navLinks.length > 0 && (
+    <nav class="site-nav" aria-label="Site navigation">
+      {navLinks.map((link) => (
+        <a
+          class={`site-nav-link${isActive(link.href) ? ' active' : ''}`}
+          href={link.href}
+          aria-current={isActive(link.href) ? 'page' : undefined}
+        >{link.label}</a>
+      ))}
+    </nav>
+  )}
+  <div class="spacer"></div>
+  {positionings.length > 1 && (
+    <div class="toggle" role="group" aria-label="Positioning">
+      {positionings.map((option, index) => (
+        <button type="button" data-positioning={option.id} aria-pressed={index === 0 ? 'true' : 'false'}>{option.label}</button>
+      ))}
+    </div>
+  )}
+  {showLang && (
+    <div class="toggle" role="group" aria-label="Language">
+      <button type="button" id={`${p}btn-en`} aria-pressed="true">EN</button>
+      <button type="button" id={`${p}btn-es`} aria-pressed="false">ES</button>
+    </div>
+  )}
+  <div class="export-dropdown">
+    <button type="button" id={`${p}btn-export`} aria-haspopup="true" aria-expanded="false">Export to <span class="caret">▾</span></button>
+    <div class="export-menu" role="menu" hidden>
+      {exportItems.map((item) => (
+        <button type="button" role="menuitem" data-export={item.value}>{item.label}</button>
+      ))}
+    </div>
+  </div>
+  {showTheme && (
+    <details class="theme-panel">
+      <summary>Theme</summary>
+      <div class="theme-controls">
+        <div class="theme-row">
+          <span class="theme-label">Accent</span>
+          <div class="theme-presets" role="radiogroup" aria-label="Accent color">
+            <button type="button" data-theme="navy" aria-pressed="false"><span class="swatch" style="background:#1a365d"></span>Navy</button>
+            <button type="button" data-theme="teal" aria-pressed="false"><span class="swatch" style="background:#0f4c4c"></span>Teal</button>
+            <button type="button" data-theme="charcoal" aria-pressed="false"><span class="swatch" style="background:#333"></span>Charcoal</button>
+            <button type="button" data-theme="custom" aria-pressed="false"><span class="swatch" data-custom-swatch></span>Custom</button>
+          </div>
+        </div>
+        <div class="theme-row">
+          <label class="theme-picker" hidden>
+            <span class="theme-label" style="flex:0 0 auto">Color</span>
+            <input type="color" id="theme-custom-color" value="#1a365d" />
+          </label>
+          <span class="theme-feedback" id="theme-feedback" hidden></span>
+        </div>
+        <div class="theme-row">
+          <span class="theme-label">Apply to</span>
+          <label><input type="checkbox" data-accent="name" checked /> Name</label>
+          <label><input type="checkbox" data-accent="sections" checked /> Section headings</label>
+          <label><input type="checkbox" data-accent="urls" checked /> URLs</label>
+          <label><input type="checkbox" data-accent="skills" checked /> Skill categories</label>
+        </div>
+      </div>
+    </details>
+  )}
+  {tip && (
+    <span class="contactline" style="margin:0;font-size:9pt">{tip}</span>
+  )}
+</div>

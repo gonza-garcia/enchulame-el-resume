@@ -1,0 +1,421 @@
+{
+  "identity": {
+    "name": { "es": "Ariana Montiel", "en": "Ariana Montiel" },
+    "contact": {
+      "phone": "+54 9 351 555 0198",
+      "email": "ariana.montiel@example.com",
+      "location": { "es": "Rosario, Argentina", "en": "Rosario, Argentina" },
+      "linkedin": "linkedin.com/in/ariana-montiel-example",
+      "github": "github.com/ariana-montiel-example"
+    }
+  },
+  "facts": {
+    "experience": [
+      {
+        "company": { "es": "Aeronix Logistics", "en": "Aeronix Logistics" },
+        "role": { "es": "Frontend Developer", "en": "Frontend Developer" },
+        "startDate": { "es": "Abr 2021", "en": "Apr 2021" },
+        "endDate": { "es": "Ago 2026", "en": "Aug 2026" },
+        "projects": [
+          {
+            "name": {
+              "es": "Freightline Control (consola de operaciones de carga)",
+              "en": "Freightline Control (cargo operations console)"
+            },
+            "startDate": { "es": "Ene 2023", "en": "Jan 2023" },
+            "endDate": { "es": "Ago 2026", "en": "Aug 2026" },
+            "bullets": [
+              {
+                "id": "freightline-modernizacion",
+                "text": {
+                  "es": "Modernicé la consola de operaciones de carga de Aeronix, una aplicación React en tiempo real que reemplazó decenas de planillas y herramientas internas.",
+                  "en": "Modernized Aeronix's cargo operations console, a real-time React application that replaced dozens of spreadsheets and internal tools."
+                },
+                "skillIds": ["react", "typescript"]
+              },
+              {
+                "id": "freightline-agentes",
+                "text": {
+                  "es": "Adopté el desarrollo con agentes de IA como forma principal de trabajar: investigación, implementación, revisión y testing del output, con revisión humana en cada cambio.",
+                  "en": "Adopted AI agentic development as my main way of working: research, implementation, review and testing of the output, with human review on every change."
+                },
+                "skillIds": ["ai-agents", "prompt-engineering"]
+              },
+              {
+                "id": "freightline-design-system",
+                "text": {
+                  "es": "Diseñé un design system compartido con más de 30 componentes accesibles, usado por dos equipos y versionado con cambios controlados.",
+                  "en": "Designed a shared design system with more than 30 accessible components, used by two teams and versioned with controlled changes."
+                },
+                "skillIds": ["react", "accessibility", "css-scss"]
+              },
+              {
+                "id": "freightline-estado",
+                "text": {
+                  "es": "Migré el manejo de estado y el fetching de datos a Redux Toolkit y React Query, eliminando capas de boilerplate y simplificando los flujos.",
+                  "en": "Migrated state management and data fetching to Redux Toolkit and React Query, removing boilerplate layers and simplifying the flows."
+                },
+                "skillIds": ["redux-toolkit", "react-query"]
+              },
+              {
+                "id": "freightline-testing",
+                "text": {
+                  "es": "Levanté la cobertura de tests con Vitest y React Testing Library hasta sostener releases semanales con regresiones controladas.",
+                  "en": "Raised test coverage with Vitest and React Testing Library until weekly releases were sustainable with controlled regressions."
+                },
+                "skillIds": ["vitest"]
+              },
+              {
+                "id": "freightline-performance",
+                "text": {
+                  "es": "Reduje el tiempo de carga inicial con code splitting y lazy loading de módulos pesados, midiendo el impacto en cada release.",
+                  "en": "Cut initial load time with code splitting and lazy loading of heavy modules, measuring the impact on every release."
+                },
+                "skillIds": ["react", "vite"]
+              },
+              {
+                "id": "freightline-accesibilidad",
+                "text": {
+                  "es": "Audité y corregí accesibilidad en los flujos principales: HTML semántico, foco visible, contraste y navegación por teclado.",
+                  "en": "Audited and fixed accessibility in the main flows: semantic HTML, visible focus, contrast and keyboard navigation."
+                },
+                "skillIds": ["accessibility"]
+              },
+              {
+                "id": "freightline-prompts",
+                "text": {
+                  "es": "Armé prompts y guías de flujo de trabajo para el equipo, acortando tareas repetitivas sin saltear la revisión de código.",
+                  "en": "Wrote prompts and workflow guides for the team, shortening repetitive tasks without skipping code review."
+                },
+                "skillIds": ["prompt-engineering", "ai-agents"]
+              }
+            ]
+          },
+          {
+            "name": { "es": "Portal de clientes (autoservicio)", "en": "Customer portal (self-service)" },
+            "startDate": { "es": "Abr 2021", "en": "Apr 2021" },
+            "endDate": { "es": "Dic 2022", "en": "Dec 2022" },
+            "bullets": [
+              {
+                "id": "portal-formularios",
+                "text": {
+                  "es": "Construí formularios de alta y cotización con validación en cliente, estados de error claros y guardado de borradores.",
+                  "en": "Built signup and quoting forms with client-side validation, clear error states and draft saving."
+                },
+                "skillIds": ["react", "typescript", "rest-apis"]
+              },
+              {
+                "id": "portal-api",
+                "text": {
+                  "es": "Integré la app con APIs REST internas y externas, modelando estados de carga, errores y reintentos.",
+                  "en": "Integrated the app with internal and external REST APIs, modeling loading states, errors and retries."
+                },
+                "skillIds": ["rest-apis", "react-query"]
+              },
+              {
+                "id": "portal-e2e",
+                "text": {
+                  "es": "Escribí la suite E2E de los flujos de alta con Playwright, corriendo en CI ante cada merge.",
+                  "en": "Wrote the E2E suite for the signup flows with Playwright, running in CI on every merge."
+                },
+                "skillIds": ["playwright"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "company": { "es": "Solmar Retail Tech", "en": "Solmar Retail Tech" },
+        "role": { "es": "Frontend Developer", "en": "Frontend Developer" },
+        "startDate": { "es": "Ene 2019", "en": "Jan 2019" },
+        "endDate": { "es": "Mar 2021", "en": "Mar 2021" },
+        "projects": [
+          {
+            "name": { "es": "Checkout de tienda online", "en": "Online store checkout" },
+            "startDate": { "es": "Ene 2019", "en": "Jan 2019" },
+            "endDate": { "es": "Mar 2021", "en": "Mar 2021" },
+            "bullets": [
+              {
+                "id": "checkout-flujo",
+                "text": {
+                  "es": "Desarrollé el flujo de checkout completo en React, con carrito, medios de pago y confirmación, para más de veinte tiendas de la marca.",
+                  "en": "Built the complete checkout flow in React, with cart, payment methods and confirmation, for more than twenty brand stores."
+                },
+                "skillIds": ["react"]
+              },
+              {
+                "id": "checkout-testing",
+                "text": {
+                  "es": "Acompañé la adopción de tests de comportamiento en el equipo, enfocados en flujos de usuario y no en detalles de implementación.",
+                  "en": "Drove the adoption of behavior-focused tests in the team, targeting user flows instead of implementation details."
+                },
+                "skillIds": ["vitest"]
+              },
+              {
+                "id": "checkout-agile",
+                "text": {
+                  "es": "Trabajé en sprints quincenales con refinamiento, daily y retrospectiva, colaborando con diseño y backend.",
+                  "en": "Worked in two-week sprints with refinement, daily and retrospective, collaborating with design and backend."
+                },
+                "skillIds": ["agile"]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": { "es": "Northfield Code Academy", "en": "Northfield Code Academy" },
+        "degree": { "es": "Bootcamp Full Stack Web Development", "en": "Full Stack Web Development Bootcamp" },
+        "startDate": { "es": "Feb 2018", "en": "Feb 2018" },
+        "endDate": { "es": "Dic 2018", "en": "Dec 2018" },
+        "note": {
+          "es": "Bootcamp intensivo de 9 meses con proyecto final en equipo",
+          "en": "9-month intensive bootcamp with a final team project"
+        }
+      },
+      {
+        "institution": { "es": "Universidad del Puerto Norte", "en": "Universidad del Puerto Norte" },
+        "degree": { "es": "Licenciatura en Sistemas", "en": "Computer Science Degree" },
+        "startDate": { "es": "Mar 2015", "en": "Mar 2015" },
+        "endDate": { "es": "Dic 2017", "en": "Dec 2017" },
+        "note": {
+          "es": "3 años aprobados, carrera incompleta",
+          "en": "3 years completed, degree unfinished"
+        }
+      }
+    ],
+    "certifications": [
+      {
+        "name": { "es": "AI Fluency for Developers", "en": "AI Fluency for Developers" },
+        "note": {
+          "es": "Uso práctico de herramientas de IA en flujos de desarrollo",
+          "en": "Practical use of AI tooling in development workflows"
+        }
+      }
+    ],
+    "languages": [
+      {
+        "name": { "es": "Español", "en": "Spanish" },
+        "level": { "es": "Nativo", "en": "Native" }
+      },
+      {
+        "name": { "es": "Inglés", "en": "English" },
+        "level": { "es": "Avanzado", "en": "Advanced" },
+        "evidence": {
+          "es": "más de 3 años de comunicación diaria con equipos de Estados Unidos",
+          "en": "more than 3 years of daily communication with US-based teams"
+        }
+      }
+    ],
+    "projects": [
+      {
+        "name": { "es": "Kitchen Stock (control de despensa)", "en": "Kitchen Stock (pantry tracker)" },
+        "url": "https://example.com/kitchen-stock",
+        "date": { "es": "2025", "en": "2025" },
+        "description": {
+          "es": "App React para seguir stock de despensa y armado de listas de compra, con tests E2E propios y despliegue continuo.",
+          "en": "React app to track pantry stock and build shopping lists, with its own E2E tests and continuous deployment."
+        },
+        "skillIds": ["react", "typescript", "playwright"]
+      },
+      {
+        "name": { "es": "Focus Timer (temporizador de sesiones)", "en": "Focus Timer (session timer)" },
+        "url": "https://example.com/focus-timer",
+        "date": { "es": "2024", "en": "2024" },
+        "description": {
+          "es": "Temporizador de sesiones de estudio con estadísticas semanales, construido como laboratorio de performance y accesibilidad.",
+          "en": "Study session timer with weekly statistics, built as a performance and accessibility lab."
+        },
+        "skillIds": ["react", "vite"]
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "react",
+      "name": { "es": "React", "en": "React" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Avanzado", "en": "Advanced" },
+      "evidence": {
+        "es": "versiones 18 y 19, con design system compartido entre dos equipos",
+        "en": "versions 18 and 19, with a shared design system across two teams"
+      }
+    },
+    {
+      "id": "typescript",
+      "name": { "es": "TypeScript", "en": "TypeScript" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Avanzado", "en": "Advanced" }
+    },
+    {
+      "id": "redux-toolkit",
+      "name": { "es": "Redux Toolkit", "en": "Redux Toolkit" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Avanzado", "en": "Advanced" }
+    },
+    {
+      "id": "react-query",
+      "name": { "es": "React Query", "en": "React Query" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    },
+    {
+      "id": "css-scss",
+      "name": { "es": "Sass/SCSS", "en": "Sass/SCSS" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    },
+    {
+      "id": "accessibility",
+      "name": { "es": "Accesibilidad web", "en": "Web accessibility" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Intermedio", "en": "Intermediate" },
+      "evidence": {
+        "es": "HTML semántico, ARIA y navegación por teclado",
+        "en": "semantic HTML, ARIA and keyboard navigation"
+      }
+    },
+    {
+      "id": "vite",
+      "name": { "es": "Vite", "en": "Vite" },
+      "category": { "es": "Engineering", "en": "Engineering" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    },
+    {
+      "id": "vitest",
+      "name": { "es": "Vitest", "en": "Vitest" },
+      "category": { "es": "Engineering", "en": "Engineering" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    },
+    {
+      "id": "playwright",
+      "name": { "es": "Playwright", "en": "Playwright" },
+      "category": { "es": "Engineering", "en": "Engineering" },
+      "level": { "es": "Intermedio", "en": "Intermediate" },
+      "evidence": {
+        "es": "suite E2E de un proyecto personal",
+        "en": "E2E suite on a personal project"
+      }
+    },
+    {
+      "id": "rest-apis",
+      "name": { "es": "REST APIs", "en": "REST APIs" },
+      "category": { "es": "Engineering", "en": "Engineering" },
+      "level": { "es": "Avanzado", "en": "Advanced" }
+    },
+    {
+      "id": "git",
+      "name": { "es": "Git", "en": "Git" },
+      "category": { "es": "Engineering", "en": "Engineering" },
+      "level": { "es": "Avanzado", "en": "Advanced" }
+    },
+    {
+      "id": "node",
+      "name": { "es": "Node.js", "en": "Node.js" },
+      "category": { "es": "Backend (familiar)", "en": "Backend (familiar)" },
+      "level": { "es": "Básico", "en": "Basic" }
+    },
+    {
+      "id": "postgres",
+      "name": { "es": "PostgreSQL", "en": "PostgreSQL" },
+      "category": { "es": "Backend (familiar)", "en": "Backend (familiar)" },
+      "level": { "es": "Básico", "en": "Basic" }
+    },
+    {
+      "id": "ai-agents",
+      "name": { "es": "Coding agents", "en": "Coding agents" },
+      "category": { "es": "AI tooling", "en": "AI tooling" },
+      "level": { "es": "Intermedio", "en": "Intermediate" },
+      "evidence": {
+        "es": "uso diario en investigación, implementación, revisión y testing",
+        "en": "daily use for research, implementation, review and testing"
+      }
+    },
+    {
+      "id": "prompt-engineering",
+      "name": { "es": "Prompt engineering", "en": "Prompt engineering" },
+      "category": { "es": "AI tooling", "en": "AI tooling" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    },
+    {
+      "id": "python",
+      "name": { "es": "Python", "en": "Python" },
+      "category": { "es": "AI tooling", "en": "AI tooling" },
+      "level": { "es": "Básico", "en": "Basic" }
+    },
+    {
+      "id": "agile",
+      "name": { "es": "Agile/Scrum", "en": "Agile/Scrum" },
+      "category": { "es": "Workflow", "en": "Workflow" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    }
+  ],
+  "positionings": [
+    {
+      "id": "frontend",
+      "title": { "es": "Frontend Developer", "en": "Frontend Developer" },
+      "summary": {
+        "es": "Frontend Developer con más de 6 años construyendo aplicaciones React en producción para equipos de logística y retail. Durante los últimos tres años trabajé en una consola de operaciones de carga en tiempo real, usando React, TypeScript, Redux Toolkit y Vite.\n\nTengo sólida experiencia construyendo y manteniendo librerías de componentes compartidas e interfaces accesibles, con código bien testeado y estados de error claros. Esto incluye trabajo de design system entre dos equipos, migraciones de estado y fetching de datos, y mejoras de performance medidas release por release.\n\nTengo inglés avanzado, con más de 3 años de comunicación diaria con equipos de Estados Unidos. Adopté el desarrollo con agentes de IA como mi forma principal de trabajar en el día a día, con tests y revisión humana como quality gates en cada cambio.\n\nBusco oportunidades remotas en Frontend de nivel Senior o Semi-Senior y sigo aprendiendo dentro del ecosistema React y el tooling moderno de frontend.",
+        "en": "Frontend Developer with more than 6 years building production React applications for logistics and retail teams. For the last three years I worked on a real-time cargo operations console, using React, TypeScript, Redux Toolkit and Vite.\n\nI have solid experience building and maintaining shared component libraries and accessible interfaces, with well-tested code and clear error states. This includes design-system work across two teams, state and data-fetching migrations, and performance improvements measured release by release.\n\nAdvanced English with more than 3 years of daily communication with US-based teams. I adopted AI agentic development as my main way of working day to day, with tests and human review as quality gates on every change.\n\nOpen to Senior or Semi-Senior remote Frontend opportunities, and continuously learning across the React ecosystem and modern frontend tooling."
+      },
+      "skillIds": [
+        "react",
+        "typescript",
+        "redux-toolkit",
+        "react-query",
+        "css-scss",
+        "accessibility",
+        "vite",
+        "vitest",
+        "playwright",
+        "rest-apis",
+        "git",
+        "agile"
+      ],
+      "bulletIds": [
+        "freightline-modernizacion",
+        "freightline-design-system",
+        "freightline-estado",
+        "freightline-testing",
+        "freightline-performance",
+        "freightline-accesibilidad",
+        "portal-formularios",
+        "portal-api",
+        "portal-e2e",
+        "checkout-flujo",
+        "checkout-testing",
+        "checkout-agile"
+      ]
+    },
+    {
+      "id": "ai",
+      "title": { "es": "AI Developer", "en": "AI Developer" },
+      "summary": {
+        "es": "Frontend Developer con foco en AI, con más de 6 años construyendo aplicaciones React en producción y una práctica diaria de desarrollo con agentes de IA. En la consola de operaciones de carga usé agentes para investigar, implementar y revisar cambios, con tests y revisión humana como quality gates.\n\nConstruyo interfaces accesibles y bien testeadas, y también los flujos alrededor: prompts, checklists de revisión y suites de tests que mantienen honesto el output de los agentes. Me importa la frontera entre lo que escribe un agente y lo que aprueba una persona.\n\nTengo inglés avanzado, con más de 3 años de comunicación diaria con equipos de Estados Unidos. También tengo experiencia en design systems, migraciones de estado y mejoras de performance medidas release por release.\n\nBusco roles remotos donde el desarrollo asistido por IA sea parte del trabajo diario, y sigo aprendiendo dentro del ecosistema de herramientas de IA.",
+        "en": "Frontend Developer with a focus on AI, with more than 6 years building production React applications and a daily practice of AI agentic development. On the cargo operations console I used agents to research, implement and review changes, with tests and human review as quality gates.\n\nI build accessible, well-tested interfaces and also the workflows around them: prompts, review checklists and test suites that keep agent output honest. I care about the boundary between what an agent writes and what a human approves.\n\nAdvanced English with more than 3 years of daily communication with US-based teams. I also have experience in design systems, state migrations and performance improvements measured release by release.\n\nOpen to remote roles where AI-assisted development is part of the daily workflow, and continuously learning across the AI tooling ecosystem."
+      },
+      "skillIds": [
+        "ai-agents",
+        "prompt-engineering",
+        "python",
+        "typescript",
+        "react",
+        "vitest",
+        "playwright",
+        "rest-apis",
+        "git",
+        "agile"
+      ],
+      "bulletIds": [
+        "freightline-agentes",
+        "freightline-prompts",
+        "freightline-modernizacion",
+        "freightline-testing",
+        "portal-api",
+        "portal-e2e"
+      ]
+    }
+  ]
+}

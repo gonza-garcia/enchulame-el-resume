@@ -1,0 +1,1235 @@
+{
+  "version": 1,
+  "id": "ai-applied-entry-2026",
+  "title": {
+    "es": "Plan de estudios: entrada a AI aplicado (2026)",
+    "en": "Study plan: getting into applied AI (2026)"
+  },
+  "roles": [
+    {
+      "id": "ai-product-engineer",
+      "name": {
+        "es": "AI Product Engineer o AI-native Frontend",
+        "en": "AI Product Engineer or AI-native Frontend"
+      },
+      "summary": {
+        "es": "El frontend full-stack es la ventaja, no el deficit: construir el producto LLM completo, de la API al chat. Excluyente real: un producto LLM en produccion con UI propia. Es la variante mas cercana a la taxonomia de Aplicacion y Negocio, con el Forward Deployed como titulo vecino que mas crece.",
+        "en": "Full-stack frontend is the advantage, not the gap: building the whole LLM product, from API to chat UI. Real must-have: a production LLM product with its own UI. It maps closest to the Application and Business job types, with Forward Deployed as the fastest-growing neighbouring title."
+      }
+    },
+    {
+      "id": "ai-automation-engineer",
+      "name": {
+        "es": "AI Automation Engineer o AI Agent Developer",
+        "en": "AI Automation Engineer or AI Agent Developer"
+      },
+      "summary": {
+        "es": "La via con menos friccion, porque no compite con ingenieros de ML formales: flujos de agentes que automatizan procesos de negocio. Excluyente real: un flujo de agentes funcionando de punta a punta y poder explicar el proceso de negocio que automatiza.",
+        "en": "The lowest-friction path, since it does not compete with trained ML engineers: agent workflows that automate business processes. Real must-have: an end-to-end agent workflow running and the ability to explain the business process it automates."
+      }
+    },
+    {
+      "id": "swe-ai-product-team",
+      "name": {
+        "es": "SWE senior en un equipo de producto AI",
+        "en": "Senior SWE on an AI product team"
+      },
+      "summary": {
+        "es": "Entrar como ingeniero senior a un equipo que ya hace AI y aprender por simbiosis, en vez de re-venderse como junior de ML sin probado. Mantiene seniority y salario, y es la ruta que mas se recomienda en la comunidad y la que mas se parece a como entran realmente los perfiles.",
+        "en": "Joining a team that already ships AI as a senior engineer and learning by osmosis, instead of reselling yourself as an unproven ML junior. Keeps seniority and pay, and it is the most recommended route in the community and the closest to how people actually enter the role."
+      }
+    }
+  ],
+  "antiList": [
+    {
+      "es": "No pagar un bootcamp caro de ML/AI pensando que es la puerta de entrada.",
+      "en": "Do not pay for an expensive ML/AI bootcamp thinking it is the entry door."
+    },
+    {
+      "es": "No arrancar por algebra lineal, calculo, PyTorch o entrenamiento de redes si el objetivo es AI Engineer aplicado: esa ruta forma researchers.",
+      "en": "Do not start with linear algebra, calculus, PyTorch or training networks if the goal is applied AI engineering: that path trains researchers."
+    },
+    {
+      "es": "No hacer la Deep Learning Specialization completa antes de tocar RAG.",
+      "en": "Do not complete the whole Deep Learning Specialization before touching RAG."
+    },
+    {
+      "es": "No presentarse como Prompt Engineer: el titulo se absorbio en otros roles.",
+      "en": "Do not present yourself as a Prompt Engineer: the title got absorbed into other roles."
+    },
+    {
+      "es": "No aplicar a ML Engineer junior ni a MLOps junior con este plan: son perfiles distintos y requieren mas de lo que el plan cubre.",
+      "en": "Do not apply to junior ML Engineer or junior MLOps roles with this plan: they are different profiles and need more than the plan covers."
+    },
+    {
+      "es": "No agregar skills al CV sin uso real defendible. Vale para AI igual que para frontend.",
+      "en": "Do not add skills to the CV without real, defensible use. It applies to AI the same way it applies to frontend."
+    }
+  ],
+  "exitSignals": [
+    {
+      "es": "Fase 3 completada con el proyecto RAG desplegado: se puede empezar a aplicar a roles de automatizacion y agentes y a posiciones que pidan RAG con UI.",
+      "en": "Phase 3 completed with the RAG project deployed: you can start applying to automation and agent roles and to positions asking for RAG with a UI."
+    },
+    {
+      "es": "Fase 5 completada con el asistente desplegado y evals en CI: cobertura de los tres roles, incluido AI Product Engineer.",
+      "en": "Phase 5 completed with the assistant deployed and evals in CI: coverage of all three target roles, including AI Product Engineer."
+    },
+    {
+      "es": "Cada proyecto entra a la busqueda con su error analysis publicado: taxonomia de fallos con numeros antes y despues. Es la respuesta a la pregunta de evaluacion de las entrevistas.",
+      "en": "Every project goes into the job search with its error analysis published: a failure taxonomy with before and after numbers. It is the answer to the evaluation question in interviews."
+    },
+    {
+      "es": "Los proyectos entran al CV solo con despliegue y URL viva.",
+      "en": "Projects only enter the CV once deployed with a live URL."
+    },
+    {
+      "es": "Cambiar el posicionamiento del CV hacia AI es una decision aparte. Si se toma, buscar tambien por AI Product Engineer, Full Stack AI Engineer y Forward Deployed: buscar solo por AI Engineer deja fuera a la mayoria del talento y de las ofertas.",
+      "en": "Shifting the CV positioning toward AI is a separate decision. If taken, also search for AI Product Engineer, Full Stack AI Engineer and Forward Deployed: searching only for AI Engineer misses most of the talent and most postings."
+    }
+  ],
+  "skills": [
+    {
+      "id": "python",
+      "name": { "es": "Python", "en": "Python" },
+      "demand": {
+        "label": {
+          "es": "70,8% de las ofertas analizadas; 78,8% de las ofertas del rol en Espana",
+          "en": "70.8% of analyzed postings; 78.8% of role postings in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, builtin.com, feb-ago 2026) y nothiring.me (476 ofertas del rol, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "typescript",
+      "name": { "es": "TypeScript", "en": "TypeScript" },
+      "demand": {
+        "label": {
+          "es": "19,3% de las ofertas; el segundo lenguaje del rol y via valida desde frontend",
+          "en": "19.3% of postings; the role's second language and a valid path from frontend"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, builtin.com, feb-ago 2026)",
+        "asOf": "2026-08"
+      }
+    },
+    {
+      "id": "fastapi",
+      "name": { "es": "FastAPI", "en": "FastAPI" },
+      "demand": {
+        "label": {
+          "es": "680 de 6.964 ofertas; 14,6% de los perfiles del rol en Espana",
+          "en": "680 of 6,964 postings; 14.6% of role profiles in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "sql",
+      "name": { "es": "SQL y bases de datos", "en": "SQL and databases" },
+      "demand": {
+        "label": {
+          "es": "14,4% de las ofertas; 23,3% de las ofertas del rol en Espana (menos que en una oferta tech cualquiera)",
+          "en": "14.4% of postings; 23.3% of role postings in Spain (lower than in a general tech posting)"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (476 ofertas, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "docker",
+      "name": { "es": "Docker", "en": "Docker" },
+      "demand": {
+        "label": {
+          "es": "1.700 de 6.964 ofertas; 32,6% de los perfiles del rol en Espana declaran Docker o Kubernetes",
+          "en": "1,700 of 6,964 postings; 32.6% of role profiles in Spain declare Docker or Kubernetes"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "cloud-aws",
+      "name": { "es": "Cloud (AWS primero)", "en": "Cloud (AWS first)" },
+      "demand": {
+        "label": {
+          "es": "AWS en 40,3% de las ofertas (la primera cloud), Azure 29,6% y GCP 27,4%; 54% de los perfiles del rol en Espana declaran cloud",
+          "en": "AWS in 40.3% of postings (the top cloud), Azure 29.6% and GCP 27.4%; 54% of role profiles in Spain declare cloud"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "llm-apis",
+      "name": { "es": "APIs de LLM y salidas estructuradas", "en": "LLM APIs and structured outputs" },
+      "demand": {
+        "label": {
+          "es": "62,2% de las ofertas nombran LLMs; 78,8% de las ofertas del rol en Espana",
+          "en": "62.2% of postings mention LLMs; 78.8% of role postings in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (476 ofertas, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "prompt-engineering",
+      "name": { "es": "Prompt engineering", "en": "Prompt engineering" },
+      "demand": {
+        "label": {
+          "es": "34,7% de las ofertas; 12,9% de los perfiles del rol en Espana lo declaran como prompting",
+          "en": "34.7% of postings; 12.9% of role profiles in Spain declare it as prompting"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "embeddings",
+      "name": { "es": "Embeddings y busqueda semantica", "en": "Embeddings and semantic search" },
+      "demand": {
+        "label": {
+          "es": "22,9% de las ofertas AI-First piden embeddings (la skill ML adyacente mas pedida tras fine-tuning)",
+          "en": "22.9% of AI-First postings ask for embeddings (the most requested ML-adjacent skill after fine-tuning)"
+        },
+        "source": "AI Engineering Field Guide (4.874 ofertas AI-First, feb-ago 2026)",
+        "asOf": "2026-08"
+      }
+    },
+    {
+      "id": "rag",
+      "name": { "es": "RAG (Retrieval-Augmented Generation)", "en": "RAG (Retrieval-Augmented Generation)" },
+      "demand": {
+        "label": {
+          "es": "39,8% de todas las ofertas (53,9% de las AI-First); 56,7% de las ofertas del rol en Espana",
+          "en": "39.8% of all postings (53.9% of AI-First ones); 56.7% of role postings in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (476 ofertas, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "vector-databases",
+      "name": { "es": "Bases vectoriales", "en": "Vector databases" },
+      "demand": {
+        "label": {
+          "es": "1.647 de 6.964 ofertas nombran bases vectoriales; 8,3% de los perfiles del rol en Espana",
+          "en": "1,647 of 6,964 postings mention vector databases; 8.3% of role profiles in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "llm-frameworks",
+      "name": { "es": "Frameworks de LLM (LangChain, LangGraph, LlamaIndex)", "en": "LLM frameworks (LangChain, LangGraph, LlamaIndex)" },
+      "demand": {
+        "label": {
+          "es": "LangChain en 22% de las ofertas; LangChain o LangGraph en 36,3% de las ofertas del rol en Espana (el diferenciador real: 21 veces mas que en el resto del mercado)",
+          "en": "LangChain in 22% of postings; LangChain or LangGraph in 36.3% of role postings in Spain (the real differentiator: 21 times more than the rest of the market)"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (476 ofertas, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "agent-patterns",
+      "name": { "es": "Patrones de agentes y tool calling", "en": "Agent patterns and tool calling" },
+      "demand": {
+        "label": {
+          "es": "55,4% de las ofertas (71,6% de las AI-First); 73,3% de las ofertas del rol en Espana",
+          "en": "55.4% of postings (71.6% of AI-First ones); 73.3% of role postings in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (476 ofertas, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "mcp",
+      "name": { "es": "Model Context Protocol (MCP)", "en": "Model Context Protocol (MCP)" },
+      "demand": {
+        "label": {
+          "es": "14,1% de las ofertas y creciendo (de 9,9% a 17,6% en 2026); 7,6% de los perfiles del rol en Espana",
+          "en": "14.1% of postings and rising (from 9.9% to 17.6% during 2026); 7.6% of role profiles in Spain"
+        },
+        "source": "AI Engineering Field Guide (6.964 JDs, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "evaluation",
+      "name": { "es": "Evaluacion de sistemas LLM y error analysis", "en": "LLM system evaluation and error analysis" },
+      "demand": {
+        "label": {
+          "es": "59,7% de las ofertas AI-First piden evaluacion; entre 51,5% y 68,9% de las ofertas del rol en Espana la nombran. Es el diferenciador: RAG y agentes son la base",
+          "en": "59.7% of AI-First postings ask for evaluation; 51.5% to 68.9% of role postings in Spain mention it. It is the differentiator: RAG and agents are the baseline"
+        },
+        "source": "AI Engineering Field Guide (4.874 ofertas AI-First, feb-ago 2026) y nothiring.me (476 ofertas, jul-sep 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "observability",
+      "name": { "es": "Observabilidad y monitoreo", "en": "Observability and monitoring" },
+      "demand": {
+        "label": {
+          "es": "24,5% de las ofertas AI-First; 14,1% de los perfiles del rol en Espana la mencionan en su autodescripcion",
+          "en": "24.5% of AI-First postings; 14.1% of role profiles in Spain mention it in their self-description"
+        },
+        "source": "AI Engineering Field Guide (4.874 ofertas AI-First, feb-ago 2026) y nothiring.me (1.878 perfiles, 2026)",
+        "asOf": "2026-09"
+      }
+    },
+    {
+      "id": "guardrails",
+      "name": { "es": "Guardrails y seguridad del agente", "en": "Guardrails and agent safety" },
+      "demand": {
+        "label": {
+          "es": "17,9% de las ofertas AI-First piden guardrails; la seguridad (prompt injection, exfiltracion) se prueba en entrevistas",
+          "en": "17.9% of AI-First postings ask for guardrails; safety (prompt injection, exfiltration) is tested in interviews"
+        },
+        "source": "AI Engineering Field Guide (4.874 ofertas AI-First, feb-ago 2026)",
+        "asOf": "2026-08"
+      }
+    },
+    {
+      "id": "fine-tuning",
+      "name": { "es": "Fine-tuning (especializacion)", "en": "Fine-tuning (specialization)" },
+      "demand": {
+        "label": {
+          "es": "27,3% de las ofertas AI-First lo mencionan pero solo 3,6% lo pide como responsabilidad principal: no es del camino critico",
+          "en": "27.3% of AI-First postings mention it but only 3.6% make it a core responsibility: it is not on the critical path"
+        },
+        "source": "AI Engineering Field Guide (4.874 ofertas AI-First, feb-ago 2026)",
+        "asOf": "2026-08"
+      }
+    },
+    {
+      "id": "ai-engineering-oficio",
+      "name": {
+        "es": "Oficio de AI engineering (rol, trade-offs y trabajo con agentes)",
+        "en": "AI engineering craft (role, trade-offs and working with agents)"
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "fase-0-decision",
+      "order": 0,
+      "title": { "es": "Decision y foco", "en": "Decision and focus" },
+      "duration": { "es": "1 semana", "en": "1 week" },
+      "topics": [
+        {
+          "es": "Elegir los dos roles puerta a los que se va a apuntar",
+          "en": "Pick the two target roles to aim at"
+        },
+        {
+          "es": "Definir el repo o repos donde van a vivir los proyectos",
+          "en": "Define the repo or repos where the projects will live"
+        },
+        {
+          "es": "Decidir el horizonte (3 meses intensivo o 6 meses parcial)",
+          "en": "Decide the horizon (3 intensive months or 6 part-time months)"
+        },
+        {
+          "es": "Leer el mapa de los cuatro trabajos que cubre el titulo AI Engineer y la ruta desde frontend",
+          "en": "Read the map of the four jobs the AI Engineer title covers and the transition path from frontend"
+        }
+      ],
+      "enablesRoles": [],
+      "skillIds": ["ai-engineering-oficio"],
+      "gate": {
+        "es": "Por escrito: los dos roles objetivo, el horizonte y el nombre del repo del portfolio.",
+        "en": "In writing: the two target roles, the horizon and the name of the portfolio repo."
+      },
+      "resourceIds": ["guia-roles-ai-espana", "ruta-desde-frontend"]
+    },
+    {
+      "id": "fase-1-backend-cloud",
+      "order": 1,
+      "title": {
+        "es": "Python, backend minimo y cloud",
+        "en": "Python, minimal backend and cloud"
+      },
+      "duration": { "es": "2 a 3 semanas", "en": "2 to 3 weeks" },
+      "topics": [
+        {
+          "es": "Python moderno: type hints, dataclasses y tipado",
+          "en": "Modern Python: type hints, dataclasses and typing"
+        },
+        {
+          "es": "Entornos virtuales, Pytest, HTTP y JSON",
+          "en": "Virtual environments, Pytest, HTTP and JSON"
+        },
+        {
+          "es": "FastAPI para exponer endpoints, SQL basico y una libreria de acceso a datos",
+          "en": "FastAPI to expose endpoints, basic SQL and a data access library"
+        },
+        {
+          "es": "Docker para levantar servicios",
+          "en": "Docker to run services"
+        },
+        {
+          "es": "Una cloud al menos (AWS primero por demanda): compute, almacenamiento, secretos y logs",
+          "en": "At least one cloud (AWS first by demand): compute, storage, secrets and logs"
+        },
+        {
+          "es": "Variante TypeScript como alternativa de primera clase: Node, Express o Next.js API routes con el mismo temario",
+          "en": "TypeScript variant as a first-class alternative: Node, Express or Next.js API routes with the same syllabus"
+        }
+      ],
+      "enablesRoles": ["ai-product-engineer", "ai-automation-engineer", "swe-ai-product-team"],
+      "skillIds": ["python", "typescript", "fastapi", "sql", "docker", "cloud-aws"],
+      "interviewArea": "python-backend-cloud",
+      "project": {
+        "es": "Un servicio FastAPI (o equivalente Node) con dos endpoints, tests de comportamiento, Dockerfile y despliegue en la cloud elegida. Chico a proposito.",
+        "en": "A FastAPI service (or Node equivalent) with two endpoints, behavioural tests, a Dockerfile and a deployment on the chosen cloud. Small on purpose."
+      },
+      "gate": {
+        "es": "Poder leer y modificar un backend Python ajeno sin traducirlo a JavaScript en la cabeza, y tener el servicio levantado, con sus tests en verde y desplegado en la cloud.",
+        "en": "Being able to read and modify someone else's Python backend without translating it to JavaScript in your head, and having the service running, tests green and deployed on the cloud."
+      },
+      "resourceIds": ["cs50-python", "curso-api-python-freecodecamp", "fastapi-docs", "mouredev-python", "aws-free-tier"]
+    },
+    {
+      "id": "fase-2-llm-prompting",
+      "order": 2,
+      "title": {
+        "es": "Fundamentos de LLMs y prompt engineering",
+        "en": "LLM fundamentals and prompt engineering"
+      },
+      "duration": { "es": "2 a 4 semanas", "en": "2 to 4 weeks" },
+      "topics": [
+        {
+          "es": "Como predice el proximo token, ventana de contexto, tokens y costo",
+          "en": "How next-token prediction works, context window, tokens and cost"
+        },
+        {
+          "es": "Temperatura y top-p, prompts de sistema contra usuario",
+          "en": "Temperature and top-p, system prompts versus user prompts"
+        },
+        {
+          "es": "Salidas estructuradas con JSON schema y few-shot",
+          "en": "Structured outputs with JSON schema and few-shot prompting"
+        },
+        {
+          "es": "ReAct y Chain of Thought",
+          "en": "ReAct and Chain of Thought"
+        },
+        {
+          "es": "Claves y secretos, limitaciones y fallas tipicas: alucinaciones y prompt injection",
+          "en": "Keys and secrets, limitations and typical failures: hallucinations and prompt injection"
+        },
+        {
+          "es": "Lectura ligera de fundamentos de ML utiles al oficio: embeddings, sesgo y varianza, analisis de errores e ingenieria de datos",
+          "en": "Light reading on ML fundamentals useful to the craft: embeddings, bias and variance, error analysis and data engineering"
+        }
+      ],
+      "enablesRoles": ["ai-product-engineer", "ai-automation-engineer", "swe-ai-product-team"],
+      "skillIds": ["llm-apis", "prompt-engineering", "embeddings"],
+      "interviewArea": "llm-fundamentals",
+      "project": {
+        "es": "Chatbot de linea de comandos con memoria de conversacion, salida estructurada sobre una API de LLM real y control de costo por sesion.",
+        "en": "A command-line chatbot with conversation memory, structured output over a real LLM API and per-session cost control."
+      },
+      "gate": {
+        "es": "Poder explicar por que un prompt falla y arreglarlo, y poder justificar la eleccion de modelo, temperatura y formato de salida para un caso concreto.",
+        "en": "Being able to explain why a prompt fails and fix it, and to justify the choice of model, temperature and output format for a concrete case."
+      },
+      "resourceIds": ["dlai-prompt-engineering", "karpathy-build-gpt", "dair-prompt-guide", "anthropic-claude-academy"]
+    },
+    {
+      "id": "fase-3-rag",
+      "order": 3,
+      "title": { "es": "Embeddings, vector DBs y RAG", "en": "Embeddings, vector DBs and RAG" },
+      "duration": { "es": "4 a 6 semanas", "en": "4 to 6 weeks" },
+      "topics": [
+        {
+          "es": "Embeddings y busqueda semantica",
+          "en": "Embeddings and semantic search"
+        },
+        {
+          "es": "Bases vectoriales: Chroma para aprender, luego pgvector, Qdrant o Weaviate",
+          "en": "Vector databases: Chroma to learn, then pgvector, Qdrant or Weaviate"
+        },
+        {
+          "es": "Chunking y overlap, retrieval hibrido y re-ranking",
+          "en": "Chunking and overlap, hybrid retrieval and re-ranking"
+        },
+        {
+          "es": "Grounding de respuestas y metricas de retrieval",
+          "en": "Grounding answers and retrieval metrics"
+        },
+        {
+          "es": "Convertir texto, PDF, HTML e imagenes en algo que el modelo pueda leer y mantener los pipelines de indexado al dia",
+          "en": "Turning text, PDF, HTML and images into something the model can read, and keeping indexing pipelines clean and current"
+        },
+        {
+          "es": "Elegir entre indice vectorial, grafo de conocimiento o capa semantica sobre datos estructurados",
+          "en": "Choosing between a vector index, a knowledge graph or a semantic layer over structured data"
+        },
+        {
+          "es": "Fallas tipicas: chunking malo, retrieval irrelevante, respuestas sin soporte",
+          "en": "Typical failures: bad chunking, irrelevant retrieval, unsupported answers"
+        }
+      ],
+      "enablesRoles": ["ai-product-engineer", "ai-automation-engineer", "swe-ai-product-team"],
+      "skillIds": ["rag", "vector-databases", "embeddings"],
+      "interviewArea": "rag-retrieval",
+      "project": {
+        "es": "RAG sobre documentos propios con suite de evaluacion y error analysis: al menos 100 consultas reales leidas, fallos etiquetados a mano y taxonomia publicada con un numero antes y despues de cada cambio.",
+        "en": "RAG over your own documents with an evaluation suite and error analysis: at least 100 real queries read, failures labelled by hand and a published taxonomy with a before and after number for each change."
+      },
+      "gate": {
+        "es": "El sistema responde con fuentes citadas, la suite de evaluacion corre en CI, la taxonomia de errores esta publicada con sus numeros, y se puede explicar cada decision de chunking y retrieval con su porque.",
+        "en": "The system answers with cited sources, the evaluation suite runs in CI, the failure taxonomy is published with its numbers, and every chunking and retrieval decision can be explained."
+      },
+      "resourceIds": ["dlai-rag", "freecodecamp-rag-produccion", "edteam-rag", "hf-nlp-course"]
+    },
+    {
+      "id": "fase-4-agentes-mcp",
+      "order": 4,
+      "title": { "es": "Agentes, tool calling y MCP", "en": "Agents, tool calling and MCP" },
+      "duration": { "es": "4 a 6 semanas", "en": "4 to 6 weeks" },
+      "topics": [
+        {
+          "es": "Function calling y diseno de tools",
+          "en": "Function calling and tool design"
+        },
+        {
+          "es": "Patrones agenticos: ReAct, Plan-and-Execute, Reflection",
+          "en": "Agentic patterns: ReAct, Plan-and-Execute, Reflection"
+        },
+        {
+          "es": "Memoria corta y largo plazo, manejo de errores, timeouts y retry con backoff",
+          "en": "Short and long term memory, error handling, timeouts and retry with backoff"
+        },
+        {
+          "es": "Control de costos y salidas estructuradas",
+          "en": "Cost control and structured outputs"
+        },
+        {
+          "es": "Model Context Protocol y construccion de un MCP server propio",
+          "en": "Model Context Protocol and building your own MCP server"
+        },
+        {
+          "es": "Cuanta autonomia dar al agente y cuando intervenir: el oficio de programar con agentes",
+          "en": "How much autonomy to give the agent and when to step in: the craft of programming with agents"
+        }
+      ],
+      "enablesRoles": ["ai-product-engineer", "ai-automation-engineer", "swe-ai-product-team"],
+      "skillIds": ["agent-patterns", "mcp", "llm-frameworks", "ai-engineering-oficio"],
+      "interviewArea": "agents-mcp",
+      "project": {
+        "es": "Agente con tools reales y manejo de errores, idealmente con un MCP server propio publicado. Aca la experiencia previa usando MCPs y skills como usuario se convierte en argumento de entrevista.",
+        "en": "An agent with real tools and error handling, ideally with your own published MCP server. This is where prior experience using MCPs and skills as a user becomes interview material."
+      },
+      "gate": {
+        "es": "El agente completa un flujo multi-paso real, con control de errores y costo medido, y se puede explicar que tools se disenaron y por que.",
+        "en": "The agent completes a real multi-step flow, with error handling and measured cost, and the tool design choices can be explained."
+      },
+      "resourceIds": ["hf-agents-course", "dlai-mcp", "dlai-langgraph", "dlai-agentic-ai"]
+    },
+    {
+      "id": "fase-5-evals-produccion",
+      "order": 5,
+      "title": {
+        "es": "Evals, observabilidad y produccion",
+        "en": "Evals, observability and production"
+      },
+      "duration": { "es": "3 a 4 semanas", "en": "3 to 4 weeks" },
+      "topics": [
+        {
+          "es": "Datasets de evaluacion, graders automaticos y human-in-the-loop",
+          "en": "Evaluation datasets, automatic graders and human-in-the-loop"
+        },
+        {
+          "es": "Deteccion de regresion entre versiones de prompt o modelo y versionado de prompts",
+          "en": "Regression detection across prompt or model versions and prompt versioning"
+        },
+        {
+          "es": "Trazas y logging, rate limiting y cache",
+          "en": "Tracing and logging, rate limiting and caching"
+        },
+        {
+          "es": "Monitoreo de costo y latencia y tablero de uso",
+          "en": "Cost and latency monitoring and usage dashboards"
+        },
+        {
+          "es": "Guardrails, respuesta a inyecciones de prompt y a fallos del modelo, deteccion de drift",
+          "en": "Guardrails, responding to prompt injection and model failures, drift detection"
+        },
+        {
+          "es": "Regresion estadistica calibrada al riesgo del error",
+          "en": "Statistical regression testing calibrated to the risk of the error"
+        },
+        {
+          "es": "Reduccion de costo y latencia: eleccion de modelo, destilacion, simplificar el workflow",
+          "en": "Cost and latency reduction: model choice, distillation, simplifying the workflow"
+        }
+      ],
+      "enablesRoles": ["ai-product-engineer", "ai-automation-engineer", "swe-ai-product-team"],
+      "skillIds": ["evaluation", "observability", "guardrails"],
+      "interviewArea": "evals-production",
+      "project": {
+        "es": "Asistente o chatbot con memoria persistente, desplegado con UI propia, evals en el pipeline de release y segunda ronda de error analysis publicada. Es el proyecto donde el perfil de frontend pega mas fuerte.",
+        "en": "An assistant or chatbot with persistent memory, deployed with its own UI, evals in the release pipeline and a second published round of error analysis. It is the project where a frontend profile hits hardest."
+      },
+      "gate": {
+        "es": "El sistema esta desplegado con URL viva, los evals corren en CI y hay al menos un caso de regresion detectada y documentada.",
+        "en": "The system is deployed with a live URL, evals run in CI and there is at least one detected and documented regression case."
+      },
+      "resourceIds": ["hamel-evals", "dlai-quality-safety", "langfuse", "hf-agents-observabilidad"]
+    },
+    {
+      "id": "fase-6-especializacion",
+      "order": 6,
+      "title": { "es": "Especializacion opcional", "en": "Optional specialization" },
+      "duration": {
+        "es": "Despues de los gates de las fases 3 y 5",
+        "en": "After the phase 3 and 5 gates"
+      },
+      "topics": [
+        {
+          "es": "Fine-tuning y LoRA para profundidad de modelos",
+          "en": "Fine-tuning and LoRA for model depth"
+        },
+        {
+          "es": "Multimodal",
+          "en": "Multimodal"
+        },
+        {
+          "es": "RAG avanzado con grafos de conocimiento",
+          "en": "Advanced RAG with knowledge graphs"
+        },
+        { "es": "AI safety y red teaming", "en": "AI safety and red teaming" },
+        {
+          "es": "Dominio vertical: legal, salud, finanzas",
+          "en": "Vertical domain: legal, health, finance"
+        }
+      ],
+      "enablesRoles": [],
+      "skillIds": ["fine-tuning", "guardrails"],
+      "gate": {
+        "es": "Solo con los gates de las fases 3 y 5 cumplidos. Fine-tuning y ML clasico quedan fuera del camino critico.",
+        "en": "Only with the phase 3 and 5 gates met. Fine-tuning and classical ML stay off the critical path."
+      },
+      "resourceIds": ["llm-finetuning-freecodecamp", "fastai", "dlai-red-teaming"]
+    }
+  ],
+  "resources": [
+    {
+      "id": "guia-roles-ai-espana",
+      "title": "Qué es un AI Engineer",
+      "url": "http://nothiring.me/blog/roles/ai-engineer-espana",
+      "creator": "Eusebio Graciani (nothiring.me)",
+      "platform": "Blog",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "Lectura de unos 20 minutos", "en": "About a 20 minute read" },
+      "language": "Espanol",
+      "confidence": {
+        "text": {
+          "es": "Articulo leido completo el 2026-10-05; datos propios de Espana cruzados con el dataset internacional",
+          "en": "Article read in full on 2026-10-05; first-party Spain data cross-checked against the international dataset"
+        },
+        "asOf": "2026-10-05"
+      },
+      "opinion": {
+        "es": "Los cuatro trabajos que cubre el titulo AI Engineer (Modelo, Plataforma, Aplicacion, Negocio) y que exige cada uno. Sirve para elegir los roles puerta. La evaluacion atraviesa los cuatro.",
+        "en": "The four jobs the AI Engineer title covers (Model, Platform, Application, Business) and what each demands. Useful for picking target roles. Evaluation crosses all four."
+      },
+      "skillIds": ["ai-engineering-oficio"]
+    },
+    {
+      "id": "ruta-desde-frontend",
+      "title": "From Frontend Engineer to AI Engineer (AI Engineering Field Guide)",
+      "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/learning-paths/from-frontend-engineer.md",
+      "creator": "Alexey Grigorev (DataTalksClub)",
+      "platform": "GitHub",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "Lectura de unos 15 minutos", "en": "About a 15 minute read" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Leido completo el 2026-10-05; el repo es WIP y crece",
+          "en": "Read in full on 2026-10-05; the repo is a work in progress and keeps growing"
+        },
+        "asOf": "2026-10-05"
+      },
+      "opinion": {
+        "es": "La ruta medida desde frontend: backend primero (TypeScript o Python), despues AI, con la ventaja full-stack como diferenciador. La ruta de TypeScript es la recommended; Python, la strongly recommended.",
+        "en": "The measured path from frontend: backend first (TypeScript or Python), then AI, with the full-stack edge as the differentiator. The TypeScript path is the recommended one; Python, the strongly recommended one."
+      },
+      "skillIds": ["ai-engineering-oficio", "typescript", "python"]
+    },
+    {
+      "id": "cs50-python",
+      "title": "CS50's Introduction to Programming with Python",
+      "url": "https://cs50.harvard.edu/python/",
+      "creator": "Harvard CS50 (David Malan)",
+      "platform": "edX y YouTube",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": {
+        "es": "15h57 en la version completa de YouTube; 9 semanas de contenido",
+        "en": "15h57 in the full YouTube version; 9 weeks of content"
+      },
+      "language": "Ingles (con subtitulos)",
+      "confidence": {
+        "text": {
+          "es": "Duracion y alcance verificados el 2026-09-28",
+          "en": "Duration and scope verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El mejor Python en serio para alguien que ya programa: type hints, errores, testing con Pytest y SQL basico.",
+        "en": "The best serious Python for someone who already programs: type hints, errors, testing with Pytest and basic SQL."
+      },
+      "skillIds": ["python"]
+    },
+    {
+      "id": "curso-api-python-freecodecamp",
+      "title": "Python API Development - Comprehensive Course for Beginners",
+      "url": "https://www.youtube.com/watch?v=0sOvCWFmrtA",
+      "creator": "Sanjeev Thiyagarajan (freeCodeCamp.org)",
+      "platform": "YouTube",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "19h00", "en": "19h00" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Duracion y temario verificados el 2026-09-28",
+          "en": "Duration and syllabus verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Mejor eje de la fase 1: cubre exactamente el gate, con FastAPI, SQLAlchemy, Postgres, pytest, Docker y pipeline CI/CD con GitHub Actions.",
+        "en": "The best backbone for phase 1: it covers the gate exactly, with FastAPI, SQLAlchemy, Postgres, pytest, Docker and a GitHub Actions CI/CD pipeline."
+      },
+      "skillIds": ["python", "fastapi", "sql", "docker"]
+    },
+    {
+      "id": "fastapi-docs",
+      "title": "FastAPI documentation",
+      "url": "https://fastapi.tiangolo.com/",
+      "creator": "Sebastian Ramirez y comunidad",
+      "platform": "Documentacion oficial",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "Lectura por secciones", "en": "Section-by-section reading" },
+      "language": "Ingles y Espanol",
+      "opinion": {
+        "es": "La documentacion oficial, con el tutorial avanzado para testing y dependencias. Es el framework Python que mas aparece en ofertas de AI.",
+        "en": "The official docs, with the advanced tutorial on testing and dependencies. It is the Python framework that shows up most in AI postings."
+      },
+      "skillIds": ["fastapi", "python"]
+    },
+    {
+      "id": "mouredev-python",
+      "title": "Curso COMPLETO de PYTHON desde CERO para PRINCIPIANTES",
+      "url": "https://www.youtube.com/watch?v=Kp4Mvapo5kc",
+      "creator": "Brais Moure (MoureDev)",
+      "platform": "YouTube",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "10h07", "en": "10h07" },
+      "language": "Espanol",
+      "confidence": {
+        "text": {
+          "es": "Video verificado el 2026-09-28",
+          "en": "Video verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Recurso fuerte en espanol para la fase 1. El ritmo es de cero absoluto: util como consulta o para repasar la sintaxis.",
+        "en": "A strong Spanish-language resource for phase 1. The pace assumes zero prior knowledge: useful as a reference or for syntax review."
+      },
+      "skillIds": ["python"]
+    },
+    {
+      "id": "aws-free-tier",
+      "title": "AWS Free Tier y documentacion",
+      "url": "https://aws.amazon.com/free/",
+      "creator": "Amazon Web Services",
+      "platform": "Documentacion oficial",
+      "price": { "es": "Gratis con limites del free tier", "en": "Free within free tier limits" },
+      "duration": { "es": "Lectura por servicio", "en": "Per-service reading" },
+      "language": "Ingles",
+      "opinion": {
+        "es": "AWS es la cloud con mas demanda en las ofertas del rol. Para la fase 1 alcanza con compute, almacenamiento, secretos y logs del free tier.",
+        "en": "AWS is the most demanded cloud in role postings. For phase 1, free tier compute, storage, secrets and logs are enough."
+      },
+      "skillIds": ["cloud-aws", "docker"]
+    },
+    {
+      "id": "dlai-prompt-engineering",
+      "title": "ChatGPT Prompt Engineering for Developers",
+      "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+      "creator": "Isa Fulford (OpenAI) y Andrew Ng (DeepLearning.AI)",
+      "platform": "DeepLearning.AI",
+      "price": {
+        "es": "Gratis para auditar; certificado y tarea evaluada con el plan PRO",
+        "en": "Free to audit; certificate and graded assignment on the PRO plan"
+      },
+      "duration": { "es": "1h40, 9 lecciones", "en": "1h40, 9 lessons" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina del curso verificada el 2026-09-28",
+          "en": "Course page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El short course fundacional de la fase 2: resumir, inferir, transformar, expandir y chatbots con memoria, con ejemplos de codigo.",
+        "en": "The foundational short course for phase 2: summarizing, inferring, transforming, expanding and memory chatbots, with code examples."
+      },
+      "skillIds": ["prompt-engineering", "llm-apis"]
+    },
+    {
+      "id": "karpathy-build-gpt",
+      "title": "Let's build GPT: from scratch, in code, spelled out",
+      "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+      "creator": "Andrej Karpathy",
+      "platform": "YouTube",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "1h56", "en": "1h56" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Duracion verificada el 2026-09-28",
+          "en": "Duration verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El porque funciona un LLM mas honesto y barato que existe: next-token prediction y attention construidos en codigo chico.",
+        "en": "The most honest and cheap explanation of why an LLM works: next-token prediction and attention built in small code."
+      },
+      "skillIds": ["llm-apis", "embeddings"]
+    },
+    {
+      "id": "dair-prompt-guide",
+      "title": "Prompt Engineering Guide",
+      "url": "https://github.com/dair-ai/Prompt-Engineering-Guide",
+      "creator": "DAIR.AI (Elvis Saravia y colaboradores)",
+      "platform": "GitHub",
+      "price": { "es": "Gratis, licencia MIT", "en": "Free, MIT license" },
+      "duration": { "es": "Guia modular de consulta", "en": "Modular reference guide" },
+      "language": "Ingles (con traducciones)",
+      "confidence": {
+        "text": {
+          "es": "78.697 estrellas y ultimo push 2026-03-11, verificado el 2026-09-28",
+          "en": "78,697 stars and last push 2026-03-11, verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "La referencia de consulta permanente: ReAct, Chain of Thought, seguridad de prompts y guias por caso de uso.",
+        "en": "The permanent reference: ReAct, Chain of Thought, prompt security and use-case guides."
+      },
+      "skillIds": ["prompt-engineering"]
+    },
+    {
+      "id": "anthropic-claude-academy",
+      "title": "Claude Academy: AI Fluency y AI capabilities and limitations",
+      "url": "https://www.anthropic.com/learn",
+      "creator": "Anthropic (equipo de educacion)",
+      "platform": "Anthropic (Claude Academy)",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": {
+        "es": "AI Fluency: 4h y 14 lecciones; AI capabilities and limitations: 3h30 y 13 lecciones",
+        "en": "AI Fluency: 4h and 14 lessons; AI capabilities and limitations: 3h30 and 13 lessons"
+      },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Plataforma y duraciones verificadas el 2026-09-28",
+          "en": "Platform and durations verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Cubre el lado de que puede y que no puede hacer un LLM, limitaciones y colaboracion humano-agente. De uso, no de construccion.",
+        "en": "Covers what an LLM can and cannot do, limitations and human-agent collaboration. Usage-side, not building-side."
+      },
+      "skillIds": ["llm-apis", "prompt-engineering"]
+    },
+    {
+      "id": "dlai-rag",
+      "title": "Retrieval Augmented Generation (RAG)",
+      "url": "https://www.deeplearning.ai/courses/retrieval-augmented-generation",
+      "creator": "Zain Hasan (Together.ai y University of Toronto) con DeepLearning.AI",
+      "platform": "DeepLearning.AI (tambien en Coursera)",
+      "price": {
+        "es": "Auditar es gratis; certificado y tareas evaluadas con el plan PRO",
+        "en": "Free to audit; certificate and graded assignments on the PRO plan"
+      },
+      "duration": {
+        "es": "26h03, 5 modulos y 49 lecciones",
+        "en": "26h03, 5 modules and 49 lessons"
+      },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Duracion exacta y modelo de precios verificados el 2026-09-28",
+          "en": "Exact duration and pricing model verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El recurso mas completo de la fase 3 y el que mejor se cruza con ofertas: retrievers, BM25, busqueda hibrida, chunking, evaluacion y produccion.",
+        "en": "The most complete resource for phase 3 and the one that matches job postings best: retrievers, BM25, hybrid search, chunking, evaluation and production."
+      },
+      "skillIds": ["rag", "vector-databases", "evaluation"]
+    },
+    {
+      "id": "freecodecamp-rag-produccion",
+      "title": "Production RAG with LangChain & Vector Databases (Full Course)",
+      "url": "https://www.youtube.com/watch?v=mHxLXzYjQRE",
+      "creator": "freeCodeCamp.org",
+      "platform": "YouTube",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "7h38", "en": "7h38" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Publicado el 26/5/2026 y verificado el 2026-09-28",
+          "en": "Published 2026-05-26 and verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "La alternativa 100% gratuita y con codigo, ideal para el proyecto estrella de la fase: pipeline completo de RAG en produccion.",
+        "en": "The fully free, code-first alternative, ideal for the phase's flagship project: a complete production RAG pipeline."
+      },
+      "skillIds": ["rag", "llm-frameworks", "vector-databases"]
+    },
+    {
+      "id": "edteam-rag",
+      "title": "RAG: Adapta la IA a tu información",
+      "url": "https://ed.team/cursos/rag",
+      "creator": "Beto Quiroga (EDteam)",
+      "platform": "EDteam",
+      "price": {
+        "es": "15 USD de compra unica o suscripcion premium; el modulo 1 es gratis",
+        "en": "15 USD one-time purchase or premium subscription; module 1 is free"
+      },
+      "duration": { "es": "2h06, 3 modulos", "en": "2h06, 3 modules" },
+      "language": "Espanol",
+      "confidence": {
+        "text": {
+          "es": "Rating 4,6 con 111 calificaciones y precio verificados el 2026-09-28; 5 resenas leidas completas",
+          "en": "4.6 rating with 111 reviews and price verified on 2026-09-28; 5 reviews read in full"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El recurso mas solido en espanol de toda la investigacion: barato, con opiniones reales leidas y enfocado en vectores, busqueda semantica y problemas comunes.",
+        "en": "The most solid Spanish-language resource in the research: cheap, with real reviews read, focused on vectors, semantic search and common pitfalls."
+      },
+      "skillIds": ["rag", "embeddings"]
+    },
+    {
+      "id": "hf-nlp-course",
+      "title": "Hugging Face NLP Course",
+      "url": "https://huggingface.co/learn/nlp-course/chapter1/1",
+      "creator": "Hugging Face (Abubakar Abid, Ben Burtenshaw, Matthew Carrigan y otros)",
+      "platform": "Hugging Face Learn",
+      "price": { "es": "Gratis y sin publicidad", "en": "Free and ad-free" },
+      "duration": {
+        "es": "12 capitulos; para RAG tomar los capitulos 1 a 4 y 10 a 12",
+        "en": "12 chapters; for RAG take chapters 1 to 4 and 10 to 12"
+      },
+      "language": "Ingles (traduccion al espanol en progreso)",
+      "confidence": {
+        "text": {
+          "es": "Pagina del curso verificada el 2026-09-28",
+          "en": "Course page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "La mecanica de embeddings y transformers que la fase 3 pide. Mas largo de lo necesario si solo se quiere RAG: recortar por capitulos.",
+        "en": "The embeddings and transformer mechanics phase 3 needs. Longer than necessary for RAG alone: trim by chapter."
+      },
+      "skillIds": ["embeddings"]
+    },
+    {
+      "id": "hf-agents-course",
+      "title": "Hugging Face Agents Course",
+      "url": "https://huggingface.co/learn/agents-course/en/unit0/introduction",
+      "creator": "Hugging Face (Ben Burtenshaw, Sergio Paniego, Thomas Simonini, Pedro Cuenca y otros)",
+      "platform": "Hugging Face Learn",
+      "price": {
+        "es": "Gratis; el proceso de certificacion tambien es gratis, con reto final evaluado contra GAIA",
+        "en": "Free; the certification process is also free, with a final challenge scored against GAIA"
+      },
+      "duration": {
+        "es": "4 unidades mas 3 bonus; 3 a 4h por semana",
+        "en": "4 units plus 3 bonus ones; 3 to 4h per week"
+      },
+      "language": "Ingles (con traducciones)",
+      "confidence": {
+        "text": {
+          "es": "32.971 estrellas en su repo y certificacion gratuita verificadas el 2026-09-28",
+          "en": "32,971 stars on its repo and free certification verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El eje de la fase 4 y el unico con certificado gratuito que exige demostrar: agents, tools, smolagents, LangGraph, Agentic RAG y benchmark GAIA.",
+        "en": "The backbone of phase 4 and the only free certificate that requires proof: agents, tools, smolagents, LangGraph, Agentic RAG and the GAIA benchmark."
+      },
+      "skillIds": ["agent-patterns", "mcp", "llm-frameworks"]
+    },
+    {
+      "id": "dlai-mcp",
+      "title": "MCP: Build Rich-Context AI Apps with Anthropic",
+      "url": "https://www.deeplearning.ai/courses/mcp-build-rich-context-ai-apps-with-anthropic",
+      "creator": "Elie Schoppik (Anthropic)",
+      "platform": "DeepLearning.AI",
+      "price": {
+        "es": "Gratis durante la beta de la plataforma; certificado y tarea con PRO",
+        "en": "Free during the platform beta; certificate and assignment on PRO"
+      },
+      "duration": { "es": "1h58, 11 lecciones", "en": "1h58, 11 lessons" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina del curso verificada el 2026-09-28",
+          "en": "Course page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El recurso directo para el MCP server propio del gate: arquitectura cliente-servidor, FastMCP, MCP Inspector y servidores remotos.",
+        "en": "The direct resource for the gate's own MCP server: client-server architecture, FastMCP, MCP Inspector and remote servers."
+      },
+      "skillIds": ["mcp", "agent-patterns"]
+    },
+    {
+      "id": "dlai-langgraph",
+      "title": "AI Agents in LangGraph",
+      "url": "https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/",
+      "creator": "Harrison Chase (LangChain) y Rotem Weiss (Tavily)",
+      "platform": "DeepLearning.AI",
+      "price": {
+        "es": "Gratis para auditar; certificado con PRO",
+        "en": "Free to audit; certificate on PRO"
+      },
+      "duration": { "es": "1h32, 9 lecciones", "en": "1h32, 9 lessons" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina del curso verificada el 2026-09-28",
+          "en": "Course page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Diseno controlado de agentes, dictado por el creador del framework: persistencia, streaming y human-in-the-loop.",
+        "en": "Controlled agent design, taught by the framework's creator: persistence, streaming and human-in-the-loop."
+      },
+      "skillIds": ["agent-patterns", "llm-frameworks"]
+    },
+    {
+      "id": "dlai-agentic-ai",
+      "title": "Agentic AI",
+      "url": "https://www.deeplearning.ai/courses/agentic-ai",
+      "creator": "Andrew Ng (DeepLearning.AI)",
+      "platform": "DeepLearning.AI",
+      "price": {
+        "es": "Auditar los videos es gratis; certificado, tareas y labs con PRO",
+        "en": "Videos are free to audit; certificate, assignments and labs on PRO"
+      },
+      "duration": { "es": "9h55, 31 lecciones", "en": "9h55, 31 lessons" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina y FAQ del plan PRO verificadas el 2026-09-28",
+          "en": "Page and PRO plan FAQ verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El curso que mejor ata la fase 4 con la fase 5: reflection, tool use, planning, multi-agent, MCP, evals y error analysis.",
+        "en": "The course that ties phase 4 to phase 5 best: reflection, tool use, planning, multi-agent, MCP, evals and error analysis."
+      },
+      "skillIds": ["agent-patterns", "evaluation"]
+    },
+    {
+      "id": "hamel-evals",
+      "title": "Your AI Product Needs Evals y AI Evals Email Course",
+      "url": "https://hamel.dev/evals/",
+      "creator": "Hamel Husain (ex Airbnb y GitHub) con Shreya Shankar",
+      "platform": "Blog personal y curso por email",
+      "price": {
+        "es": "Gratis (el curso por email incluye 2 ebooks)",
+        "en": "Free (the email course includes 2 ebooks)"
+      },
+      "duration": {
+        "es": "El post: 1 a 2h de lectura; el curso por email: 17 lecciones",
+        "en": "The post: a 1 to 2h read; the email course: 17 lessons"
+      },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Material gratuito verificado el 2026-09-28",
+          "en": "Free material verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El mejor recurso de toda la investigacion por ratio senal/costo. Aca vive el error analysis: leer trazas, etiquetar fallos a mano y publicar la taxonomia con numeros.",
+        "en": "The best resource in the research for signal-to-cost ratio. This is where error analysis lives: reading traces, hand-labelling failures and publishing the taxonomy with numbers."
+      },
+      "skillIds": ["evaluation"]
+    },
+    {
+      "id": "dlai-quality-safety",
+      "title": "Quality and Safety for LLM Applications",
+      "url": "https://www.deeplearning.ai/courses/quality-safety-llm-applications",
+      "creator": "Bernease Herman (WhyLabs)",
+      "platform": "DeepLearning.AI",
+      "price": {
+        "es": "Gratis para auditar; certificado con PRO",
+        "en": "Free to audit; certificate on PRO"
+      },
+      "duration": { "es": "2h16, 7 lecciones", "en": "2h16, 7 lessons" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina del curso verificada el 2026-09-28",
+          "en": "Course page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Alucinaciones (SelfCheckGPT), data leakage, prompt injection y monitoreo pasivo y activo: la parte de calidad y seguridad de la fase 5.",
+        "en": "Hallucinations (SelfCheckGPT), data leakage, prompt injection and passive and active monitoring: the quality and safety side of phase 5."
+      },
+      "skillIds": ["guardrails", "evaluation"]
+    },
+    {
+      "id": "langfuse",
+      "title": "Langfuse (documentacion y plan Hobby)",
+      "url": "https://langfuse.com/pricing",
+      "creator": "Langfuse",
+      "platform": "Plataforma open source",
+      "price": {
+        "es": "Plan Hobby gratis (50.000 unidades por mes); self-host gratis",
+        "en": "Free Hobby plan (50,000 units per month); free self-hosting"
+      },
+      "duration": { "es": "Documentacion y guias de lectura", "en": "Documentation and guides to read" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Precios y niveles verificados el 2026-09-28",
+          "en": "Pricing and tiers verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Trazas de agentes, costo por tokens, versionado de prompts, datasets de evaluacion y LLM-as-judge, con nivel gratis real para aprender y para el portfolio.",
+        "en": "Agent traces, token cost, prompt versioning, evaluation datasets and LLM-as-judge, with a real free tier for learning and for the portfolio."
+      },
+      "skillIds": ["observability", "evaluation"]
+    },
+    {
+      "id": "hf-agents-observabilidad",
+      "title": "Bonus Unit 2: Agent Observability and Evaluation",
+      "url": "https://huggingface.co/learn/agents-course/en/unit0/introduction",
+      "creator": "Hugging Face Agents Course",
+      "platform": "Hugging Face Learn",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "Unidad bonus de unas pocas horas", "en": "A bonus unit of a few hours" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Contenido de la unidad bonus verificado el 2026-09-28",
+          "en": "Bonus unit content verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "El atajo si ya se esta haciendo el curso de agentes: cubre el temario de evals de la fase 5 sin cambiar de plataforma.",
+        "en": "The shortcut if you are already taking the agents course: it covers phase 5 evals without switching platforms."
+      },
+      "skillIds": ["observability", "evaluation"]
+    },
+    {
+      "id": "llm-finetuning-freecodecamp",
+      "title": "LLM Fine-Tuning Course: From Supervised FT to RLHF, LoRA, and Multimodal",
+      "url": "https://www.youtube.com/watch?v=CcrC5zSv1iA",
+      "creator": "freeCodeCamp.org",
+      "platform": "YouTube",
+      "price": { "es": "Gratis", "en": "Free" },
+      "duration": { "es": "11h56", "en": "11h56" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Publicado el 10/3/2026 y verificado el 2026-09-28",
+          "en": "Published 2026-03-10 and verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "La opcion mas directa para la especializacion de fine-tuning: supervisado, RLHF, LoRA y multimodal. Solo con los gates 3 y 5 cumplidos.",
+        "en": "The most direct option for the fine-tuning specialization: supervised, RLHF, LoRA and multimodal. Only after the phase 3 and 5 gates."
+      },
+      "skillIds": ["fine-tuning"]
+    },
+    {
+      "id": "fastai",
+      "title": "Practical Deep Learning for Coders",
+      "url": "https://course.fast.ai/",
+      "creator": "Jeremy Howard (fast.ai)",
+      "platform": "fast.ai",
+      "price": { "es": "Gratis, sin cuenta ni tarjeta", "en": "Free, no account or card needed" },
+      "duration": {
+        "es": "Parte 1: 9 lecciones de unos 90 minutos",
+        "en": "Part 1: 9 lessons of about 90 minutes each"
+      },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina verificada el 2026-09-28",
+          "en": "Page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "Solo si la especializacion pide profundidad de modelos. Para AI Engineer aplicado es opcional de verdad: sin certificado, con enfoque top-down.",
+        "en": "Only if the specialization needs model depth. For applied AI engineering it is truly optional: no certificate, top-down approach."
+      },
+      "skillIds": ["fine-tuning", "embeddings"]
+    },
+    {
+      "id": "dlai-red-teaming",
+      "title": "Red Teaming LLM Applications",
+      "url": "https://www.deeplearning.ai/courses/red-teaming-llm-applications",
+      "creator": "Matteo Dora y Luca Martial (Giskard)",
+      "platform": "DeepLearning.AI",
+      "price": {
+        "es": "Gratis para auditar; certificado con PRO",
+        "en": "Free to audit; certificate on PRO"
+      },
+      "duration": { "es": "1h29, 7 lecciones", "en": "1h29, 7 lessons" },
+      "language": "Ingles",
+      "confidence": {
+        "text": {
+          "es": "Pagina del curso verificada el 2026-09-28",
+          "en": "Course page verified on 2026-09-28"
+        },
+        "asOf": "2026-09-28"
+      },
+      "opinion": {
+        "es": "La opcion de AI safety y red teaming del menu de especializacion: vulnerabilidades, prompt injection y red teaming manual y automatico.",
+        "en": "The AI safety and red teaming option on the specialization menu: vulnerabilities, prompt injection and manual and automated red teaming."
+      },
+      "skillIds": ["guardrails"]
+    }
+  ]
+}

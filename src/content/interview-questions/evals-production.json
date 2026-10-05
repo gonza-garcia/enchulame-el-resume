@@ -1,0 +1,286 @@
+{
+  "area": "evals-production",
+  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "questions": [
+    {
+      "id": "ai-agents-evals-and-regression-testing",
+      "area": "evals-production",
+      "topic": "evals",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What would a useful evaluation strategy for an LLM feature or agent look like?"
+      },
+      "answer": {
+        "en": "Start with a dataset that represents normal traffic, important edge cases, known failures, and security cases. Define measurable criteria before changing the prompt: exact or semantic correctness, groundedness, refusal behavior, tool selection and arguments, task completion, latency, cost, and user outcomes as appropriate. Use deterministic checks where possible and calibrated model-based or human grading where judgment is required. Keep separate retrieval, tool, and final-answer signals so a regression has a diagnosable cause. Run evaluations offline for changes, sample production interactions with privacy controls, and block releases on agreed thresholds rather than on a few hand-picked examples."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        },
+        {
+          "label": "Google Cloud: Evaluate agents",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluate-agents"
+        }
+      ],
+      "tags": [
+        "evaluation",
+        "regressions"
+      ]
+    },
+    {
+      "id": "ai-agents-llm-as-judge-limitations",
+      "area": "evals-production",
+      "topic": "evals",
+      "level": "staff-lead",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How would you use an LLM-as-judge without turning it into an unquestioned source of truth?"
+      },
+      "answer": {
+        "en": "Treat a judge as one measurement instrument, not ground truth. Give it a narrow rubric, the necessary reference context, and a constrained output; validate that rubric against human-labeled examples. Check agreement, bias toward verbosity or a preferred style, position and order effects, and sensitivity to irrelevant text. Combine judge scores with deterministic checks, retrieval metrics, tool traces, and targeted human review. Keep the test set stable enough to compare releases, but refresh it for newly observed failures. Record model, prompt, rubric, and dataset versions so a score change is interpretable and can be audited."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Google Cloud: Evaluation overview",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview"
+        },
+        {
+          "label": "NIST AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        }
+      ],
+      "tags": [
+        "llm-judge",
+        "measurement"
+      ]
+    },
+    {
+      "id": "ai-agents-model-change-management",
+      "area": "evals-production",
+      "topic": "ai-dev-workflow",
+      "level": "architect",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How should an organization manage model, prompt, retrieval, and tool changes in production?"
+      },
+      "answer": {
+        "en": "Treat each as a behavior-affecting dependency with an owner, version, evaluation evidence, rollout plan, and rollback path. Keep a change record that identifies the model, prompt or template, schema, retrieval corpus, tool contracts, safety policy, and relevant configuration. Run the same representative and adversarial evaluations before release, compare quality, safety, latency, cost, and user outcomes, then canary or shadow the change where practical. Monitor for drift after rollout and preserve enough trace metadata to attribute regressions. A model upgrade is not automatically backward-compatible just because the API remains compatible."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        },
+        {
+          "label": "NIST AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        }
+      ],
+      "tags": [
+        "change-management",
+        "release",
+        "drift"
+      ]
+    },
+    {
+      "id": "ai-agents-platform-governance",
+      "area": "evals-production",
+      "topic": "ai-dev-workflow",
+      "level": "architect",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What should an organization standardize across teams building AI features?"
+      },
+      "answer": {
+        "en": "Standardize the controls that make systems comparable and governable, not every prompt or model choice. Define data classification and retention, tenant and identity boundaries, approved providers and model-change review, tool registration and permission policy, evaluation dataset and rubric conventions, trace fields, incident severity, red-team expectations, and release gates. Require explicit owners for quality, security, privacy, cost, and user escalation. Provide shared SDKs for validation, tracing, budgets, and consent, while allowing teams to choose the simplest architecture for their task. Review aggregate failures and drift centrally, and preserve rollback paths when a model, prompt, retrieval corpus, or tool changes."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "NIST AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        },
+        {
+          "label": "OWASP: Top 10 for LLM applications",
+          "url": "https://genai.owasp.org/llm-top-10/"
+        }
+      ],
+      "tags": [
+        "governance",
+        "platform",
+        "risk"
+      ]
+    },
+    {
+      "id": "ai-agents-prompt-injection-defense",
+      "area": "evals-production",
+      "topic": "prompt-injection-security",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How would you defend an agent with private data and write-capable tools against prompt injection?"
+      },
+      "answer": {
+        "en": "Assume that user text, retrieved documents, web pages, tool output, and MCP metadata can contain hostile instructions. Keep untrusted content clearly separated from control instructions, minimize the tools and data exposed for each task, enforce authorization in the server rather than in the prompt, and validate every argument and result. Use least-privilege identities, sandbox risky execution, rate and spend limits, output filtering, audit trails, and explicit confirmation for consequential actions. Test direct and indirect injection cases. No single prompt rule is a complete defense; reduce blast radius so a model mistake cannot become an unauthorized action or data disclosure."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OWASP: Top 10 for LLM applications",
+          "url": "https://genai.owasp.org/llm-top-10/"
+        },
+        {
+          "label": "MCP specification security",
+          "url": "https://modelcontextprotocol.io/specification/latest"
+        },
+        {
+          "label": "NIST AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        }
+      ],
+      "tags": [
+        "security",
+        "prompt-injection",
+        "least-privilege"
+      ]
+    },
+    {
+      "id": "ai-agents-rag-evaluation-boundaries",
+      "area": "evals-production",
+      "topic": "evals",
+      "level": "staff-lead",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How would you diagnose whether a bad RAG answer came from retrieval or generation?"
+      },
+      "answer": {
+        "en": "Trace the request as separate stages: query construction, authorization filter, retrieved IDs and scores, reranking, context sent to the model, model output, and citations or claims. First ask whether the required evidence was retrieved and whether it was complete, current, and permitted. If not, investigate parsing, chunking, indexing, query formulation, ranking, and permissions. If the evidence is present, test whether the model used it faithfully, followed the answer policy, or hallucinated beyond it. Build evaluation cases with known relevant passages and expected claims, then score retrieval recall and answer groundedness separately. This prevents changing prompts to hide an indexing problem."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Google Cloud: Grounding overview",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview"
+        },
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "rag",
+        "debugging",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "evals-production-error-analysis-100-traces",
+      "area": "evals-production",
+      "topic": "evals-method",
+      "level": "senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Explain how you would run error analysis on an LLM system in production."
+      },
+      "answer": {
+        "en": "Take at least 100 real traces of the system as a practical starting point, read them, and hand-label each failure with a category instead of jumping to fixes. Group the labels into a taxonomy, count the categories, then change one thing at a time and publish the before and after number per category. Stop reading when new traces stop producing new failure modes. The taxonomy becomes the evaluation dataset: the frequent failure categories are the regression tests you add to CI. This is what job postings mean when they ask for evaluation, and it can be demonstrated without permission from anyone, with numbers."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Hamel Husain: why error analysis is important",
+          "url": "https://hamel.dev/blog/posts/evals-faq/why-is-error-analysis-so-important-in-llm-evals-and-how-is-it-performed.html"
+        },
+        {
+          "label": "nothiring.me: perfil del AI Engineer en Espana",
+          "url": "http://nothiring.me/blog/roles/ai-engineer-perfil-espana"
+        }
+      ],
+      "tags": [
+        "evals",
+        "error-analysis",
+        "metrics"
+      ]
+    },
+    {
+      "id": "evals-production-when-system-started-failing",
+      "area": "evals-production",
+      "topic": "evals-interview",
+      "level": "senior",
+      "roles": [
+        "fullstack",
+        "backend",
+        "frontend"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "When your system started failing, how did you measure it, over how many cases, and what changed in the numbers?"
+      },
+      "answer": {
+        "en": "This is the evaluation question in interviews, and it separates people who did the work from people who read about it. A strong answer names the failure concretely, the dataset size (how many cases or traces), the metric before (for example, 38% of answers unsupported by sources) and after the change (down to 11%), and how regression is caught (an eval suite running in release). Statistical confidence is calibrated to the risk of the error: a cosmetic failure needs a looser bar than a payment failure. Vague answers with no numbers read as no evaluation experience."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "nothiring.me: que es un AI Engineer",
+          "url": "http://nothiring.me/blog/roles/ai-engineer-espana"
+        },
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "evals",
+        "metrics",
+        "interviewing"
+      ]
+    }
+  ]
+}

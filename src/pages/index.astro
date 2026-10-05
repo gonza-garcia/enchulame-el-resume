@@ -1,0 +1,20 @@
+---
+import Resume from '../components/Resume.astro';
+import { loadProfile, nameInitials } from '../lib/profile';
+import { projectAllPositionings } from '../lib/profile-projection';
+
+const { profile } = loadProfile();
+const projections = projectAllPositionings(profile);
+const pdfTitle = `${profile.identity.name.en} - CV`;
+---
+
+<Resume
+  projections={projections}
+  positionings={profile.positionings.map((positioning) => ({
+    id: positioning.id,
+    title: positioning.title
+  }))}
+  brandName={profile.identity.name}
+  brandMark={nameInitials(profile.identity.name.en)}
+  pdfTitle={pdfTitle}
+/>

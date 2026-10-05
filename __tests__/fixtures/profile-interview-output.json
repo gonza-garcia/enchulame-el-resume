@@ -1,0 +1,189 @@
+{
+  "identity": {
+    "name": { "es": "Micaela Roldan", "en": "Micaela Roldan" },
+    "contact": {
+      "phone": "+54 9 351 555 0142",
+      "email": "micaela.roldan@example.com",
+      "location": { "es": "Cordoba, Argentina", "en": "Cordoba, Argentina" },
+      "linkedin": "linkedin.com/in/micaela-roldan-example",
+      "github": "github.com/micaela-roldan-example"
+    }
+  },
+  "facts": {
+    "experience": [
+      {
+        "company": { "es": "Nubalia Payments", "en": "Nubalia Payments" },
+        "role": { "es": "Frontend Developer", "en": "Frontend Developer" },
+        "startDate": { "es": "Mar 2022", "en": "Mar 2022" },
+        "endDate": { "es": "Sep 2026", "en": "Sep 2026" },
+        "location": { "es": "Cordoba, Argentina", "en": "Cordoba, Argentina" },
+        "projects": [
+          {
+            "name": {
+              "es": "Panel de cobros (dashboard de pagos)",
+              "en": "Payment dashboard (payments console)"
+            },
+            "startDate": { "es": "Mar 2022", "en": "Mar 2022" },
+            "endDate": { "es": "Sep 2026", "en": "Sep 2026" },
+            "bullets": [
+              {
+                "id": "nubalia-panel",
+                "text": {
+                  "es": "Construí el panel de cobros de Nubalia, un dashboard React con estados de carga claros y filtros por comercio.",
+                  "en": "Built Nubalia's payment dashboard, a React app with clear loading states and merchant filters."
+                },
+                "skillIds": ["react", "typescript"]
+              },
+              {
+                "id": "nubalia-testing",
+                "text": {
+                  "es": "Levanté la suite de tests de componentes con Vitest y Testing Library hasta cubrir los flujos de cobro.",
+                  "en": "Raised the component test suite with Vitest and Testing Library until the payment flows were covered."
+                },
+                "skillIds": ["vitest"]
+              },
+              {
+                "id": "nubalia-accesibilidad",
+                "text": {
+                  "es": "Audité y corregí accesibilidad en los flujos principales: HTML semántico, foco visible y navegación por teclado.",
+                  "en": "Audited and fixed accessibility in the main flows: semantic HTML, visible focus and keyboard navigation."
+                },
+                "skillIds": ["accessibility"]
+              },
+              {
+                "id": "nubalia-agentes",
+                "text": {
+                  "es": "Adopté el desarrollo con agentes de IA para investigar, implementar y revisar cambios, con tests y revisión humana en cada entrega.",
+                  "en": "Adopted AI agentic development to research, implement and review changes, with tests and human review on every delivery."
+                },
+                "skillIds": ["ai-agents"]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": { "es": "Instituto Pampa Digital", "en": "Instituto Pampa Digital" },
+        "degree": {
+          "es": "Tecnicatura en Programación",
+          "en": "Software Development Diploma"
+        },
+        "startDate": { "es": "Mar 2018", "en": "Mar 2018" },
+        "endDate": { "es": "Dic 2019", "en": "Dec 2019" },
+        "note": {
+          "es": "Formación orientada a desarrollo web",
+          "en": "Web development focused program"
+        }
+      }
+    ],
+    "certifications": [
+      {
+        "name": {
+          "es": "Practical Prompt Engineering",
+          "en": "Practical Prompt Engineering"
+        },
+        "note": {
+          "es": "Diseño y revisión de prompts en flujos de desarrollo",
+          "en": "Prompt design and review in development workflows"
+        }
+      }
+    ],
+    "languages": [
+      {
+        "name": { "es": "Español", "en": "Spanish" },
+        "level": { "es": "Nativo", "en": "Native" }
+      },
+      {
+        "name": { "es": "Inglés", "en": "English" },
+        "level": { "es": "Avanzado", "en": "Advanced" },
+        "evidence": {
+          "es": "más de 2 años de trabajo diario con equipos de Estados Unidos",
+          "en": "more than 2 years of daily work with US-based teams"
+        }
+      }
+    ],
+    "projects": [
+      {
+        "name": {
+          "es": "Libreta Viajera (cuaderno de viajes)",
+          "en": "Libreta Viajera (travel notebook)"
+        },
+        "url": "https://example.com/libreta-viajera",
+        "date": { "es": "2026", "en": "2026" },
+        "description": {
+          "es": "App React para anotar viajes y armar itinerarios, con tests E2E propios y despliegue continuo.",
+          "en": "React app to log trips and build itineraries, with its own E2E tests and continuous deployment."
+        },
+        "skillIds": ["react", "vitest"]
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "react",
+      "name": { "es": "React", "en": "React" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Avanzado", "en": "Advanced" },
+      "evidence": {
+        "es": "dashboard de pagos en producción con filtros y estados de carga",
+        "en": "production payments dashboard with filters and loading states"
+      }
+    },
+    {
+      "id": "typescript",
+      "name": { "es": "TypeScript", "en": "TypeScript" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Avanzado", "en": "Advanced" }
+    },
+    {
+      "id": "accessibility",
+      "name": { "es": "Accesibilidad web", "en": "Web accessibility" },
+      "category": { "es": "Frontend", "en": "Frontend" },
+      "level": { "es": "Intermedio", "en": "Intermediate" },
+      "evidence": {
+        "es": "HTML semántico, foco visible y navegación por teclado",
+        "en": "semantic HTML, visible focus and keyboard navigation"
+      }
+    },
+    {
+      "id": "vitest",
+      "name": { "es": "Vitest", "en": "Vitest" },
+      "category": { "es": "Engineering", "en": "Engineering" },
+      "level": { "es": "Intermedio", "en": "Intermediate" }
+    },
+    {
+      "id": "ai-agents",
+      "name": { "es": "Coding agents", "en": "Coding agents" },
+      "category": { "es": "AI tooling", "en": "AI tooling" },
+      "level": { "es": "Intermedio", "en": "Intermediate" },
+      "evidence": {
+        "es": "uso diario para investigar, implementar y revisar cambios",
+        "en": "daily use to research, implement and review changes"
+      }
+    }
+  ],
+  "positionings": [
+    {
+      "id": "frontend",
+      "title": { "es": "Frontend Developer", "en": "Frontend Developer" },
+      "summary": {
+        "es": "Frontend Developer con más de 4 años construyendo aplicaciones React en producción para el sector de pagos. En Nubalia Payments construí y mantuve un dashboard de cobros con filtros por comercio, estados de carga claros y una suite de tests que sostiene los flujos de cobro.\n\nTambién llevo la accesibilidad de los flujos principales: HTML semántico, foco visible y navegación por teclado. Tengo inglés avanzado, con más de 2 años de trabajo diario con equipos de Estados Unidos, y adopté el desarrollo con agentes de IA como parte de mi forma de trabajar.\n\nBusco oportunidades remotas en Frontend de nivel Senior o Semi-Senior y sigo aprendiendo dentro del ecosistema React.",
+        "en": "Frontend Developer with more than 4 years building production React applications for the payments industry. At Nubalia Payments I built and maintained a payments dashboard with merchant filters, clear loading states and a test suite that keeps the payment flows solid.\n\nI also own accessibility on the main flows: semantic HTML, visible focus and keyboard navigation. Advanced English with more than 2 years of daily work with US-based teams, and I adopted AI agentic development as part of my way of working.\n\nOpen to Senior or Semi-Senior remote Frontend opportunities, and continuously learning across the React ecosystem."
+      },
+      "skillIds": ["react", "typescript", "accessibility", "vitest"],
+      "bulletIds": ["nubalia-panel", "nubalia-testing", "nubalia-accesibilidad"]
+    },
+    {
+      "id": "ai",
+      "title": { "es": "AI Developer", "en": "AI Developer" },
+      "summary": {
+        "es": "Frontend Developer con foco en AI, con más de 4 años construyendo aplicaciones React en producción y una práctica diaria de desarrollo con agentes de IA. En el dashboard de cobros de Nubalia usé agentes para investigar, implementar y revisar cambios, con tests y revisión humana como quality gates.\n\nConstruyo interfaces accesibles y bien testeadas, y también los flujos alrededor: prompts y suites de tests que mantienen honesto el output de los agentes. Tengo inglés avanzado, con más de 2 años de trabajo diario con equipos de Estados Unidos.\n\nBusco roles remotos donde el desarrollo asistido por IA sea parte del trabajo diario, y sigo aprendiendo dentro del ecosistema de herramientas de IA.",
+        "en": "Frontend Developer with a focus on AI, with more than 4 years building production React applications and a daily practice of AI agentic development. On Nubalia's payments dashboard I used agents to research, implement and review changes, with tests and human review as quality gates.\n\nI build accessible, well-tested interfaces and also the workflows around them: prompts and test suites that keep agent output honest. Advanced English with more than 2 years of daily work with US-based teams.\n\nOpen to remote roles where AI-assisted development is part of the daily workflow, and continuously learning across the AI tooling ecosystem."
+      },
+      "skillIds": ["ai-agents", "typescript", "react", "vitest"],
+      "bulletIds": ["nubalia-agentes", "nubalia-panel", "nubalia-testing"]
+    }
+  ]
+}

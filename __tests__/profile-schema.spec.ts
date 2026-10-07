@@ -83,4 +83,51 @@ test.describe('Profile schema', () => {
     expect(result.success).toBe(false);
     expect(issuesOf(result).length).toBeGreaterThan(0);
   });
+
+  test('the demo profile carries a backlog covering experience, skill and project', () => {
+    const result = profileSchema.safeParse(exampleProfile);
+    expect(issuesOf(result)).toEqual([]);
+    if (!result.success) return;
+    expect(result.data.backlog.length).toBeGreaterThan(0);
+    expect(new Set(result.data.backlog.map((item) => item.kind))).toEqual(
+      new Set(['experience', 'skill', 'project'])
+    );
+    for (const item of result.data.backlog) {
+      expect(item.status).toBe('reserve');
+      expect(item.text.es.length).toBeGreaterThan(0);
+      expect(item.text.en.length).toBeGreaterThan(0);
+    }
+  });
+
+  test('a profile without a backlog still validates and defaults to an empty bank', () => {
+    const broken = clone();
+    delete broken.backlog;
+    const result = profileSchema.safeParse(broken);
+    expect(issuesOf(result)).toEqual([]);
+    if (!result.success) return;
+    expect(result.data.backlog).toEqual([]);
+  });
+
+  test('a backlog item referencing an unknown skill id fails validation', () => {
+    const broken = clone();
+    broken.backlog[0].skillIds = ['ghost-skill'];
+    const result = profileSchema.safeParse(broken);
+    expect(result.success).toBe(false);
+    expect(issuesOf(result).join('\n')).toContain('Unknown skill id "ghost-skill"');
+  });
+
+  test('a duplicate backlog id fails validation', () => {
+    const broken = clone();
+    broken.backlog.push({ ...broken.backlog[0] });
+    const result = profileSchema.safeParse(broken);
+    expect(result.success).toBe(false);
+    expect(issuesOf(result).join('\n')).toContain('Duplicate backlog id');
+  });
+
+  test('a backlog id may collide with a bullet id, the promotion path reuses it', () => {
+    const broken = clone();
+    broken.backlog[0].id = broken.facts.experience[0].projects[0].bullets[0].id;
+    const result = profileSchema.safeParse(broken);
+    expect(issuesOf(result)).toEqual([]);
+  });
 });

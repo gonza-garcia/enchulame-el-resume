@@ -417,5 +417,73 @@
         "portal-e2e"
       ]
     }
+  ],
+  "backlog": [
+    {
+      "id": "solmar-postmortem-frontend",
+      "kind": "experience",
+      "origin": {
+        "es": "Solmar Retail Tech / Online store checkout",
+        "en": "Solmar Retail Tech / Online store checkout"
+      },
+      "text": {
+        "es": "Encabecé el postmortem del frontend tras una caída en producción del checkout y lo convertí en un checklist de release que el equipo sigue usando antes de cada deploy.",
+        "en": "Led the frontend postmortem after a production outage on the checkout and turned it into a release checklist the team still uses before every deploy."
+      },
+      "proof": {
+        "es": "Documento de postmortem del equipo y checklist adoptado en el flujo de release.",
+        "en": "Team postmortem document and the checklist adopted in the release flow."
+      },
+      "limits": {
+        "es": "Techo: no es experiencia de SRE ni de guardias. El alcance es el postmortem del frontend y el checklist de release.",
+        "en": "Ceiling: not SRE or on-call experience. The scope is the frontend postmortem and the release checklist."
+      },
+      "skillIds": ["react", "vitest"],
+      "status": "reserve"
+    },
+    {
+      "id": "postgres-skill",
+      "kind": "skill",
+      "origin": {
+        "es": "Kitchen Stock (pantry tracker)",
+        "en": "Kitchen Stock (pantry tracker)"
+      },
+      "text": {
+        "es": "PostgreSQL (consultas y diseño de schema en proyectos personales)",
+        "en": "PostgreSQL (queries and schema design on personal projects)"
+      },
+      "proof": {
+        "es": "Schema y consultas propias en Kitchen Stock, con migraciones manuales y seeds de desarrollo.",
+        "en": "Own schema and queries in Kitchen Stock, with manual migrations and development seeds."
+      },
+      "limits": {
+        "es": "Techo: solo proyectos personales, sin experiencia de producción ni de tuning de consultas.",
+        "en": "Ceiling: personal projects only, no production experience and no query tuning."
+      },
+      "skillIds": ["postgres"],
+      "status": "reserve"
+    },
+    {
+      "id": "kitchen-stock-pwa",
+      "kind": "project",
+      "origin": {
+        "es": "Proyecto personal / Kitchen Stock (pantry tracker)",
+        "en": "Personal project / Kitchen Stock (pantry tracker)"
+      },
+      "text": {
+        "es": "PWA offline de Kitchen Stock con caché de assets y cola de escritura diferida, publicada como experimento de app instalable.",
+        "en": "Kitchen Stock offline PWA with asset caching and a deferred write queue, published as an installable-app experiment."
+      },
+      "proof": {
+        "es": "Código del repo del proyecto y build instalable funcionando.",
+        "en": "Project repo code and a working installable build."
+      },
+      "limits": {
+        "es": "Techo: experimento personal, sin usuarios reales ni métricas de uso.",
+        "en": "Ceiling: personal experiment, no real users and no usage metrics."
+      },
+      "skillIds": ["react", "node"],
+      "status": "reserve"
+    }
   ]
 }

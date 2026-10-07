@@ -39,7 +39,8 @@ Esta skill NO captura ofertas. Su input es una oferta ya capturada por
 - **Durante**, narrar cada cambio sustantivo: que se mueve, que se agrega, que se
   quita, y con que evidencia del CV base o del match report lo respalda.
 - **Preguntas interactivas** (formato de pregunta del entorno del agente) para las
-  dudas que cambian el resultado: si un ajuste propuesto es defendible o no (el
+  dudas que cambian el resultado: que items del backlog promover (el usuario
+  confirma cada uno), si un ajuste propuesto es defendible o no (el
   usuario decide si se anima a defenderlo en entrevista), si sumar una skill
   aprendible (ej: Zustand en 1 dia), fechas de cierre de experiencia si hay
   ambiguedad, o un score en la frontera. El criterio de defendibilidad es del
@@ -63,11 +64,18 @@ Esta skill NO captura ofertas. Su input es una oferta ya capturada por
 
 ### 1. Leer el CV base
 
-Leer `src/content/resume.json` y `src/schemas/resume.ts` para entender el
-perfil, skills, experiencia y el schema. Es la fuente de verdad de lo que el
-usuario tiene. Nada de claims fuera de ese archivo.
+Leer `src/content/profile.json` (o `src/content/profile.example.json` si no hay
+profile local) y `src/schemas/profile.ts` para entender el perfil, skills,
+experiencia, posicionamientos y el schema. Es la fuente de verdad de lo que el
+usuario tiene. Nada de claims fuera de ese archivo. `src/schemas/resume.ts` es la
+forma del CV adaptado que esta skill produce.
 
-Criterio de completado: tenes el perfil completo y el schema en contexto.
+Leer tambien el `backlog` del perfil (ADR-0031): son experiencias en reserva con su
+prueba (`proof`) y su techo (`limits`), listas para CV pero no presentes en ninguna
+proyeccion. Pueden ser la respuesta a un requisito de la oferta, pero nunca entran
+solas: ver paso 4.
+
+Criterio de completado: tenes el perfil, el backlog y ambos schemas en contexto.
 
 ### 2. Leer la oferta capturada
 
@@ -99,6 +107,11 @@ clasificado en alguna de las tres categorias.
 
 Basado en los gaps, listar cambios concretos para el JSON adaptado:
 
+- Que **promover del backlog** (ADR-0031). Revisar los items en `reserve` y proponer
+  solo los que cubren un requisito real de la oferta. Cada propuesta se muestra al
+  usuario con su `text`, su `proof` y su `limits`, y entra al CV adaptado solo si el
+  usuario lo confirma. Si no lo confirma, no entra y el item sigue en reserva. Esta
+  decision es siempre del usuario: la skill propone, no decide.
 - Que **agregar** a Skills (solo si es defendible).
 - Que **reordenar** (subir lo que matchea).
 - Que **reformular** en el Summary con las keywords de la oferta.
@@ -209,6 +222,10 @@ oferta y pasa la validacion de schema.
 
 - **Claims honestos.** Nunca agregar una skill que el usuario no pueda defender
   en entrevista. Si un gap es real, queda como gap.
+- **El backlog se propone, nunca se cuela.** Ningun item de `profile.backlog` entra
+  al CV adaptado sin confirmacion explicita del usuario. Mostrar siempre su `text`,
+  su `proof` y su `limits` para que la decision sea informada, y respetar el techo:
+  lo que `limits` dice que no se reclama, no se escribe en ningun archivo.
 - **Match score honesto.** No inflar.
 - **El JSON adaptado reusa el schema del CV base.** No inventar campos.
 - **Bilingue.** Ambos locales es y en siempre.

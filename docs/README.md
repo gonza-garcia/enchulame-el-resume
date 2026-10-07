@@ -97,6 +97,10 @@ pegar y guardar después, con el mismo destino.
 - El perfil del usuario es la fuente única de datos, en capas: identidad, hechos, skills como
   entidad y posicionamientos. `/` renderiza la proyección del perfil (posicionamiento más
   locale) y el export JSON descarga esa proyección (ADR-0026).
+- El perfil lleva además un `backlog` de experiencias en reserva: fragmentos listos para CV con
+  su prueba y su techo (`proof` y `limits`), que no se renderizan mientras están en `reserve`.
+  Se promueven a un CV adaptado por decisión de la persona usuaria, o al CV base
+  materializándolos en hechos (ADR-0031).
 - El build carga el profile local si existe y cae al `profile.example.json` si no. El contenido
   demo es siempre ficticio (persona y empresas inventadas).
 - El plan de estudios es un contrato JSON propio con la demanda colgada de la skill y no del
@@ -174,6 +178,7 @@ están en `docs/deploy.md`.
 | 0028 | Vigente | Contrato del plan de estudios con demanda colgada de la skill |
 | 0029 | Vigente | Página `/learning`, contrato del plan bilingüe y progreso compartido |
 | 0030 | Vigente | Banco de entrevistas reorganizado por fases del plan |
+| 0031 | Vigente | Banco de experiencias en reserva (backlog) en el perfil |
 
 Los ADRs personales (decisiones del CV y hosting de las apps personales) están en
 `docs/planning/adr/` y son legado del planning. Los ADRs históricos se conservan como
@@ -216,3 +221,5 @@ contexto y no contradecir las decisiones vigentes de este README.
 - 5 oct 2026: QA del banco de AI contra sus fuentes (#43), nav "Plan de estudios" en el
   Toolbar, contenido demo de ofertas y specs contra fixtures (#30) y split documental de lo
   genérico y lo personal (#32).
+- 6 oct 2026: banco de experiencias en reserva (`backlog`) en el perfil, con contrato de
+  defensabilidad por item y promoción a CV por confirmación (ADR-0031).

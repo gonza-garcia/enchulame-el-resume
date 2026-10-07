@@ -32,7 +32,7 @@ Antes de entrevistar, leer `src/schemas/profile.ts` (el contrato exacto) y
 `src/content/profile.example.json` (una forma completa de referencia, con persona
 ficticia). No inventar campos fuera del schema.
 
-Cuatro capas:
+Cuatro capas y un banco de reserva:
 
 - **Identidad**: `identity.name` y `identity.contact` (phone, email, location,
   linkedin, github).
@@ -43,6 +43,13 @@ Cuatro capas:
 - **Posicionamientos** (`positionings`): v1 con dos, id `frontend` y id `ai`.
   Cada uno con title, summary, `skillIds` (seleccion y orden de skills) y
   `bulletIds` (seleccion y orden de bullets).
+- **Banco de experiencias en reserva** (`backlog`, ADR-0031): fragmentos listos
+  para CV que todavia no entran a ninguna proyeccion, cada uno con `id`, `kind`
+  (`experience` | `skill` | `project`), `origin`, `text`, `proof` (por que es
+  defendible), `limits` (techo: que NO reclamar), `skillIds` y `status`
+  (`reserve` | `promoted`). Es opcional y con default `[]`, asi que se puede
+  omitir. Sirve para capturar lo que la persona hace y sabe pero que no va al CV
+  base, con el techo escrito para no sobrevalorarlo despues.
 
 Localizacion: cada campo de texto es `{ "es": "...", "en": "..." }` con ambos
 obligatorios. Los identificadores (id, url, email, telefono) no se localizan. Las

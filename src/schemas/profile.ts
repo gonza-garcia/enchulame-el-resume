@@ -85,6 +85,27 @@ const positioningSchema = z.object({
   bulletIds: z.array(idSchema).min(1)
 });
 
+// Banco de experiencias en reserva (ADR-0031). Cada item es un fragmento listo para
+// CV con su contrato de defensabilidad. Nunca se imprime en el CV mientras este en
+// reserve: lo consume adapt-resume-to-offer al proponer ajustes, y quien lo promueve
+// lo materializa en facts (o en skills[]) y lo selecciona con un posicionamiento.
+export const backlogKindSchema = z.enum(['experience', 'skill', 'project']);
+export type BacklogKind = z.infer<typeof backlogKindSchema>;
+
+export const backlogStatusSchema = z.enum(['reserve', 'promoted']);
+export type BacklogStatus = z.infer<typeof backlogStatusSchema>;
+
+const backlogItemSchema = z.object({
+  id: idSchema,
+  kind: backlogKindSchema,
+  origin: localizedTextSchema,
+  text: localizedTextSchema,
+  proof: localizedTextSchema.optional(),
+  limits: localizedTextSchema.optional(),
+  skillIds: z.array(idSchema).optional(),
+  status: backlogStatusSchema.default('reserve')
+});
+
 export const profileSchema = z
   .object({
     identity: z.object({
@@ -99,7 +120,8 @@ export const profileSchema = z
       projects: z.array(personalProjectSchema)
     }),
     skills: z.array(skillSchema).min(1),
-    positionings: z.array(positioningSchema).min(1)
+    positionings: z.array(positioningSchema).min(1),
+    backlog: z.array(backlogItemSchema).default([])
   })
   .superRefine((profile, ctx) => {
     const skillIds = new Set<string>();
@@ -191,6 +213,31 @@ export const profileSchema = z
         }
       });
     });
+
+    // El backlog se valida contra los skills, pero no contra los bullets: un item
+    // promovido se materializa en facts reusando su id, asi que la colision con un
+    // bullet id es esperada y no es un error.
+    const backlogIds = new Set<string>();
+    profile.backlog.forEach((item, index) => {
+      if (backlogIds.has(item.id)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['backlog', index, 'id'],
+          message: `Duplicate backlog id "${item.id}"`
+        });
+      }
+      backlogIds.add(item.id);
+
+      item.skillIds?.forEach((skillId, skillIndex) => {
+        if (!skillIds.has(skillId)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['backlog', index, 'skillIds', skillIndex],
+            message: `Unknown skill id "${skillId}" in backlog item "${item.id}"`
+          });
+        }
+      });
+    });
   });
 
 export type Profile = z.infer<typeof profileSchema>;
@@ -204,3 +251,4 @@ export type Language = z.infer<typeof languageSchema>;
 export type PersonalProject = z.infer<typeof personalProjectSchema>;
 export type Skill = z.infer<typeof skillSchema>;
 export type Positioning = z.infer<typeof positioningSchema>;
+export type BacklogItem = z.infer<typeof backlogItemSchema>;

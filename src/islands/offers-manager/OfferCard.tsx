@@ -9,6 +9,7 @@ interface OfferCardProps {
   onManualAnalyze: () => void;
   onAdapt: () => void;
   onCoverLetter: () => void;
+  onReviewPlan: () => void;
 }
 
 function scoreClass(score: number): string {
@@ -29,7 +30,8 @@ export default function OfferCard({
   onAnalyze,
   onManualAnalyze,
   onAdapt,
-  onCoverLetter
+  onCoverLetter,
+  onReviewPlan
 }: OfferCardProps) {
   const { listing, adaptedResume } = offer;
   const score = listing.matchScore;
@@ -73,14 +75,28 @@ export default function OfferCard({
           <button type="button" className="offer-action-btn" onClick={onAdapt}>
             Adaptar CV
           </button>
-          <button type="button" className="offer-action-btn offer-action-cover" onClick={onCoverLetter}>
-            Cover letter
+        </div>
+      )}
+      {listing.hasReport && (
+        <div className="offer-actions">
+          <button
+            type="button"
+            className="offer-action-btn offer-action-review"
+            disabled={!listing.hasReviewPlan}
+            title={
+              listing.hasReviewPlan
+                ? 'Carga el repaso de esta oferta en /interview: los temas priorizados del match-report con sus preguntas del banco y los huecos a repasar fuera.'
+                : `Esta oferta todavía no tiene plan de repaso. Se genera con la skill build-interview-review-plan (skills/job-seeking/build-interview-review-plan/SKILL.md) en una sesión con acceso al repo, y queda guardado en docs/job-offers/${listing.slug}/interview-review-plan.json.`
+            }
+            onClick={onReviewPlan}
+          >
+            Cargar repaso
           </button>
         </div>
       )}
-      {isDev && listing.estado === 'adaptada' && (
+      {isDev && listing.hasCoverLetter && (
         <div className="offer-actions">
-          <button type="button" className="offer-action-btn offer-action-manual" onClick={onCoverLetter}>
+          <button type="button" className="offer-action-btn offer-action-cover" onClick={onCoverLetter}>
             Cover letter
           </button>
         </div>

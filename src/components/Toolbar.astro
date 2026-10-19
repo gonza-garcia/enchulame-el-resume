@@ -38,6 +38,7 @@ const {
   pdfTitle,
   exportItems = [
     { value: 'pdf', label: 'PDF' },
+    { value: 'docx', label: 'DOCX' },
     { value: 'json', label: 'JSON' },
     { value: 'linkedin', label: 'LinkedIn Sections' }
   ],
@@ -51,6 +52,14 @@ const {
 const p = idPrefix;
 const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href: string) => currentPath === href.replace(/\/+$/, '');
+
+// Aviso no invasivo del modo de build: nunca en dev (que es la app viva con los
+// datos reales del usuario y no es un artefacto publicable).
+const buildNotice = import.meta.env.DEV
+  ? null
+  : process.env.BUILD_MODE === 'personal'
+    ? { key: 'personal', text: 'Build local con datos reales. No publicar.' }
+    : { key: 'demo', text: 'Datos de ejemplo, no son datos reales.' };
 ---
 
 <div class="toolbar" role="toolbar" aria-label="Site controls" data-pdf-title={pdfTitle}>
@@ -127,4 +136,33 @@ const isActive = (href: string) => currentPath === href.replace(/\/+$/, '');
   {tip && (
     <span class="contactline" style="margin:0;font-size:9pt">{tip}</span>
   )}
+  {buildNotice && (
+    <span class="build-notice" role="status" data-build-notice={buildNotice.key}>
+      <span class="build-notice-text">{buildNotice.text}</span>
+      <button type="button" class="build-notice-close" aria-label="Ocultar aviso">x</button>
+    </span>
+  )}
 </div>
+
+<script>
+  // El aviso de modo de build se puede descartar por sesion: no ensucia el header
+  // despues de leerlo.
+  const KEY = 'build-notice-dismissed';
+  const notice = document.querySelector<HTMLElement>('[data-build-notice]');
+  if (notice) {
+    const kind = notice.getAttribute('data-build-notice');
+    try {
+      if (sessionStorage.getItem(KEY) === kind) notice.remove();
+    } catch {
+      // sessionStorage no disponible: se muestra igual
+    }
+    notice.querySelector('.build-notice-close')?.addEventListener('click', () => {
+      notice.remove();
+      try {
+        sessionStorage.setItem(KEY, kind ?? '');
+      } catch {
+        // sin persistencia: solo se oculta esta vez
+      }
+    });
+  }
+</script>

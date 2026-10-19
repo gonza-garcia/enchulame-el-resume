@@ -1,9 +1,11 @@
 ---
 import { codeToHtml } from 'shiki';
+import '../styles/ui.css';
 import Layout from '../layouts/Layout.astro';
 import InterviewPrep from '../islands/interview-prep/InterviewPrep';
 import { loadProfile } from '../lib/profile';
 import { loadLearningPlan } from '../lib/learning-plan';
+import { assertReviewPlanQuestionIds, loadReviewPlans } from '../lib/interview-review-plan';
 import {
   interviewQuestionBankSchema,
   interviewTrickyQuizSchema,
@@ -110,6 +112,9 @@ for (const quiz of parsedQuizzes) {
   }
 }
 
+// Planes de repaso por oferta (ADR-0035): se validan en build contra el banco.
+assertReviewPlanQuestionIds(loadReviewPlans(), bankQuestionIds);
+
 const SHIKI_LANGUAGE_ALIASES: Record<string, string> = {
   ts: 'typescript',
   tsx: 'tsx',
@@ -201,6 +206,7 @@ const sources = Array.from(
     areaGroups={AREA_GROUPS}
     sources={sources}
     planLinks={planLinks}
+    reviewPlans={loadReviewPlans()}
   />
 
   <style is:global>
@@ -242,14 +248,14 @@ const sources = Array.from(
 
     .interview-header::after {
       background: var(--iv-accent);
-      bottom: -56px;
+      bottom: -80px;
       content: '';
-      height: 140px;
+      height: 110px;
       opacity: 0.9;
       position: absolute;
       right: -20px;
       transform: rotate(-8deg);
-      width: 42%;
+      width: 46%;
     }
 
     .interview-header-inner {
@@ -297,7 +303,7 @@ const sources = Array.from(
       justify-content: space-between;
       margin-top: 68px;
     }
-    .interview-heading h1 {
+    .interview-app .interview-heading h1 {
       color: #faf8f2;
       font-size: clamp(2.8rem, 7vw, 6.4rem);
       font-weight: 700;
@@ -383,6 +389,64 @@ const sources = Array.from(
     .search-field,
     .sort-field { display: flex; flex-direction: column; gap: 7px; }
     .search-field { margin-top: 22px; }
+    /* Disparador de la búsqueda global (cambio 6). */
+    .global-search-trigger {
+      align-items: center;
+      background: var(--iv-ink);
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      font-size: 0.72rem;
+      font-weight: 800;
+      gap: 8px;
+      justify-content: space-between;
+      letter-spacing: 0.08em;
+      margin-top: 20px;
+      padding: 10px 12px;
+      text-transform: uppercase;
+      width: 100%;
+    }
+    .global-search-trigger:hover { background: var(--iv-blue); }
+    .global-search-trigger kbd {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 3px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+      padding: 2px 5px;
+      text-transform: none;
+    }
+    /* Resultados de la búsqueda global (Command). */
+    .search-hint,
+    .search-empty {
+      color: var(--ui-muted-foreground);
+      font-size: 0.8rem;
+      padding: 18px 12px;
+      text-align: center;
+    }
+    .search-result-row { align-items: center; display: flex; gap: 6px; padding: 0 4px; }
+    .search-result-main { flex: 1; min-width: 0; }
+    .search-result-copy { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+    .search-result-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .search-result-meta { color: var(--ui-muted-foreground); font-size: 0.68rem; }
+    .search-result-action {
+      background: none;
+      border: 1px solid var(--ui-border);
+      border-radius: 3px;
+      color: var(--ui-foreground);
+      cursor: pointer;
+      flex: none;
+      font-size: 0.64rem;
+      padding: 4px 6px;
+    }
+    .search-result-action:hover { background: var(--ui-muted); }
     .search-field > span,
     .sort-field > span {
       color: var(--iv-muted);
@@ -404,12 +468,16 @@ const sources = Array.from(
     }
     .search-field input:focus,
     .sort-field select:focus { border-color: var(--iv-blue); box-shadow: 0 0 0 2px rgba(53, 89, 255, 0.12); }
-    .filter-summary {
-      border-bottom: 1px solid var(--iv-soft-line);
-      color: var(--iv-muted);
-      font-size: 0.73rem;
-      margin-top: 11px;
-      padding-bottom: 14px;
+    .sr-only {
+      border: 0;
+      clip-path: inset(50%);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
     }
     .filter-group { border: 0; margin: 20px 0 0; padding: 0; }
     .filter-group legend {
@@ -423,14 +491,34 @@ const sources = Array.from(
     .checkbox-list,
     .area-groups { display: grid; gap: 7px; }
     .area-groups { gap: 13px; }
+    /* Árbol de áreas: "Todas las áreas" > grupo (plegable) > sub-áreas. */
+    .area-filter-group > .checkbox-row {
+      border-bottom: 1px solid var(--iv-soft-line);
+      margin: 11px 0 12px;
+      padding-bottom: 12px;
+    }
     .area-group { display: grid; gap: 6px; }
-    .area-group p {
+    .area-group-head { align-items: center; display: flex; gap: 8px; }
+    .area-group-head .checkbox-row { flex: 1; }
+    .area-group-head .checkbox-row span {
       color: var(--iv-muted);
       font-size: 0.66rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+    .area-fold {
+      background: none;
+      border: 0;
+      color: var(--iv-muted);
+      cursor: pointer;
+      padding: 2px;
+    }
+    .area-fold:hover { color: var(--iv-ink); }
+    .area-fold-mark { display: inline-flex; font-size: 0.72rem; line-height: 1; }
+    .area-fold-mark::before { content: '\25BE'; }
+    .area-fold[aria-expanded='false'] .area-fold-mark::before { content: '\25B8'; }
+    .area-group-areas { display: grid; gap: 6px; }
     .checkbox-row,
     .switch-row { align-items: flex-start; cursor: pointer; display: flex; gap: 8px; }
     .checkbox-row { color: #45474c; font-size: 0.78rem; line-height: 1.25; }
@@ -527,9 +615,6 @@ const sources = Array.from(
       border: 1px solid var(--iv-ink);
       box-shadow: var(--iv-shadow);
       padding: clamp(20px, 3vw, 34px);
-      position: sticky;
-      top: 16px;
-      z-index: 5;
     }
     .empty-detail { border-color: var(--iv-line); box-shadow: none; }
     .empty-detail h2 { font-size: 1.65rem; letter-spacing: -0.05em; margin-bottom: 8px; }
@@ -563,7 +648,7 @@ const sources = Array.from(
       margin-top: 9px;
       max-width: 950px;
     }
-    .answer-toggle {
+    .interview-app .answer-toggle {
       align-items: center;
       background: var(--iv-ink);
       border: 0;
@@ -630,6 +715,57 @@ const sources = Array.from(
       text-transform: uppercase;
     }
     .section-dot { background: var(--iv-blue); border-radius: 50%; height: 7px; width: 7px; }
+    /* Trigger de las secciones contraídas (Preguntas trampa / Mis notas). */
+    .section-trigger {
+      background: none;
+      border: 0;
+      color: var(--iv-muted);
+      cursor: pointer;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+    }
+    .section-trigger:hover { color: var(--iv-ink); }
+    .section-trigger-label { flex: 1; }
+    .section-trigger-mark {
+      color: var(--iv-blue);
+      font-size: 1.05rem;
+      line-height: 0.7;
+    }
+    .section-trigger-mark::before { content: '+'; }
+    .section-trigger[aria-expanded='true'] .section-trigger-mark::before { content: '\2212'; }
+    .note-block {
+      border-top: 1px solid var(--iv-soft-line);
+      margin-top: 18px;
+      padding-top: 15px;
+    }
+    /* Fila del trigger + '?' de ayuda (el '?' va fuera del botón: no anidar
+       botones). */
+    .section-head { align-items: center; display: flex; gap: 8px; margin-bottom: 11px; }
+    .section-head .section-kicker { flex: 1; margin-bottom: 0; width: auto; }
+    .help-tip {
+      align-items: center;
+      background: none;
+      border: 1px solid var(--iv-line);
+      border-radius: 50%;
+      color: var(--iv-muted);
+      cursor: help;
+      display: inline-flex;
+      flex: none;
+      font-size: 0.62rem;
+      font-weight: 800;
+      height: 16px;
+      justify-content: center;
+      line-height: 1;
+      padding: 0;
+      width: 16px;
+    }
+    .help-tip:hover,
+    .help-tip:focus-visible {
+      border-color: var(--iv-blue);
+      color: var(--iv-blue);
+      outline: none;
+    }
     .tricky-item {
       background: #f5f0e7;
       border-left: 2px solid var(--iv-blue);
@@ -830,6 +966,70 @@ const sources = Array.from(
     .interview-app.level-style-neutral .level-staff-lead { --level-color: #30363d; --level-soft: #e1e4e7; }
     .interview-app.level-style-neutral .level-architect { --level-color: #16191d; --level-soft: #d9dde0; }
 
+    /* Plan de repaso por oferta (ADR-0035) */
+    .review-panel {
+      background: var(--iv-card);
+      border: 1px solid var(--iv-line);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+    .review-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+    .review-head h2 { margin: 2px 0 4px; font-size: 1.35rem; }
+    .review-meta { color: var(--iv-muted); font-size: 0.9rem; margin: 0; }
+    .review-head-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .review-filter { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--iv-muted); cursor: pointer; }
+    .review-exit {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--iv-line);
+      background: transparent;
+      color: var(--iv-ink);
+      cursor: pointer;
+    }
+    .review-exit:hover { background: var(--iv-paper); }
+    .review-items { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; }
+    .review-item { border: 1px solid var(--iv-soft-line); border-radius: 10px; padding: 12px 14px; }
+    .review-item.review-item-done { background: #f2f8e6; }
+    .review-item-head { display: flex; gap: 10px; align-items: flex-start; }
+    .review-item-order {
+      flex: 0 0 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--iv-ink);
+      color: var(--iv-card);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .review-item-copy { flex: 1; min-width: 0; }
+    .review-item-copy h3 { margin: 0 0 2px; font-size: 1rem; }
+    .review-item-copy p { margin: 0; color: var(--iv-muted); font-size: 0.85rem; }
+    .review-question-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .review-chip {
+      font: inherit;
+      font-size: 0.8rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--iv-line);
+      background: var(--iv-paper);
+      color: var(--iv-ink);
+      cursor: pointer;
+    }
+    .review-chip:hover { background: var(--iv-accent); }
+    .review-gaps { margin-top: 16px; border-top: 1px solid var(--iv-soft-line); padding-top: 12px; }
+    .review-gaps ul { margin: 8px 0 0; padding-left: 18px; }
+    .review-gaps li { margin-bottom: 4px; font-size: 0.9rem; }
+    .review-gaps-note { margin: 8px 0 0; color: var(--iv-muted); font-size: 0.85rem; }
+
     @media (prefers-reduced-motion: reduce) {
       .interview-app * { scroll-behavior: auto !important; transition: none !important; }
     }
@@ -849,7 +1049,6 @@ const sources = Array.from(
       .interview-layout { display: block; padding-top: 14px; }
       .interview-filters { max-height: none; position: static; }
       .interview-main { margin-top: 24px; }
-      .detail-panel { position: sticky; top: 8px; }
       .detail-bottom { align-items: flex-start; flex-direction: column; }
       .source-links { justify-content: flex-start; }
     }

@@ -1,6 +1,6 @@
 {
   "area": "react-frameworks-ui",
-  "generatedAt": "2026-09-17T00:00:00.000Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "questions": [
     {
       "id": "react-frameworks-ui-pure-rendering-and-one-way-data-flow",
@@ -491,6 +491,35 @@
       "trickies": [],
       "sources": [{"label": "React: Manipulating the DOM with Refs", "url": "https://react.dev/learn/manipulating-the-dom-with-refs"}, {"label": "React 19 Blog: Cleanup Functions for Refs", "url": "https://react.dev/blog/2024/12/05/react-19#cleanup-functions-for-refs"}],
       "tags": ["refs", "lists", "dom"]
-    }
+    },
+        {
+          "id": "react-frameworks-ui-angular-fundamentals",
+          "area": "react-frameworks-ui",
+          "topic": "angular",
+          "level": "junior",
+          "roles": ["frontend", "fullstack"],
+          "frequency": "muy-preguntada",
+          "question": {"en": "Walk through the core building blocks of an Angular application."},
+          "answer": {"en": "Components own a template and a class and split the UI into encapsulated parts. Services hold logic and state shared across components, wired through dependency injection: you declare a dependency and the injector provides it, with hierarchical injectors scoping instances to a component subtree. Templates bind class state to the DOM, with directives for behavior and pipes for formatting. Modern Angular builds on standalone components — no NgModule required — and lazy loading at the route level. Know the vocabulary (component, service, DI, template, standalone vs NgModule): interviews ask you to read Angular code and place yourself in its structure."},
+          "codeBlocks": [],
+          "trickies": [],
+          "sources": [{"label": "Angular: What is Angular?", "url": "https://angular.dev/overview"}],
+          "tags": ["angular", "components", "dependency-injection"]
+        },
+
+        {
+          "id": "react-frameworks-ui-angular-change-detection",
+          "area": "react-frameworks-ui",
+          "topic": "angular",
+          "level": "semi-senior",
+          "roles": ["frontend", "fullstack"],
+          "frequency": "muy-preguntada",
+          "question": {"en": "How do change detection and signals work in modern Angular?"},
+          "answer": {"en": "Change detection decides when a template re-renders. Historically Zone.js patched async APIs and marked the app dirty on any event; modern Angular tracks state usage granularly with signals — a wrapper around a value that notifies consumers on change — and updates only the templates that read the changed signal. computed derives lazily and memoizes from other signals; effect runs side effects against non-reactive APIs; OnPush components render only when their inputs or signals change. Reactive context is synchronous: a signal read after an await is not tracked, so read signals before the async boundary. RxJS interop exists (async pipe, toSignal), but the mental model is: signals for synchronous state, observables for event streams."},
+          "codeBlocks": [],
+          "trickies": [],
+          "sources": [{"label": "Angular: Signals guide", "url": "https://angular.dev/guide/signals"}],
+          "tags": ["angular", "signals", "change-detection"]
+        }
   ]
 }

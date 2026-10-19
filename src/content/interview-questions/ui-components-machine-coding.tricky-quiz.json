@@ -1,6 +1,6 @@
 {
   "area": "ui-components-machine-coding",
-  "generatedAt": "2026-09-17T00:00:00Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "trickies": [
     {
       "id": "ui-components-machine-coding-design-component-api",
@@ -114,6 +114,16 @@
           "question": "Should every component state value be synchronized into the URL for Back-button support?",
           "answer": "No. Put user-meaningful, shareable feature state such as page, page size, and filters in the URL when deep linking and history matter. Keep transient state such as hover and pending rendering state local.",
           "trap": "Serializing ephemeral state pollutes browser history and makes the URL a second owner of details that do not represent a navigable view."
+        }
+      ]
+    },
+    {
+      "id": "ui-components-machine-coding-charts-libraries",
+      "items": [
+        {
+          "question": "D3 is a chart library like Chart.js, just more powerful?",
+          "answer": "No: D3 is primitives you compose; Chart.js is finished chart types on canvas.",
+          "trap": "Choosing D3 for a standard chart means building what Chart.js ships by default."
         }
       ]
     }
@@ -239,6 +249,18 @@
         ],
         "correctIndex": 2,
         "explanation": "Page and filters describe a navigable, shareable view and support Back/Forward behavior. Hover, pending work, and a DOM node are transient implementation state and should remain local."
+      },
+      {
+        "id": "ui-components-machine-coding-mcq-11",
+        "question": "In D3, what does a key function passed to selection.data() give you?",
+        "options": [
+          "Object constancy: elements follow their datum by identity across updates instead of by index",
+          "Faster canvas rendering for large datasets",
+          "Automatic axis ticks and gridlines",
+          "An exit selection ordered by the new data"
+        ],
+        "correctIndex": 0,
+        "explanation": "With a key function, data joins match elements to datums by identity, so re-sorted data moves existing elements instead of rebinding them; without it, joins happen by index and elements 'jump'."
       }
     ],
     "scenarios": [
@@ -288,6 +310,21 @@
           "Uses stable item IDs for selection and does not confuse recycled nodes with identity",
           "Keeps keyboard navigation and scroll-to-item behavior reachable",
           "Explains trade-offs, loading behavior, and when a non-virtualized fallback is safer"
+        ]
+      },
+      {
+        "id": "ui-components-machine-coding-sc-4",
+        "prompt": "This dashboard updates its chart in place when the data refreshes. Bars jump around after re-sorting and tooltips show values from the previous data. Review the rendering code and fix the model.",
+        "code": {
+          "language": "ts",
+          "code": "function render(data: Point[]) {\n  const bars = svg.selectAll('rect').data(data);\n  bars.enter().append('rect');\n  bars.attr('x', (d, i) => i * 30).attr('height', (d) => d.value);\n  bars.exit().remove();\n}"
+        },
+        "modelAnswer": "The join is by index: data() without a key binds the first datum to the first element, so when the array re-sorts, each rect keeps its position and receives a different datum — that is why bars jump and tooltips show values from the previous data. Give each datum a stable identity and join by key: .data(data, d => d.id); then use enter for new elements, update for both (merged via selection.join), and exit for removed ones, computing x from the data’s sorted position rather than the array index. Keep transitions inside the enter/update/exit functions so re-sorts animate to the new positions. While there, check accessibility — aria labels or a tabular fallback for screen readers — and measure rendering when the series grows.",
+        "rubric": [
+          "Identifies join-by-index as the cause of the jumping bars and stale tooltips",
+          "Adds a key function to selection.data for object constancy and uses enter/update/exit (or selection.join)",
+          "Derives positions from the data instead of array indexes, with transitions per selection",
+          "Adds accessibility (labels or tabular fallback) and considers rendering cost as data grows"
         ]
       }
     ]

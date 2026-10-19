@@ -1,6 +1,6 @@
 {
   "area": "agents-mcp",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-15T00:00:00.000Z",
   "questions": [
     {
       "id": "agents-mcp-programming-with-agents",
@@ -311,6 +311,174 @@
       "tags": [
         "architecture",
         "trade-offs"
+      ]
+    },
+    {
+      "id": "agents-mcp-human-approval-gates",
+      "area": "agents-mcp",
+      "topic": "agent-safety",
+      "level": "semi-senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Which tool calls need human approval, and how do you design that gate?"
+      },
+      "answer": {
+        "en": "Draw the line at consequential, hard-to-reverse actions: payments, deletes, sends, permission changes, anything that leaves the system. Design the gate as a runtime checkpoint, not a prompt rule: the agent previews the concrete action with its arguments, the user confirms, and only then does the server execute with its own authorization, an idempotency key, and an audit trail. Batch trivial reversible steps so approval fatigue does not train users to click through, and make cancel a first-class outcome. The model proposes; the approval boundary and the service own the effect."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "label": "MCP specification: Tool safety",
+          "url": "https://modelcontextprotocol.io/specification/latest"
+        }
+      ],
+      "tags": [
+        "agents",
+        "human-in-the-loop",
+        "safety"
+      ]
+    },
+    {
+      "id": "agents-mcp-lethal-trifecta",
+      "area": "agents-mcp",
+      "topic": "prompt-injection-security",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What makes prompt injection catastrophic rather than annoying, and how do you break the chain?"
+      },
+      "answer": {
+        "en": "The lethal trifecta: an agent with access to private data, exposure to untrusted content, and a channel to communicate externally. Any two are manageable; all three let an attacker plant instructions in a document or an email and have your data shipped out. LLMs follow instructions in content and cannot reliably rank them by origin, so no prompt rule closes the hole. Break the chain: remove the exfiltration channel (no arbitrary network egress, no links built from model output), cut private data to what the task needs, and constrain what untrusted input can trigger — once an agent has read untrusted content, that run must not perform consequential actions. Products that claim to catch 95% of injections sell a failing grade; reduce blast radius."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Simon Willison: the lethal trifecta",
+          "url": "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/"
+        },
+        {
+          "label": "OWASP: Top 10 for LLM applications",
+          "url": "https://genai.owasp.org/llm-top-10/"
+        }
+      ],
+      "tags": [
+        "security",
+        "prompt-injection",
+        "exfiltration"
+      ]
+    },
+    {
+      "id": "agents-mcp-autonomy-calibration",
+      "area": "agents-mcp",
+      "topic": "agentic-workflow",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do you decide how much autonomy to give an agent?"
+      },
+      "answer": {
+        "en": "Match autonomy to two things: how predictable the task is and how costly a wrong action is. Start with the simplest thing that works — a single call or a fixed workflow — and grant autonomy only when open-ended decisions measurably improve the outcome on your eval set. Each step up buys flexibility and pays in latency, cost, and compounding errors, so raise it with evidence: sandboxed runs first, budgets and stopping conditions around the loop, checkpoints where the cost of a mistake jumps, and telemetry that shows where the agent diverged. In an interview, name what you would delegate today and what you would still inspect yourself."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "label": "Andrew Ng: building agentic systems",
+          "url": "https://x.com/AndrewYNg/status/2090840747738374568"
+        }
+      ],
+      "tags": [
+        "agents",
+        "autonomy",
+        "tradeoffs"
+      ]
+    },
+    {
+      "id": "agents-mcp-persistent-memory",
+      "area": "agents-mcp",
+      "topic": "agent-memory",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do you give a long-running agent memory that survives its context window?"
+      },
+      "answer": {
+        "en": "Context is a finite budget: as the window fills, recall degrades, so long-horizon work needs structure, not a bigger window. Three techniques, often combined: compaction (summarize the conversation before the limit and continue from the summary plus the most recent artifacts, tuning the compaction prompt for recall first and precision later), structured note-taking (the agent persists notes or a task list outside the context — a NOTES.md is enough — and pulls them back when needed), and sub-agents (each explores with a clean window and returns only a distilled summary). Keep memory out of the model's trust: notes are data — versioned, inspectable, and resettable by the user — not instructions."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Effective context engineering",
+          "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+        }
+      ],
+      "tags": [
+        "agents",
+        "memory",
+        "context"
+      ]
+    },
+    {
+      "id": "agents-mcp-pii-redaction",
+      "area": "agents-mcp",
+      "topic": "data-privacy",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do you keep PII from reaching the model?"
+      },
+      "answer": {
+        "en": "De-identify before the request leaves your boundary: inspect the input with detectors (built-in infoTypes for emails, phones or national IDs, plus custom regex and dictionaries), then redact, mask with format-preserving encryption, or date-shift so the model sees placeholders instead of people. Keep the token-to-original map server-side when the answer must re-identify, and never send that map to the provider. Do the same on the way out — answers can regurgitate identifiers — and on everything persisted: traces and logs are the usual leak. Test with canary identifiers that must never appear in a request, a response, or a log. Asking the model to ignore PII is not a control; the pipeline owns what the model sees."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Google Cloud: Sensitive Data Protection",
+          "url": "https://cloud.google.com/sensitive-data-protection/docs"
+        },
+        {
+          "label": "OWASP: Top 10 for LLM applications",
+          "url": "https://genai.owasp.org/llm-top-10/"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pii",
+        "security"
       ]
     }
   ]

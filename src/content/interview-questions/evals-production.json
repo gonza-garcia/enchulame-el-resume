@@ -1,6 +1,6 @@
 {
   "area": "evals-production",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-13T00:00:00.000Z",
   "questions": [
     {
       "id": "ai-agents-evals-and-regression-testing",
@@ -280,6 +280,148 @@
         "evals",
         "metrics",
         "interviewing"
+      ]
+    },
+    {
+      "id": "evals-production-reporting-metrics",
+      "area": "evals-production",
+      "topic": "evals-metrics",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Beyond a single score, which numbers do you report when you say an LLM feature works?"
+      },
+      "answer": {
+        "en": "Report one binary pass-or-fail per failure mode, then a pass-all rate: an example counts only when it passes every check. If 80 of 100 examples pass every check, the pass-all rate is 80%, and the dashboard must drill down to the pass rate per check so you can see what drives the failures. Group checks into themes, or into release-blocking versus tolerable ones, instead of inventing a weighted composite: a composite that moves from 3.2 to 3.7 tells you nothing about what improved for users. Every number carries its denominator — over how many cases, sampled how — plus latency and cost per task. Name the failure categories from error analysis explicitly, each with a before and after number."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Hamel Husain: AI Evals FAQ — how to combine evals into a single metric",
+          "url": "https://hamel.dev/blog/posts/evals-faq/how-do-i-combine-my-evals-into-a-single-metric.html"
+        },
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "evals",
+        "metrics",
+        "reporting"
+      ]
+    },
+    {
+      "id": "evals-production-building-eval-dataset",
+      "area": "evals-production",
+      "topic": "evals-method",
+      "level": "semi-senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Where do your evaluation cases come from, and how do you keep the eval set honest?"
+      },
+      "answer": {
+        "en": "Start from real traces: review about 100 diverse production traces, annotate at least the first 30 yourself, and turn the failure taxonomy you find into cases. For a failure that needs judgment, plan to label 100 to 200 examples and split them into train, dev, and a final test set you never tune against. Synthetic data only supplements this: use it before you have traffic or for rare failures, because it cannot tell you how common a failure is in production. Add confirmed failures as they appear, and retire cases that keep passing with a stated reason. Version the dataset: when the set changes, its scores are no longer directly comparable with older scores."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Hamel Husain: AI Evals FAQ — how many examples do I need for an eval",
+          "url": "https://hamel.dev/blog/posts/evals-faq/how-many-examples-do-i-need-for-an-eval.html"
+        },
+        {
+          "label": "Hamel Husain: AI Evals FAQ — generating synthetic data",
+          "url": "https://hamel.dev/blog/posts/evals-faq/what-is-the-best-approach-for-generating-synthetic-data.html"
+        }
+      ],
+      "tags": [
+        "evals",
+        "datasets",
+        "error-analysis"
+      ]
+    },
+    {
+      "id": "evals-production-ci-vs-production-evals",
+      "area": "evals-production",
+      "topic": "evals-ops",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How do offline CI evals and production monitoring differ, and how do they feed each other?"
+      },
+      "answer": {
+        "en": "CI evals defend against known regressions before deployment: a small curated dataset — often 100-plus examples covering core workflows, past bugs, and edge cases — run on every change and favoring deterministic checks, because it runs constantly. Production monitoring samples live traces and grades them asynchronously, usually with reference-free evaluators, and tracks confidence intervals: when the lower bound crosses your threshold, you investigate. The two close the loop in one direction: when production reveals a new failure pattern through error analysis, promote representative examples into the CI set so it cannot regress silently. Offline tells you a change is safe; online tells you what offline could not know."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Hamel Husain: AI Evals FAQ — CI/CD vs production monitoring",
+          "url": "https://hamel.dev/blog/posts/evals-faq/how-are-evaluations-used-differently-in-cicd-vs-monitoring-production.html"
+        },
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "evals",
+        "ci",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "evals-production-trusting-a-score-jump",
+      "area": "evals-production",
+      "topic": "evals-metrics",
+      "level": "semi-senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "Your eval score jumped ten points after a prompt change. Do you trust it?"
+      },
+      "answer": {
+        "en": "Not until it survives a few checks. Did the change tune against the same cases you report? Then the jump is partly fit to the eval set: re-run it on the held-out test split. Break the number down per failure category and per case count — ten points driven by five lucky cases is noise. If the eval set or the judge changed, scores are not comparable across versions. If every eval now passes, the set is probably not challenging the system. Confirm the improvement on production traffic before claiming it. A jump that disappears on fresh cases is overfitting, and a composite that moves from 3.2 to 3.7 feels good without telling you what improved for users."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Hamel Husain: AI Evals FAQ — how to combine evals into a single metric",
+          "url": "https://hamel.dev/blog/posts/evals-faq/how-do-i-combine-my-evals-into-a-single-metric.html"
+        },
+        {
+          "label": "Hamel Husain: AI Evals FAQ — when the gold eval dataset becomes stale",
+          "url": "https://hamel.dev/blog/posts/evals-faq/what-should-i-do-when-my-gold-eval-dataset-becomes-stale.html"
+        },
+        {
+          "label": "Hamel Husain: AI Evals FAQ — how much budget to allocate to evals",
+          "url": "https://hamel.dev/blog/posts/evals-faq/how-much-of-my-development-budget-should-i-allocate-to-evals.html"
+        }
+      ],
+      "tags": [
+        "evals",
+        "metrics",
+        "overfitting"
       ]
     }
   ]

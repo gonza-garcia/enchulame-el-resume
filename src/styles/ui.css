@@ -1,0 +1,114 @@
+/*
+  Base de shadcn/ui para las islas React (Fase A, decisión del 10 oct 2026).
+
+  Tailwind v4 acotado a las islas y a los componentes de shadcn: el CV
+  principal (`/`) sigue siendo vanilla sin Tailwind (ATS e impresión). Los
+  tokens de shadcn se puentean a las variables del tema del sitio (ADR-0010:
+  --bg, --ink, --accent, --muted, --rule) y cada superficie redefinen los
+  --ui-* en su scope (p. ej. .interview-app usa el paleta --iv-* de
+  /interview). Asi los componentes siguen el tema elegido sin hardcodear
+  colores.
+*/
+@import 'tailwindcss' source(none);
+@import 'tw-animate-css';
+
+@source '../islands';
+@source '../components/ui';
+@source '../hooks';
+
+@theme inline {
+  --color-background: var(--ui-background);
+  --color-foreground: var(--ui-foreground);
+  --color-card: var(--ui-card);
+  --color-card-foreground: var(--ui-card-foreground);
+  --color-popover: var(--ui-popover);
+  --color-popover-foreground: var(--ui-popover-foreground);
+  --color-primary: var(--ui-primary);
+  --color-primary-foreground: var(--ui-primary-foreground);
+  --color-secondary: var(--ui-secondary);
+  --color-secondary-foreground: var(--ui-secondary-foreground);
+  --color-muted: var(--ui-muted);
+  --color-muted-foreground: var(--ui-muted-foreground);
+  --color-accent: var(--ui-accent);
+  --color-accent-foreground: var(--ui-accent-foreground);
+  --color-destructive: var(--ui-destructive);
+  --color-destructive-foreground: var(--ui-destructive-foreground);
+  --color-border: var(--ui-border);
+  --color-input: var(--ui-input);
+  --color-ring: var(--ui-ring);
+  --color-sidebar: var(--ui-sidebar);
+  --color-sidebar-foreground: var(--ui-sidebar-foreground);
+  --color-sidebar-primary: var(--ui-sidebar-primary);
+  --color-sidebar-primary-foreground: var(--ui-sidebar-primary-foreground);
+  --color-sidebar-accent: var(--ui-sidebar-accent);
+  --color-sidebar-accent-foreground: var(--ui-sidebar-accent-foreground);
+  --color-sidebar-border: var(--ui-sidebar-border);
+  --color-sidebar-ring: var(--ui-sidebar-ring);
+  --radius-sm: calc(var(--ui-radius) - 4px);
+  --radius-md: calc(var(--ui-radius) - 2px);
+  --radius-lg: var(--ui-radius);
+  --radius-xl: calc(var(--ui-radius) + 4px);
+}
+
+:root {
+  /* Puente al tema del sitio (ADR-0010). */
+  --ui-background: var(--bg);
+  --ui-foreground: var(--ink);
+  --ui-card: var(--bg);
+  --ui-card-foreground: var(--ink);
+  --ui-popover: var(--bg);
+  --ui-popover-foreground: var(--ink);
+  --ui-primary: var(--accent);
+  --ui-primary-foreground: #ffffff;
+  --ui-secondary: color-mix(in srgb, var(--ink) 6%, var(--bg));
+  --ui-secondary-foreground: var(--ink);
+  --ui-muted: color-mix(in srgb, var(--ink) 6%, var(--bg));
+  --ui-muted-foreground: var(--muted);
+  --ui-accent: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  --ui-accent-foreground: var(--accent);
+  --ui-destructive: #b3261e;
+  --ui-destructive-foreground: #ffffff;
+  --ui-border: var(--rule);
+  --ui-input: var(--rule);
+  --ui-ring: var(--accent);
+  --ui-sidebar: color-mix(in srgb, var(--ink) 3%, var(--bg));
+  --ui-sidebar-foreground: var(--ink);
+  --ui-sidebar-primary: var(--accent);
+  --ui-sidebar-primary-foreground: #ffffff;
+  --ui-sidebar-accent: color-mix(in srgb, var(--ink) 6%, var(--bg));
+  --ui-sidebar-accent-foreground: var(--ink);
+  --ui-sidebar-border: var(--rule);
+  --ui-sidebar-ring: var(--accent);
+  --ui-radius: 0.25rem;
+}
+
+.interview-app {
+  /* Paleta propia de /interview (vars --iv-* de interview.astro). */
+  --ui-background: var(--iv-paper);
+  --ui-foreground: var(--iv-ink);
+  --ui-card: var(--iv-card);
+  --ui-card-foreground: var(--iv-ink);
+  --ui-popover: var(--iv-card);
+  --ui-popover-foreground: var(--iv-ink);
+  --ui-primary: var(--iv-ink);
+  --ui-primary-foreground: #ffffff;
+  --ui-secondary: var(--iv-soft-line);
+  --ui-secondary-foreground: var(--iv-ink);
+  --ui-muted: var(--iv-soft-line);
+  --ui-muted-foreground: var(--iv-muted);
+  --ui-accent: var(--iv-accent);
+  --ui-accent-foreground: var(--iv-ink);
+  --ui-destructive: #b3261e;
+  --ui-destructive-foreground: #ffffff;
+  --ui-border: var(--iv-line);
+  --ui-input: var(--iv-line);
+  --ui-ring: var(--iv-blue);
+  --ui-sidebar: var(--iv-card);
+  --ui-sidebar-foreground: var(--iv-ink);
+  --ui-sidebar-primary: var(--iv-ink);
+  --ui-sidebar-primary-foreground: #ffffff;
+  --ui-sidebar-accent: var(--iv-soft-line);
+  --ui-sidebar-accent-foreground: var(--iv-ink);
+  --ui-sidebar-border: var(--iv-line);
+  --ui-sidebar-ring: var(--iv-blue);
+}

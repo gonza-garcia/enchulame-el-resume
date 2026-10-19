@@ -1,6 +1,6 @@
 {
   "area": "python-backend-cloud",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-18T00:00:00.000Z",
   "trickies": [
     {
       "id": "python-backend-cloud-docker-and-cloud-baseline",
@@ -39,6 +39,16 @@
           "question": "Which Python topic do candidates most often dodge when asked about depth?",
           "answer": "Concurrency and the GIL: whether they can explain async patterns and when threads help or not.",
           "trap": "Saying Python is easy without ever reasoning about concurrency."
+        }
+      ]
+    },
+    {
+      "id": "python-backend-cloud-intermediate-sql",
+      "items": [
+        {
+          "question": "Window functions can go in WHERE to filter the ranked rows, right?",
+          "answer": "No: they run after WHERE and GROUP BY; filter them in a subquery or CTE.",
+          "trap": "The logical order of SELECT processing is not the written order."
         }
       ]
     }
@@ -164,6 +174,18 @@
         ],
         "correctIndex": 2,
         "explanation": "The field guide calls TypeScript the recommended path from frontend and Python the strongly recommended one for depth."
+      },
+      {
+        "id": "python-backend-cloud-mcq-11",
+        "question": "A query filters `WHERE row_number() OVER (...) <= 3`, but the filter has no effect. Why?",
+        "options": [
+          "Window functions run after WHERE, so the filter must move to a subquery or CTE",
+          "row_number cannot be combined with WHERE at all",
+          "The window is missing an explicit frame clause",
+          "row_number is only valid inside ORDER BY"
+        ],
+        "correctIndex": 0,
+        "explanation": "Window functions execute after WHERE and GROUP BY; the standard pattern ranks in a subquery or CTE and filters the ranked rows outside."
       }
     ],
     "scenarios": [
@@ -210,6 +232,21 @@
           "Defines retention and privacy rules",
           "Adds usage or cost auditing",
           "Keeps reproducibility between stored history and prompts"
+        ]
+      },
+      {
+        "id": "python-backend-cloud-sc-4",
+        "prompt": "This dashboard query became slow once the orders table grew past a few million rows. Review the SQL and the plan, and say what you would change.",
+        "code": {
+          "language": "sql",
+          "code": "SELECT o.id, c.name,\n       (SELECT SUM(amount) FROM orders x WHERE x.customer_id = o.customer_id) AS total\nFROM orders o JOIN customers c ON UPPER(c.email) = UPPER(o.customer_email)\nWHERE o.created_at::date = '2026-10-01'\nORDER BY total DESC\nLIMIT 50;"
+        },
+        "modelAnswer": "Three problems. (1) The correlated subquery recomputes a customer's total per row: aggregate once in a CTE or join a grouped subquery — or use SUM() OVER (PARTITION BY customer_id) if one pass is enough. (2) UPPER() on the join key wraps the column, so no index on customers.email can be used — normalize once (a stored lowercased column or an expression index) and join on the normalized value; the ::date cast hides the same problem in the filter: a range predicate (>= and <) lets an index on created_at work while the cast does not. (3) ORDER BY total with LIMIT reads and sorts everything matching the filter; fixing (1) usually makes this cheap, but confirm with EXPLAIN ANALYZE that estimates match actual row counts. Anything still slow goes back to the plan: sequential scans on the big table and a bad join order are the first suspects.",
+        "rubric": [
+          "Replaces the correlated subquery with one aggregation pass (grouped CTE, join, or window function)",
+          "Removes functions from indexed join and filter columns (UPPER, ::date) and uses a range predicate for the date",
+          "Validates the rewrite with EXPLAIN ANALYZE, comparing estimates to actual row counts",
+          "Explains the ORDER BY + LIMIT cost and what the plan should look like after the fix"
         ]
       }
     ]

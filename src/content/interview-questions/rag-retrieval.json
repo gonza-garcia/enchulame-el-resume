@@ -1,6 +1,6 @@
 {
   "area": "rag-retrieval",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-18T00:00:00.000Z",
   "questions": [
     {
       "id": "ai-agents-rag-pipeline-and-failure-modes",
@@ -131,6 +131,134 @@
         "rag",
         "tradeoffs",
         "architecture"
+      ]
+    },
+    {
+      "id": "rag-retrieval-long-context-vs-rag",
+      "area": "rag-retrieval",
+      "topic": "rag-tradeoffs",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "When is putting the whole knowledge base in the prompt better than building RAG?"
+      },
+      "answer": {
+        "en": "Size decides the simple case: if the corpus fits comfortably in the context window, put it there. Anthropic's rule of thumb is that a knowledge base under about 200K tokens can go straight into the prompt, and prompt caching makes repeated calls cheap and fast because the stable prefix is processed once. Long context stops working when the corpus keeps growing, when different users may see different documents, when freshness matters more than convenience, or when you need per-claim attribution: those are retrieval jobs, and access control must be enforced at retrieval time, not by asking the model to ignore things. The latency cost of a long prompt is also smaller than people assume — generation dominates — but input cost still scales per request. Measure both designs on the same eval set before committing."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Contextual Retrieval",
+          "url": "https://www.anthropic.com/engineering/contextual-retrieval"
+        },
+        {
+          "label": "OpenAI: Latency optimization",
+          "url": "https://platform.openai.com/docs/guides/latency-optimization"
+        }
+      ],
+      "tags": [
+        "rag",
+        "tradeoffs",
+        "context"
+      ]
+    },
+    {
+      "id": "rag-retrieval-hybrid-search-and-reranking",
+      "area": "rag-retrieval",
+      "topic": "retrieval-quality",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "When does hybrid search with a reranker pay off, and when is plain vector search enough?"
+      },
+      "answer": {
+        "en": "Plain vector search misses exact matches: identifiers, error codes, product SKUs. If queries contain those, add a lexical layer (BM25) and fuse the rankings; in Anthropic’s experiments, hybrid retrieval over contextualized chunks cut the top-20 retrieval failure rate by 49%. A reranker then scores the top candidates against the query and keeps the best few — the same setup with reranking cut failures by 67%, and sending fewer, better chunks to the model often pays for the extra step. But reranking is runtime work: scoring more candidates buys recall and adds latency and cost, so tune the top-N on your own eval set. For a small corpus with purely semantic queries, plain vector search is usually enough; add layers only when measured retrieval failures justify them."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Contextual Retrieval",
+          "url": "https://www.anthropic.com/engineering/contextual-retrieval"
+        }
+      ],
+      "tags": [
+        "retrieval",
+        "hybrid-search",
+        "reranking"
+      ]
+    },
+    {
+      "id": "rag-retrieval-stale-index-and-permissions",
+      "area": "rag-retrieval",
+      "topic": "rag-governance",
+      "level": "senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do you keep a RAG index from serving stale content or content the requester should not see?"
+      },
+      "answer": {
+        "en": "Treat the index as a cache of the source of truth, never as the truth itself. Freshness: re-index incrementally when sources change, carry document timestamps and validity into the chunks, invalidate on edit or deletion, and make 'the answer is not in the index yet' a valid outcome. Permissions: filter by document ACL at query time, before ranking, keep tenant boundaries inside the index, and never delegate visibility to the model — retrieval must return only what the requester may see, because anything in context can leak or influence the answer. Test both sides: retrieval evals where the right answer is missing, outdated, or forbidden, so a regression in indexing or filtering fails in CI instead of in production."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OWASP: Top 10 for LLM applications",
+          "url": "https://genai.owasp.org/llm-top-10/"
+        },
+        {
+          "label": "Google Cloud: Grounding overview",
+          "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview"
+        }
+      ],
+      "tags": [
+        "rag",
+        "permissions",
+        "freshness"
+      ]
+    },
+    {
+      "id": "rag-retrieval-semantic-layer-and-dbt",
+      "area": "rag-retrieval",
+      "topic": "semantic-layer",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "What does a semantic layer add on top of a warehouse, and where does dbt fit?"
+      },
+      "answer": {
+        "en": "A semantic layer declares business entities, dimensions and metrics once — revenue, active customer, conversion — so BI tools, applications and AI agents query the same definitions instead of re-deriving them per tool. For a model or agent it turns a structured question into a governed query instead of retrieved prose: grounding for numbers. dbt's MetricFlow is the definition layer on top of dbt models: semantic models declare entities, dimensions and time, metrics compose (simple, ratio, derived, cumulative) and joins are inferred from entity types instead of hand-written per query. It earns its place when several consumers must agree on the same number; it is overhead for a single dashboard. The failure it prevents is metric drift: five tools, five different revenues."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "dbt: About MetricFlow",
+          "url": "https://docs.getdbt.com/docs/build/about-metricflow"
+        }
+      ],
+      "tags": [
+        "dbt",
+        "semantic-layer",
+        "data"
       ]
     }
   ]

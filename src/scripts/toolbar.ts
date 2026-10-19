@@ -1,5 +1,8 @@
 import { generateLinkedInText } from './linkedin-export';
+import { downloadResumeDocx } from './docx-export';
 import { LANG_STORAGE_KEY as STORAGE_KEY, POSITIONING_STORAGE_KEY } from './storage-keys';
+import { exportFileName } from '../lib/file-name';
+import type { ResumeLocale } from '../schemas/resume';
 
 type Locale = 'es' | 'en';
 
@@ -7,7 +10,6 @@ type Locale = 'es' | 'en';
 declare global {
   interface Window {
     __exportResume?: Record<Locale, unknown> | Record<Locale, never> | null;
-    __printCompany?: string | null;
   }
 }
 
@@ -135,10 +137,11 @@ document.querySelectorAll<HTMLButtonElement>('[data-export]').forEach((item) => 
     const action = item.dataset.export;
     setExport(false);
     if (action === 'pdf') {
+      // Nombre neutro (sin empresa ni rol: un CV llamado como la oferta delata
+      // que esta adaptado, ADR-0036). `base` ya viene en forma de archivo.
       const base = document.querySelector<HTMLElement>('.toolbar')?.dataset.pdfTitle ?? PAGE_TITLE;
-      const company = window.__printCompany;
       const lang = currentLang().toUpperCase();
-      document.title = [base, company, lang].filter(Boolean).join(' - ');
+      document.title = [base, lang].filter(Boolean).join(' - ');
       const restore = () => {
         document.title = PAGE_TITLE;
       };
@@ -147,11 +150,24 @@ document.querySelectorAll<HTMLButtonElement>('[data-export]').forEach((item) => 
       setTimeout(restore, 4000);
     } else if (action === 'json') {
       document.dispatchEvent(new CustomEvent('toolbar:export-json'));
+    } else if (action === 'docx') {
+      void exportDocx();
     } else if (action === 'linkedin') {
       openLinkedIn('sections');
     }
   });
 });
+
+/** Export DOCX del CV activo (proyeccion del perfil o CV adaptado segun la pagina). */
+async function exportDocx(): Promise<void> {
+  const data = getExportResume();
+  if (!data) return;
+  const lang = currentLang();
+  const resume = data[lang] as ResumeLocale | undefined;
+  if (!resume || !resume.name) return;
+  const filename = exportFileName(resume.name, 'CV', lang, 'docx');
+  await downloadResumeDocx(resume, filename);
+}
 
 // ===== Modal de LinkedIn (compartido por todas las paginas con Toolbar) =====
 const modal = document.getElementById('linkedin-modal');
@@ -160,34 +176,47 @@ const postOut = document.getElementById('linkedin-post') as HTMLTextAreaElement 
 const modalBtnEn = document.getElementById('modal-btn-en') as HTMLButtonElement | null;
 const modalBtnEs = document.getElementById('modal-btn-es') as HTMLButtonElement | null;
 
-const POSTS: Record<Locale, string> = {
-  en: `Hi network, I'm open to new Senior/Semi-Senior Frontend roles, remote-first.
+function buildPost(resume: ResumeLocale | undefined, lang: Locale): string {
+  // El copy del post se arma desde la proyección del perfil: este archivo de código
+  // no debe contener datos personales (regla ADR-0027, el repo público lo exporta tal cual).
+  const title = resume?.title?.trim() || 'Frontend';
+  const location = resume?.contact.location?.trim() || (lang === 'es' ? 'tu ciudad' : 'your city');
+  const jobs = resume?.experience ?? [];
+  const latest = jobs[0];
+  const latestLine = latest ? (lang === 'es' ? `${latest.role} en ${latest.company}` : `${latest.role} at ${latest.company}`) : '';
+  const companies = jobs.map((job) => job.company.trim()).filter(Boolean);
+  const previous = companies.length > 0 ? companies.join(', ') : (lang === 'es' ? 'experiencia previa' : 'previous experience');
 
-After more than 6 years building production React applications, most recently a real-time cargo operations console for a logistics team (React, TypeScript, Redux Toolkit, Vite), and heavily adopting AI-assisted development over the past year (coding agents in the daily workflow), I'm looking for my next challenge.
+  if (lang === 'es') {
+    return `Hola red, estoy abierto a nuevos roles ${title}, remoto.
 
-Strong written/spoken English (3+ years of daily communication with US-based teams). Based in Rosario, Argentina, open to remote roles globally.
+${latestLine ? `Tras construir aplicaciones en producción \u2014 últimamente ${latestLine} \u2014 y con adopción intensiva de desarrollo asistido por IA como forma principal de trabajar, busco mi próximo desafío.` : 'Con experiencia construyendo aplicaciones en producción y adopción intensiva de desarrollo asistido por IA como forma principal de trabajar, busco mi próximo desafío.'}
 
-If your team is hiring, or you know of something, DM me or comment below. Always happy to reconnect.
-
-#OpenToWork #Frontend #React #RemoteJobs
-
-💼 Looking for: Senior/Semi-Senior Frontend Developer roles
-🌐 Open to: Remote (global) and Rosario, Argentina
-⭐ Previous: logistics and retail product teams`,
-  es: `Hola red, estoy abierto a nuevos roles Senior/Semi-Senior Frontend, remoto.
-
-Tras más de 6 años construyendo apps React en producción, últimamente una consola de operaciones en tiempo real para un equipo de logística (React, TypeScript, Redux Toolkit, Vite), y con adopción intensiva de desarrollo asistido por IA en el último año (coding agents en el flujo diario), busco mi próximo desafío.
-
-Inglés avanzado (3+ años de comunicación diaria con equipos en EE.UU.). Basado en Rosario, Argentina, abierto a roles remotos globales.
+Basado en ${location}, abierto a roles remotos globales.
 
 Si conocés un equipo que esté buscando, mandame DM o dejá un comentario. Encantado de reconectar.
 
 #TrabajoRemoto #Frontend #React
 
-💼 Buscando: roles Frontend Developer Senior/Semi-Senior
-🌐 Abierto a: Remoto (global) y Rosario, Argentina
-⭐ Anterior: equipos de producto de logística y retail`
-};
+\ud83d\udcbc Buscando: roles ${title}
+\ud83c\udf10 Abierto a: Remoto (global) y ${location}
+\u2b50 Anterior: ${previous}`;
+  }
+
+  return `Hi network, I'm open to new ${title} roles, remote-first.
+
+${latestLine ? `After building production applications \u2014 most recently ${latestLine} \u2014 and heavily adopting AI-assisted development as my main way of working, I'm looking for my next challenge.` : 'After building production applications and heavily adopting AI-assisted development as my main way of working, I am looking for my next challenge.'}
+
+Based in ${location}, open to remote roles globally.
+
+If your team is hiring, or you know of something, DM me or comment below. Always happy to reconnect.
+
+#OpenToWork #Frontend #React #RemoteJobs
+
+\ud83d\udcbc Looking for: ${title} roles
+\ud83c\udf10 Open to: Remote (global) and ${location}
+\u2b50 Previous: ${previous}`;
+}
 
 const CONN_DRAFTS: { name: string; text: Record<Locale, string> }[] = [
   {
@@ -218,7 +247,7 @@ function setModalLang(lang: Locale) {
   if (modalBtnEs) modalBtnEs.setAttribute('aria-pressed', String(lang === 'es'));
   const resume = getExportResume();
   if (out) out.value = resume ? generateLinkedInText(resume[lang] as never, lang) : '';
-  if (postOut) postOut.value = POSTS[lang];
+  if (postOut) postOut.value = buildPost(resume ? (resume[lang] as ResumeLocale) : undefined, lang);
   renderConnDrafts(lang);
 }
 

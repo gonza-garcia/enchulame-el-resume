@@ -1,6 +1,6 @@
 {
   "area": "react-frameworks-ui",
-  "generatedAt": "2026-09-17T00:00:00.000Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "trickies": [
     {
       "id": "react-frameworks-ui-pure-rendering-and-one-way-data-flow",
@@ -421,6 +421,26 @@
           "trap": "The answer 'callback refs already had cleanup via the null call' confuses a convention you must interpret with an explicit teardown React invokes. The null call also disappears once you return a cleanup, so code relying on it silently stops running."
         }
       ]
+    },
+    {
+      "id": "react-frameworks-ui-angular-fundamentals",
+      "items": [
+        {
+          "question": "Is dependency injection just a global singleton registry?",
+          "answer": "No: injectors are hierarchical, so a component subtree can own its own instance and lifetime.",
+          "trap": "Treating DI as global state hides scoping bugs and complicates testing."
+        }
+      ]
+    },
+    {
+      "id": "react-frameworks-ui-angular-change-detection",
+      "items": [
+        {
+          "question": "A signal read after an await still updates the template, right?",
+          "answer": "No: reactive context is synchronous; reads after an async boundary are not tracked. Read signals before the await.",
+          "trap": "Missing dependencies look like broken reactivity and prompt wrong fixes."
+        }
+      ]
     }
   ],
   "quiz": {
@@ -556,6 +576,18 @@
         ],
         "correctIndex": 1,
         "explanation": "The compiler bails out on code it cannot verify against the Rules of React and leaves it unoptimized; behavior is preserved, and the signal is diagnostics such as violations flagged by the compiler's ESLint plugin, with `use no memo` as the documented escape hatch to exclude a component (https://react.dev/learn/react-compiler/incremental-adoption). The strongest distractor is option 0: treating it as a hard build error; the skip is precisely what makes incremental adoption safe, and the impurity itself is a pre-existing bug the compiler surfaces but does not fix."
+      },
+      {
+        "id": "react-frameworks-ui-mcq-12",
+        "question": "When does an OnPush component re-render in modern Angular?",
+        "options": [
+          "When its inputs change or when a signal it reads in the template updates",
+          "On every DOM event anywhere in the application",
+          "Only when the router navigates",
+          "Whenever any service field changes"
+        ],
+        "correctIndex": 0,
+        "explanation": "OnPush marks the component dirty only for input reference changes or tracked signal updates; signal tracking makes the dependency set explicit instead of invalidating broadly."
       }
     ],
     "scenarios": [

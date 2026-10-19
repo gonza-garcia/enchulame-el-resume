@@ -1,6 +1,6 @@
 {
   "area": "styling-design-systems",
-  "generatedAt": "2026-09-17T00:00:00.000Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "questions": [
     {
       "id": "styling-design-systems-css-modules-scope",
@@ -493,6 +493,36 @@
         "platform",
         "adoption",
         "accessibility"
+      ]
+    },
+    {
+      "id": "styling-design-systems-storybook-workflow",
+      "area": "styling-design-systems",
+      "topic": "storybook",
+      "level": "semi-senior",
+      "roles": [
+        "frontend",
+        "fullstack"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "How do you run a component library's documentation and testing with Storybook?"
+      },
+      "answer": {
+        "en": "Treat stories as the component's executable spec: each story is a rendered state with args, so the library documents its API — args become props or inputs — plus edge cases and appearance side by side. Args and Controls make states live-editable for design review; decorators provide the theme and layout wrappers components assume; parameters configure addons per story or per component. Testing comes from the same source: play functions drive and assert user interactions inside a story (interaction tests), accessibility and visual tests run over the story set in CI, and autodocs keeps documentation in sync. For a shared library, publish Storybook, version it with the package, and keep stories next to components so they never rot."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Storybook: How to write stories",
+          "url": "https://storybook.js.org/docs/writing-stories"
+        }
+      ],
+      "tags": [
+        "storybook",
+        "design-system",
+        "testing"
       ]
     }
   ]

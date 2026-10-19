@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "slug": "2026-10-05-nimbus-software-senior-frontend-engineer",
+  "empresa": "Nimbus Software",
+  "rol": "Senior Frontend Engineer",
+  "generatedAt": "2026-10-12",
+  "matchScore": 78,
+  "items": [
+    {
+      "id": "estado-fuerte-opiniones",
+      "tema": "State management: el contraste UI state vs server state",
+      "why": "Riesgo del match-report: \"strong opinions on state management\", con el ejemplo de la consola y el portal",
+      "questionIds": [
+        "state-data-fetching-client-vs-server-state",
+        "state-data-fetching-rtk-query-cache-keys",
+        "state-data-fetching-rtk-query-vs-react-query",
+        "state-data-fetching-cache-invalidation-failure"
+      ]
+    },
+    {
+      "id": "datos-en-vivo-transporte",
+      "tema": "Datos en vivo: transporte, polling y backpressure",
+      "why": "Gap parcial honesto: el streaming lo viviste, el transporte específico (WebSockets o SSE) no está declarado como propio",
+      "questionIds": [
+        "networking-apis-websocket-versus-sse",
+        "networking-apis-polling-or-push",
+        "networking-apis-websocket-scale-and-backpressure"
+      ]
+    },
+    {
+      "id": "performance-updates-frecuentes",
+      "tema": "Performance en updates frecuentes",
+      "why": "Van a preguntar cómo mediste por release el tiempo de carga y el code splitting",
+      "questionIds": [
+        "web-performance-code-splitting-boundaries",
+        "web-performance-measure-field-vitals",
+        "web-performance-improve-inp",
+        "web-performance-virtualization-tradeoffs"
+      ]
+    },
+    {
+      "id": "component-library-ownership",
+      "tema": "Component library: API, versionado y ownership",
+      "why": "Tu diferencial: la librería compartida de 30+ componentes entre dos equipos",
+      "questionIds": [
+        "styling-design-systems-design-system-versioning",
+        "styling-design-systems-component-library-api",
+        "styling-design-systems-design-system-operating-model"
+      ]
+    },
+    {
+      "id": "testing-barra-alta",
+      "tema": "Testing: pyramid, coverage gates y estabilidad E2E",
+      "why": "La oferta pide \"raise the testing bar\" y tenés Vitest, RTL y Playwright en CI",
+      "questionIds": [
+        "testing-quality-test-pyramid",
+        "testing-quality-coverage-quality-gates",
+        "testing-quality-playwright-isolation-waits",
+        "testing-quality-rtl-user-behavior"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "topic": "Charting y dashboards de analítica (Chart.js / D3)",
+      "note": "Hueco del banco: es nice to have de la oferta, repasarlo fuera de /interview"
+    }
+  ]
+}

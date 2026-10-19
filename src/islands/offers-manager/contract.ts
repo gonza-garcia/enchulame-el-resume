@@ -1,14 +1,15 @@
 import { z } from 'zod';
 import { resumeSchema, type Resume } from '../../schemas/resume';
-import type { OfferListing, OfferMeta, OfferState } from '../../lib/job-offers';
+import type { OfferListing, OfferMeta, OfferState, CoverLetterFile } from '../../lib/job-offers';
 
-export type { OfferListing, OfferMeta, OfferState };
+export type { OfferListing, OfferMeta, OfferState, CoverLetterFile };
 
 export interface OfferView {
   listing: OfferListing;
   offerHtml: string;
   reportHtml: string | null;
   adaptedResume: Resume | null;
+  coverLetter: CoverLetterFile | null;
 }
 
 export interface CaptureJson {
@@ -56,41 +57,6 @@ export const analysisJsonSchema = z.object({
   temas_entrevista: z.array(z.string()),
   score_explicacion: z.string()
 });
-
-export interface CoverLetterJson {
-  subject: string | null;
-  letter: string;
-  locale: 'en' | 'es';
-}
-
-export const coverLetterJsonSchema = z.object({
-  subject: z.string().nullable(),
-  letter: z.string().min(1),
-  locale: z.enum(['en', 'es'])
-});
-
-export function parseCoverLetter(raw: string): CoverLetterJson {
-  return coverLetterJsonSchema.parse(extractFencedJson(raw));
-}
-
-export function composeCoverLetterMd(
-  meta: { empresa: string; rol: string; fecha: string },
-  letter: CoverLetterJson
-): string {
-  const lines = [
-    '---',
-    `empresa: ${meta.empresa}`,
-    `rol: ${meta.rol}`,
-    `fecha: ${meta.fecha}`,
-    `locale: ${letter.locale}`,
-    `subject: ${letter.subject ? cleanForMd(letter.subject) : 'N/A'}`,
-    '---',
-    '',
-    cleanForMd(letter.letter).trim(),
-    ''
-  ];
-  return lines.join('\n');
-}
 
 /** Extrae el primer bloque JSON fence de un texto y lo parsea. */
 export function extractFencedJson(raw: string): unknown {

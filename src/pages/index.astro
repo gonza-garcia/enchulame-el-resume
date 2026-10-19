@@ -2,10 +2,12 @@
 import Resume from '../components/Resume.astro';
 import { loadProfile, nameInitials } from '../lib/profile';
 import { projectAllPositionings } from '../lib/profile-projection';
+import { fileAsName } from '../lib/file-name';
 
 const { profile } = loadProfile();
 const projections = projectAllPositionings(profile);
-const pdfTitle = `${profile.identity.name.en} - CV`;
+// Nombre de archivo neutro: sin empresa ni rol (ADR-0036).
+const pdfTitle = `${fileAsName(profile.identity.name.en)} - CV`;
 ---
 
 <Resume

@@ -24,6 +24,7 @@ test.describe('Export dropdown', () => {
     await expect(page.locator('#btn-export')).toHaveAttribute('aria-expanded', 'true');
     await expect(page.locator('.export-menu')).toBeVisible();
     await expect(page.locator('[data-export="pdf"]')).toBeVisible();
+    await expect(page.locator('[data-export="docx"]')).toBeVisible();
     await expect(page.locator('[data-export="json"]')).toBeVisible();
     await expect(page.locator('[data-export="linkedin"]')).toBeVisible();
   });
@@ -80,5 +81,18 @@ test.describe('Export dropdown', () => {
     expect(projection.experience.map((job: { company: string }) => job.company)).toEqual([
       'Aeronix Logistics'
     ]);
+  });
+
+  test('DOCX export downloads the active projection as .docx', async ({ page }) => {
+    await page.goto('/');
+    const downloadPromise = page.waitForEvent('download');
+    await page.click('#btn-export');
+    await page.click('[data-export="docx"]');
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.docx$/);
+    // ADR-0036: nombre neutro (apellidos primero), sin datos de la oferta.
+    expect(download.suggestedFilename()).toContain('Montiel Ariana');
+    const file = await download.path();
+    expect(fs.statSync(file!).size).toBeGreaterThan(0);
   });
 });

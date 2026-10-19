@@ -16,7 +16,7 @@ export default defineConfig({
     {
       name: 'chromium',
       testIgnore: /__tests__\/offers-manager/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4523' }
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4533' }
     },
     {
       // El gestor de ofertas es una herramienta local: los flujos de creacion
@@ -24,7 +24,7 @@ export default defineConfig({
       // ver ADR-0023).
       name: 'offers-chromium',
       testMatch: /__tests__\/offers-manager\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4521' }
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4531' }
     }
   ],
   webServer: [
@@ -34,13 +34,14 @@ export default defineConfig({
       // en dist-e2e (E2E_DEMO=1, ver astro.config.mjs), sin tocar el dist/ del
       // perfil real.
       //
-      // Puertos propios de la suite (4521 y 4523): no reutiliza un dev o preview
-      // manual del usuario (4321 y 4322) y quedan fuera de los rangos de puertos
-      // excluidos de Windows (netsh interface ipv4 show excludedportrange). Si un
-      // bind falla con EACCES, el puerto cayo en un rango excluido: moverlo fuera
-      // de los rangos reportados.
-      command: 'pnpm run build && pnpm exec astro preview --port 4523',
-      url: 'http://localhost:4523',
+      // Puertos propios de la suite (4531 y 4533): no reutiliza un dev o preview
+      // manual del usuario (4321 y 4322), evitan la UI del harness de agentes
+      // (OpenCode / T3 Code sirve su UI en 4523) y quedan fuera de los rangos de
+      // puertos excluidos de Windows (netsh interface ipv4 show excludedportrange).
+      // Si un bind falla con EACCES o el puerto esta tomado, moverlo fuera de los
+      // rangos reportados.
+      command: 'pnpm run build && pnpm exec astro preview --port 4533',
+      url: 'http://localhost:4533',
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
       // Astro 7 auto-daemoniza dev/preview cuando detecta un agente de IA:
@@ -54,8 +55,8 @@ export default defineConfig({
       }
     },
     {
-      command: 'pnpm exec astro dev --port 4521',
-      url: 'http://localhost:4521',
+      command: 'pnpm exec astro dev --port 4531',
+      url: 'http://localhost:4531',
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
       // El dev server de la suite tambien corre contra la demo.

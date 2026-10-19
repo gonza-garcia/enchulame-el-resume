@@ -13,11 +13,10 @@ interface SaveModalProps {
   onClose: () => void;
 }
 
-const FILE_FLAGS: Record<string, keyof Pick<OfferListing, 'hasOffer' | 'hasReport' | 'hasAdapted' | 'hasCoverLetter'>> = {
+const FILE_FLAGS: Record<string, keyof Pick<OfferListing, 'hasOffer' | 'hasReport' | 'hasAdapted'>> = {
   'offer.md': 'hasOffer',
   'match-report.md': 'hasReport',
-  'adapted-resume.json': 'hasAdapted',
-  'cover-letter.md': 'hasCoverLetter'
+  'adapted-resume.json': 'hasAdapted'
 };
 
 export default function SaveModal({ open, title, tooltip, files, verifySlug, onClose }: SaveModalProps) {

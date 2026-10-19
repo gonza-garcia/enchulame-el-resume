@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 dist-e2e/
+dist-personal/
 .astro/
 
 # Logs
@@ -28,13 +29,6 @@ opencode.jsonc
 /blob-report/
 /playwright/.cache/
 
-# Datos de la persona usuaria: el perfil real y el plan real no se commitean; los ejemplos si
-src/content/profile.json
+# Instancia privada: el perfil real y las ofertas reales se commitean a proposito
+# (el repo es privado). Solo el plan real queda fuera de git hasta capturarlo y decidir.
 src/content/learning-plan.json
-
-# Ofertas reales: solo las ofertas demo ficticias (fixtures del producto) se commitean.
-# Las carpetas demo se listan por nombre a proposito: ninguna oferta de usuario puede
-# entrar a git por accidente sin editar esta lista.
-docs/job-offers/*
-!docs/job-offers/2026-10-05-aurora-labs-reactjs-frontend-developer/
-!docs/job-offers/2026-10-05-nimbus-software-senior-frontend-engineer/

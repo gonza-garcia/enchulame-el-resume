@@ -36,7 +36,9 @@ _Avoid_: CV adaptado (como nombre de archivo), resume de oferta
 
 **cover-letter.md**:
 Carta de presentación aprobada por el usuario para una oferta, en la carpeta de
-la oferta. Archivo adicional: no cambia el estado de la oferta.
+la oferta. La escribe `adapt-resume-to-offer` al aprobarse la carta; la app solo
+la lee, la muestra y la exporta (PDF y DOCX). Archivo adicional: no cambia el
+estado de la oferta.
 _Avoid_: carta (suelta), presentación, motivation letter
 
 **Estado de oferta**:

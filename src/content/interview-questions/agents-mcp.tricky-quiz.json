@@ -1,7 +1,57 @@
 {
   "area": "agents-mcp",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-15T00:00:00.000Z",
   "trickies": [
+    {
+      "id": "agents-mcp-autonomy-calibration",
+      "items": [
+        {
+          "question": "The agent completed the demo task perfectly. Should it run unattended in production?",
+          "answer": "No: raise autonomy with evidence — sandboxed runs, budgets, stopping conditions, checkpoints where mistakes get expensive, and telemetry for divergence.",
+          "trap": "A demo measures the happy path; autonomy is priced by the cost of a wrong action."
+        }
+      ]
+    },
+    {
+      "id": "agents-mcp-human-approval-gates",
+      "items": [
+        {
+          "question": "Should every tool call require human approval?",
+          "answer": "No: approval fatigue trains users to click through. Gate consequential, hard-to-reverse actions at a runtime checkpoint and batch the trivial reversible work.",
+          "trap": "The gate is a runtime boundary with server-side authorization, not a prompt rule."
+        }
+      ]
+    },
+    {
+      "id": "agents-mcp-lethal-trifecta",
+      "items": [
+        {
+          "question": "Our guardrail product claims to block 95% of prompt injections. Are we safe?",
+          "answer": "No. In application security 95% is a failing grade; the fix is breaking the lethal trifecta — private data, untrusted content, external communication — not detecting injections.",
+          "trap": "Detection is probabilistic; removing one of the three capabilities is structural."
+        }
+      ]
+    },
+    {
+      "id": "agents-mcp-persistent-memory",
+      "items": [
+        {
+          "question": "Can I fix context limits by just using a bigger context window?",
+          "answer": "No: recall degrades as the window fills. Use compaction, notes outside the context, and sub-agents.",
+          "trap": "Context is a finite attention budget, not storage."
+        }
+      ]
+    },
+    {
+      "id": "agents-mcp-pii-redaction",
+      "items": [
+        {
+          "question": "The prompt tells the model to never reveal PII. Is that redaction?",
+          "answer": "No: redaction happens in the pipeline, before the request leaves your boundary, with detectors and de-identification.",
+          "trap": "Prompt rules are not a control; whatever reaches the model can leak, including via logs and traces."
+        }
+      ]
+    },
     {
       "id": "agents-mcp-programming-with-agents",
       "items": [
@@ -108,18 +158,6 @@
         "explanation": "Narrow, validated tools are the containment boundary; generic access is how leaks happen."
       },
       {
-        "id": "agents-mcp-mcq-2",
-        "question": "Why is retrieved text treated as untrusted input?",
-        "options": [
-          "Retrieved text is always outdated",
-          "It costs more tokens",
-          "Embeddings are lossy",
-          "Documents can carry prompt injection instructions that hijack the agent"
-        ],
-        "correctIndex": 3,
-        "explanation": "Indirect prompt injection through retrieved or uploaded content is a primary agent attack surface."
-      },
-      {
         "id": "agents-mcp-mcq-3",
         "question": "Which action should require explicit human approval in an agent workflow?",
         "options": [
@@ -144,18 +182,6 @@
         "explanation": "Loops without stop conditions are the classic runaway-agent failure."
       },
       {
-        "id": "agents-mcp-mcq-5",
-        "question": "Which description matches Plan-and-Execute?",
-        "options": [
-          "The model answers in one shot without tools",
-          "Two models debate until agreement",
-          "The model plans steps first, then executes them with tools, revising the plan when needed",
-          "The user executes each step manually"
-        ],
-        "correctIndex": 2,
-        "explanation": "Plan-and-Execute separates planning from acting, one of the standard agentic patterns."
-      },
-      {
         "id": "agents-mcp-mcq-6",
         "question": "What separates chaining tool calls from parallelizing them?",
         "options": [
@@ -178,6 +204,30 @@
         ],
         "correctIndex": 3,
         "explanation": "Agents follow clear specifications well and improvise badly, so the craft is verification: repeatable checks and review on every change, not the agent's self-report."
+      },
+      {
+        "id": "agents-mcp-mcq-8",
+        "question": "Which combination makes prompt injection a data-breach risk rather than a nuisance?",
+        "options": [
+          "Access to private data, exposure to untrusted content, and a channel to communicate externally",
+          "A long system prompt and a large context window",
+          "Using an open-source model instead of a hosted one",
+          "Allowing the model to refuse requests it cannot answer"
+        ],
+        "correctIndex": 0,
+        "explanation": "The lethal trifecta: any two are manageable, all three let planted instructions ship private data out. Break the chain by removing the exfiltration channel, cutting private data, or constraining what untrusted input can trigger."
+      },
+      {
+        "id": "agents-mcp-mcq-9",
+        "question": "When should you raise an agent's autonomy?",
+        "options": [
+          "When open-ended decisions measurably improve outcomes on your eval set, with budgets, stopping conditions, and checkpoints in place",
+          "As soon as the demo completes a task end to end",
+          "When the team stops wanting to review its changes",
+          "When the model provider releases a larger model"
+        ],
+        "correctIndex": 0,
+        "explanation": "Autonomy is raised with evidence: sandboxed runs first, budgets and stopping conditions around the loop, and checkpoints where the cost of a mistake jumps."
       },
       {
         "id": "ai-agents-mcq-1",
@@ -254,6 +304,21 @@
           "Adds allowlists and argument validation",
           "Requires human approval for the send action",
           "Adds audit logging and budgets"
+        ]
+      },
+      {
+        "id": "agents-mcp-sc-2",
+        "prompt": "This agent runs user tasks with full tool access and no limits. Decide its autonomy envelope and redesign the controls.",
+        "code": {
+          "language": "ts",
+          "code": "while (true) {\n  const action = await model.next(goal, tools); // tools: shell, http, file write\n  await run(action);\n}"
+        },
+        "modelAnswer": "Price the autonomy before granting it: how predictable is the task and how costly is a wrong action? For this loop, start from the simplest alternative (a single call or a fixed workflow) and keep the agent only where open-ended decisions measurably improve outcomes. Then bound it: iteration, time, token and spend budgets; a sandboxed environment for anything with side effects; a hard approval checkpoint where the cost of a mistake jumps (writes, sends, deletes); idempotency and an audit trail on every effect; and telemetry that shows where the agent diverged, so autonomy can be raised with evidence instead of hope. Full shell and open network access for arbitrary user tasks is the failure: least-privilege tools, no arbitrary egress, and an explicit stopping condition.",
+        "rubric": [
+          "Prices autonomy by task predictability times cost of a wrong action, and prefers a workflow or single call where sufficient",
+          "Adds budgets (iterations, time, tokens, spend) and explicit stopping conditions around the loop",
+          "Replaces shell and open network with sandboxed, least-privilege tools",
+          "Approval checkpoint plus idempotency and audit for consequential effects, with telemetry to justify raising autonomy"
         ]
       },
       {

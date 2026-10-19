@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { type OfferView, type OfferFormValues, type CoverLetterJson, buildSlug, slugWithCollision, parseAnalysis, parseAdaptedResume, parseCoverLetter, composeOfferMd, composeMatchReport, todayIso } from './contract';
-import { analyzePrompt, adaptPrompt, coverLetterPrompt, analysisFilesForOffer, adaptedFilesForOffer, coverLetterFilesForOffer, type FileToWrite } from './prompts';
+import { type OfferView, type OfferFormValues, buildSlug, slugWithCollision, parseAnalysis, parseAdaptedResume, composeOfferMd, composeMatchReport, todayIso } from './contract';
+import { analyzePrompt, adaptPrompt, analysisFilesForOffer, adaptedFilesForOffer, type FileToWrite } from './prompts';
 import OfferCard from './OfferCard';
 import OfferPanel from './OfferPanel';
 import AddOfferModal from './AddOfferModal';
 import AIModal from './AIModal';
 import SaveModal from './SaveModal';
-import CoverLetterPreview from './CoverLetterPreview';
+import CoverLetterModal from './CoverLetterModal';
 import InfoTip from './InfoTip';
 import { LANG_STORAGE_KEY } from '../../scripts/storage-keys';
 
@@ -26,16 +26,16 @@ type Flow =
   | { kind: 'analyze'; slug: string }
   | { kind: 'analyzeManual'; slug: string }
   | { kind: 'adapt'; slug: string }
-  | { kind: 'coverLetter'; slug: string }
-  | { kind: 'coverLetterPreview'; slug: string; letter: CoverLetterJson }
+  | { kind: 'coverLetterView'; slug: string }
   | { kind: 'save'; slug: string; title: string; tooltip: string; files: FileToWrite[] };
 
 interface OffersManagerProps {
   offers: OfferView[];
   isDev: boolean;
+  userName: string;
 }
 
-export default function OffersManager({ offers, isDev }: OffersManagerProps) {
+export default function OffersManager({ offers, isDev, userName }: OffersManagerProps) {
   const [selected, setSelected] = useState<string | null>(offers[0]?.listing.slug ?? null);
   const [lang, setLang] = useState<'es' | 'en'>('en');
 
@@ -56,9 +56,8 @@ export default function OffersManager({ offers, isDev }: OffersManagerProps) {
 
   useEffect(() => {
     const current = offers.find((o) => o.listing.slug === selected);
-    const target = window as unknown as { __exportResume?: unknown; __printCompany?: string | null };
+    const target = window as unknown as { __exportResume?: unknown };
     target.__exportResume = current?.adaptedResume ?? null;
-    target.__printCompany = current?.listing.meta.empresa ?? null;
   }, [offers, selected]);
 
   useEffect(() => {
@@ -161,24 +160,6 @@ export default function OffersManager({ offers, isDev }: OffersManagerProps) {
     });
   };
 
-  const handleCoverLetterJson = (slug: string, raw: string) => {
-    const letter = parseCoverLetter(raw);
-    setFlow({ kind: 'coverLetterPreview', slug, letter });
-  };
-
-  const handleCoverLetterSave = (slug: string, letter: CoverLetterJson) => {
-    const target = offers.find((o) => o.listing.slug === slug);
-    if (!target) return;
-    setFlow({
-      kind: 'save',
-      slug,
-      title: 'Guardar cover letter',
-      tooltip:
-        'La carta aprobada se compone como cover-letter.md en la carpeta de la oferta. El agente la escribe verbatim, o descargala y ubic\u00e1la a mano. La verificaci\u00f3n consulta el disco sin recargar. La carta no cambia el estado de la oferta.',
-      files: coverLetterFilesForOffer(slug, target.listing.meta, letter)
-    });
-  };
-
   const handleManualReport = () => {
     const slug = flow.kind === 'analyzeManual' ? flow.slug : null;
     if (!slug) return;
@@ -194,9 +175,7 @@ export default function OffersManager({ offers, isDev }: OffersManagerProps) {
 
   const analyzeTarget = flow.kind === 'analyze' ? offers.find((o) => o.listing.slug === flow.slug) : null;
   const flowTarget =
-    flow.kind === 'adapt' || flow.kind === 'coverLetter'
-      ? offers.find((o) => o.listing.slug === flow.slug)
-      : null;
+    flow.kind === 'adapt' ? offers.find((o) => o.listing.slug === flow.slug) : null;
 
   return (
     <div className="adapted-app">
@@ -231,7 +210,10 @@ export default function OffersManager({ offers, isDev }: OffersManagerProps) {
                 setFlow({ kind: 'analyzeManual', slug: o.listing.slug });
               }}
               onAdapt={() => startAdapt(o.listing.slug)}
-              onCoverLetter={() => setFlow({ kind: 'coverLetter', slug: o.listing.slug })}
+              onCoverLetter={() => setFlow({ kind: 'coverLetterView', slug: o.listing.slug })}
+              onReviewPlan={() => {
+                window.location.assign(`/interview/?repaso=${encodeURIComponent(o.listing.slug)}`);
+              }}
             />
           ))}
           {offers.length === 0 && (
@@ -292,33 +274,15 @@ export default function OffersManager({ offers, isDev }: OffersManagerProps) {
         />
       )}
 
-      {flow.kind === 'coverLetter' && flowTarget && (
-        <AIModal
-          open
-          title={`Cover letter: ${flowTarget.listing.meta.empresa}`}
-          tooltip="La app arma un prompt con la skill adapt-resume-to-offer (seccion Cover letter): el agente lee la oferta, el match report y el CV adaptado, te muestra la carta y pregunta tu aprobacion, y devuelve el JSON final. Al pegarlo ac\u00e1, la app abre la vista previa: pod\u00e9s editar el texto, descargarlo y confirmar antes de guardar cover-letter.md en la carpeta de la oferta."
-          prompt={coverLetterPrompt({
-            empresa: flowTarget.listing.meta.empresa,
-            rol: flowTarget.listing.meta.rol,
-            slug: flowTarget.listing.slug
-          })}
-          pasteHint="El agente devuelve un bloque ```json con { subject, letter, locale }."
-          onPaste={(raw) => handleCoverLetterJson(flow.slug, raw)}
-          onClose={() => setFlow({ kind: 'none' })}
-          acceptLabel="Revisar carta"
-        />
-      )}
-
-      {flow.kind === 'coverLetterPreview' && (() => {
+      {flow.kind === 'coverLetterView' && (() => {
         const target = offers.find((o) => o.listing.slug === flow.slug);
         if (!target) return null;
         return (
-          <CoverLetterPreview
+          <CoverLetterModal
             open
+            userName={userName}
             meta={{ empresa: target.listing.meta.empresa, rol: target.listing.meta.rol, slug: target.listing.slug, fecha: target.listing.meta.fecha }}
-            locale={flow.letter.locale}
-            initial={flow.letter}
-            onSave={(letter) => handleCoverLetterSave(target.listing.slug, letter)}
+            letter={target.coverLetter}
             onClose={() => setFlow({ kind: 'none' })}
           />
         );

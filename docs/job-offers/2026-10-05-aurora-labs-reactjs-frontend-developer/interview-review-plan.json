@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "slug": "2026-10-05-aurora-labs-reactjs-frontend-developer",
+  "empresa": "Aurora Labs",
+  "rol": "ReactJS Frontend Developer",
+  "generatedAt": "2026-10-12",
+  "matchScore": 85,
+  "items": [
+    {
+      "id": "estado-ui-vs-servidor",
+      "tema": "Decisiones de estado: UI state vs server state",
+      "why": "El riesgo del match-report: van a preguntar por qué Redux Toolkit en la consola y React Query en el portal",
+      "questionIds": [
+        "state-data-fetching-client-vs-server-state",
+        "state-data-fetching-redux-toolkit-store-setup",
+        "state-data-fetching-rtk-query-vs-react-query",
+        "state-data-fetching-state-ownership-at-scale"
+      ]
+    },
+    {
+      "id": "refactor-pantallas-grandes",
+      "tema": "Refactor de pantallas grandes con design system",
+      "why": "La oferta pide \"refactor large screens\" y es tu ejemplo fuerte: el design system de 30+ componentes",
+      "questionIds": [
+        "styling-design-systems-component-library-api",
+        "styling-design-systems-design-system-versioning",
+        "styling-design-systems-semantic-token-hierarchy",
+        "ui-components-machine-coding-design-component-api"
+      ]
+    },
+    {
+      "id": "testing-vitest-rtl",
+      "tema": "Testing unitario e integración con Vitest y RTL",
+      "why": "La oferta lo pide explícito y tenés la cobertura levantada en la consola",
+      "questionIds": [
+        "testing-quality-rtl-user-behavior",
+        "testing-quality-rtl-query-choice",
+        "testing-quality-coverage-quality-gates",
+        "testing-quality-debug-flaky-tests"
+      ]
+    },
+    {
+      "id": "accesibilidad-en-flujos",
+      "tema": "Accesibilidad en cada flujo",
+      "why": "La oferta pide accesibilidad en cada pantalla y fue una auditoría real tuya",
+      "questionIds": [
+        "html-css-accessibility-wcag-principles",
+        "html-css-accessibility-keyboard-focus",
+        "html-css-accessibility-accessible-name",
+        "testing-quality-accessibility-layered-testing"
+      ]
+    },
+    {
+      "id": "performance-consola-en-vivo",
+      "tema": "Performance en una consola operativa con datos vivos",
+      "why": "Freightline Control renderiza datos densos en tiempo real: van a preguntar cómo lo mediste",
+      "questionIds": [
+        "web-performance-what-are-core-web-vitals",
+        "web-performance-improve-inp",
+        "web-performance-virtualization-tradeoffs",
+        "web-performance-code-splitting-boundaries"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "topic": "Slot-booking y yard management (subdominios de logística)",
+      "note": "Hueco de dominio, no del banco: repasarlo con los flujos operativos de la consola de Aeronix"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "area": "llm-fundamentals",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-15T00:00:00.000Z",
   "trickies": [
     {
       "id": "ai-agents-prompting-basics",
@@ -63,12 +63,52 @@
       ]
     },
     {
+      "id": "llm-fundamentals-fine-tuning-lora-basics",
+      "items": [
+        {
+          "question": "The answers are stale because the model lacks our data. Is fine-tuning the fix?",
+          "answer": "No: fine-tuning adapts behavior, not facts. Bring current data through retrieval, and fine-tune only for stable style, format, or narrow tasks where it beats prompting on the eval set.",
+          "trap": "Teaching facts via weights is expensive, goes stale again, and does not replace retrieval."
+        }
+      ]
+    },
+    {
+      "id": "llm-fundamentals-genai-feature-in-product",
+      "items": [
+        {
+          "question": "The demo works. Is that enough to ship the GenAI feature?",
+          "answer": "No: ship with an eval set from real usage, a deterministic fallback, visible refusal states, and a cost and latency budget per task.",
+          "trap": "A demo proves the happy path; the product is defined by its failure modes and by what happens when the model is wrong."
+        }
+      ]
+    },
+    {
       "id": "llm-fundamentals-knowledge-cutoff-and-cache",
       "items": [
         {
           "question": "What breaks prompt caching silently?",
           "answer": "Editing the top of the system prompt, which invalidates every cached prefix downstream.",
           "trap": "Thinking caching works better with higher temperature."
+        }
+      ]
+    },
+    {
+      "id": "llm-fundamentals-latency-ux",
+      "items": [
+        {
+          "question": "Is cutting the prompt in half the fastest way to make an AI feature feel faster?",
+          "answer": "Usually not: generation dominates. Cutting output roughly in half cuts latency roughly in half; cutting input may buy 1-5%. Stream first, then reduce requests and output.",
+          "trap": "Cost talk focuses on input tokens, but perceived latency lives on the output side and in waiting, not reading."
+        }
+      ]
+    },
+    {
+      "id": "llm-fundamentals-semantic-caching",
+      "items": [
+        {
+          "question": "Semantic caching raised the hit ratio, so quality is fine?",
+          "answer": "No: false-positive hits serve wrong answers and inflate hit ratio; track recall and sample the hits.",
+          "trap": "In a cache, a wrong hit is invisible — unlike a miss."
         }
       ]
     }
@@ -110,6 +150,18 @@
         ],
         "correctIndex": 0,
         "explanation": "Retrieved text is untrusted input and a known injection vector, part of LLM fundamentals security awareness."
+      },
+      {
+        "id": "llm-fundamentals-mcq-11",
+        "question": "Users report that an AI answer feels slow. Which change most directly reduces perceived waiting?",
+        "options": [
+          "Stream the response so users read while tokens generate",
+          "Raise max tokens so the answer arrives complete in one shot",
+          "Move the model call to a nightly batch job",
+          "Add more few-shot examples to the system prompt"
+        ],
+        "correctIndex": 0,
+        "explanation": "Streaming cuts perceived waiting to about a second; generation is the slowest step, so more output tokens make it slower, and more input rarely compensates."
       },
       {
         "id": "llm-fundamentals-mcq-2",
@@ -252,6 +304,21 @@
           "Reorders the prompt for stable prefixes",
           "Moves static reference material out of the prompt",
           "Reports cost and latency metrics before and after"
+        ]
+      },
+      {
+        "id": "llm-fundamentals-sc-4",
+        "prompt": "A team wants to add an AI summary button to an existing dashboard. Their plan: send the whole dashboard JSON to the biggest model, render the returned text as HTML, and retry until it parses. Review the plan before it ships.",
+        "code": {
+          "language": "ts",
+          "code": "async function summarize(dashboard: Dashboard) {\n  const text = await llm(`Summarize this dashboard:\\n${JSON.stringify(dashboard)}`);\n  return renderHtml(text); // model output rendered directly\n}\n// no evals, no fallback, retry loop on parse errors"
+        },
+        "modelAnswer": "Rework the plan around failure, not the happy path. Scope: send only the data the summary needs, and ask for structured output validated at the boundary instead of retrying prose until it parses. Safety: render model output as text or through a constrained schema, never as raw HTML. Reliability: define the failure path — a deterministic fallback (top movers computed in code) and a visible empty state when the model refuses or errors. Quality: build an eval set from real dashboards with the points a good summary must hit, and gate prompt and model changes on it. Budget: cost and latency per summary, with the stable prefix cached. And question the premise: computed metrics may serve users better than generated prose.",
+        "rubric": [
+          "Replaces free text with parse retries by structured output validated at the boundary",
+          "Refuses to render model output as raw HTML and treats generated content as untrusted",
+          "Defines a deterministic fallback and visible failure states",
+          "Adds an eval set from real data and a per-task cost and latency budget"
         ]
       }
     ]

@@ -1,6 +1,6 @@
 {
   "area": "llm-fundamentals",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-15T00:00:00.000Z",
   "questions": [
     {
       "id": "ai-agents-prompting-basics",
@@ -235,6 +235,140 @@
         "caching",
         "context",
         "cost"
+      ]
+    },
+    {
+      "id": "llm-fundamentals-latency-ux",
+      "area": "llm-fundamentals",
+      "topic": "latency-ux",
+      "level": "semi-senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "Users say an AI feature feels slow. What do you measure, and what are the levers?"
+      },
+      "answer": {
+        "en": "Measure time to first token and total time separately. Streaming cuts perceived waiting to about a second, because users read while the model generates, and generation is almost always the slowest step: cutting output roughly in half cuts latency roughly in half, while cutting the prompt in half may buy only 1-5%. Then work the levers in order: merge sequential steps into fewer requests, parallelize independent ones, move narrow tasks to smaller or fine-tuned models, cache the stable prompt prefix, and stop defaulting to the model where a hard-coded or pre-computed answer works. Show progress for what remains. Decide with production measurements, not intuition."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "OpenAI: Latency optimization",
+          "url": "https://platform.openai.com/docs/guides/latency-optimization"
+        },
+        {
+          "label": "Anthropic: Contextual Retrieval",
+          "url": "https://www.anthropic.com/engineering/contextual-retrieval"
+        }
+      ],
+      "tags": [
+        "latency",
+        "ux",
+        "streaming"
+      ]
+    },
+    {
+      "id": "llm-fundamentals-genai-feature-in-product",
+      "area": "llm-fundamentals",
+      "topic": "genai-product",
+      "level": "senior",
+      "roles": [
+        "frontend",
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "How do you ship a GenAI feature inside an existing product without betting the product on the model?"
+      },
+      "answer": {
+        "en": "Start from the failure, not the demo. Define what the feature must never do and the smallest useful version: often a single call with structured output, validated at the boundary, plus a deterministic fallback. Put provenance next to generated claims, make refusals and 'not enough evidence' visible states instead of errors, and require confirmation before any consequential action. Build the eval set from day one from real usage and gate prompt or model changes on it. Give the feature a cost and latency budget per task and a kill criterion: if the model cannot beat the deterministic baseline on the measured cases, the feature ships without it. Complexity and autonomy earn their place only when evaluation shows the improvement."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "label": "OpenAI: Working with evals",
+          "url": "https://platform.openai.com/docs/guides/evals"
+        }
+      ],
+      "tags": [
+        "genai",
+        "product",
+        "fallbacks"
+      ]
+    },
+    {
+      "id": "llm-fundamentals-semantic-caching",
+      "area": "llm-fundamentals",
+      "topic": "caching",
+      "level": "semi-senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "When does a semantic cache make sense for an LLM feature, and what does it cost you in correctness?"
+      },
+      "answer": {
+        "en": "Exact-match caching has a low hit rate for LLM traffic because users phrase the same intent differently; a semantic cache embeds each query and serves a stored answer when a similar one arrives, raising hit rate and cutting cost and latency. The price is false positives: a similar-looking query with different entities or intent gets a wrong answer, and unlike a miss, nobody notices. So: choose the similarity threshold from a labeled sample, track hit ratio together with recall and latency — a cache that serves wrong answers inflates hit ratio —, scope entries by user and tenant, invalidate when the data or the prompt changes, and keep private or time-sensitive queries out of the cache."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "GPTCache: semantic cache for LLM queries",
+          "url": "https://github.com/zilliztech/GPTCache"
+        }
+      ],
+      "tags": [
+        "caching",
+        "cost",
+        "latency"
+      ]
+    },
+    {
+      "id": "llm-fundamentals-fine-tuning-lora-basics",
+      "area": "llm-fundamentals",
+      "topic": "fine-tuning",
+      "level": "semi-senior",
+      "roles": [
+        "fullstack",
+        "backend"
+      ],
+      "frequency": "clave-menos-frecuente",
+      "question": {
+        "en": "What does fine-tuning a small model with LoRA involve, and when is it worth it?"
+      },
+      "answer": {
+        "en": "LoRA trains small adapter matrices on top of a frozen base model instead of updating every weight, so a few thousand labeled examples and modest compute can adapt style, format, or a narrow task; the adapter is cheap to store and swap. It pays when the behavior is stable, repeated at scale, and measurably better or cheaper than prompting or retrieval. It does not teach current facts — that is retrieval's job — and it does not fix a broken workflow. Decide with the same eval set as everything else: fine-tune only when it beats prompting, few-shot, and RAG on the measured cases, and remember you now own a model artifact, with retraining and regression on every base-model change."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "Hugging Face: PEFT",
+          "url": "https://huggingface.co/docs/peft"
+        },
+        {
+          "label": "AI Engineering Field Guide: what interviewers test",
+          "url": "https://github.com/alexeygrigorev/ai-engineering-field-guide/blob/main/interview/03-get-hired.md"
+        }
+      ],
+      "tags": [
+        "fine-tuning",
+        "lora",
+        "tradeoffs"
       ]
     }
   ]

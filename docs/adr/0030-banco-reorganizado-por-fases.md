@@ -40,3 +40,18 @@ cuántos casos y qué cambió el número?"), trade-offs ("¿cuándo NO usarías 
 de costo y latencia, guardrails y seguridad del agente (prompt injection, exfiltración, tools
 peligrosas) y fluidez con herramientas de AI. El resto del alcance del ticket del banco sigue
 igual: reubicar conservando id, eliminar duplicados y derivar tricky y quizzes por fase.
+
+## Cierre de la Fase C (16 oct 2026)
+
+Los temas de este addendum quedaron cubiertos con preguntas nuevas citadas y sus derivados:
+evals (métricas con denominadores, origen del dataset de evals, CI vs monitoreo de
+producción, confianza en un salto de score, y las preguntas de error analysis ya estaban),
+RAG (long-context vs RAG, búsqueda híbrida con reranking, índice vencido y permisos),
+costo y latencia (latencia percibida y shipping de GenAI en producto), seguridad (gates de
+aprobación humana, la "lethal trifecta" de la inyección, calibración de autonomía) y
+fluidez con herramientas de AI. Además se cubrieron con fuentes primarias los huecos que
+marcan los planes de repaso (Angular, RxJS, NgRx, Storybook, Chart.js/D3) y se sumaron
+memoria persistente de agentes, redacción de PII, caché semántica y LoRA a nivel concepto.
+El alcance del ticket no cambió: los id existentes se conservaron, el contrato del banco no
+se tocó y todo tema sin fuente primaria citable quedó fuera. El banco cerró la fase en 379
+preguntas.

@@ -2,9 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import OffersManager from '../islands/offers-manager/OffersManager';
-import { listOffers, readOfferDetail, stripFrontmatter, type OfferListing } from '../lib/job-offers';
+import { listOffers, readOfferDetail, stripFrontmatter, parseCoverLetterFile, type OfferListing } from '../lib/job-offers';
 import { resumeSchema } from '../schemas/resume';
 import { loadProfile, nameInitials } from '../lib/profile';
+import { fileAsName } from '../lib/file-name';
 import { marked } from 'marked';
 
 const listings: OfferListing[] = listOffers();
@@ -22,7 +23,8 @@ const views = listings.map((listing) => {
     const parsed = resumeSchema.safeParse(detail.adaptedResume);
     if (parsed.success) adaptedResume = parsed.data;
   }
-  return { listing, offerHtml, reportHtml, adaptedResume };
+  const coverLetter = detail?.coverLetterRaw ? parseCoverLetterFile(detail.coverLetterRaw) : null;
+  return { listing, offerHtml, reportHtml, adaptedResume, coverLetter };
 });
 ---
 
@@ -36,7 +38,7 @@ const views = listings.map((listing) => {
       name: profile.identity.name.en,
       role: defaultPositioning.title.en
     }}
-    pdfTitle={`${profile.identity.name.en} - CV`}
+    pdfTitle={`${fileAsName(profile.identity.name.en)} - CV`}
     showTheme={true}
     navLinks={[
       { href: '/adapted/', label: 'CVs adaptados' },
@@ -45,5 +47,5 @@ const views = listings.map((listing) => {
     ]}
   />
 
-  <OffersManager client:load offers={views} isDev={import.meta.env.DEV} />
+  <OffersManager client:load offers={views} isDev={import.meta.env.DEV} userName={profile.identity.name.en} />
 </Layout>

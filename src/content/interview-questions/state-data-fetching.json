@@ -1,6 +1,6 @@
 {
   "area": "state-data-fetching",
-  "generatedAt": "2026-09-17T00:00:00Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "questions": [
     {
       "id": "state-data-fetching-client-vs-server-state",
@@ -337,6 +337,35 @@
       "trickies": [],
       "sources": [{"label": "Jotai: atom", "url": "https://jotai.org/docs/core/atom"}, {"label": "MDN: AbortController signal", "url": "https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal"}],
       "tags": ["jotai", "async", "cancellation"]
-    }
+    },
+        {
+          "id": "state-data-fetching-rxjs-async-model",
+          "area": "state-data-fetching",
+          "topic": "rxjs",
+          "level": "semi-senior",
+          "roles": ["frontend", "fullstack"],
+          "frequency": "clave-menos-frecuente",
+          "question": {"en": "How does RxJS model async work, and how do you choose between switchMap, concatMap, and exhaustMap?"},
+          "answer": {"en": "An Observable is a lazy, cancellable stream: nothing runs until you subscribe, and unsubscribing tears the work down. That makes operator choice a cancellation policy: switchMap cancels the previous inner request when a new one arrives (search-as-you-type), concatMap queues them in order (writes that must not reorder), exhaustMap ignores new ones while one is in flight (submit buttons), and mergeMap runs them concurrently when order does not matter. Errors kill a stream, so catch them close to the source and decide per case: retry with backoff for transient failures, surface the rest. Push cleanup to the consumer — async pipe or takeUntilDestroyed — so destroyed components stop their streams."},
+          "codeBlocks": [],
+          "trickies": [],
+          "sources": [{"label": "RxJS: Observables guide", "url": "https://rxjs.dev/guide/observable"}],
+          "tags": ["rxjs", "async", "cancellation"]
+        },
+
+        {
+          "id": "state-data-fetching-ngrx-store-pattern",
+          "area": "state-data-fetching",
+          "topic": "ngrx",
+          "level": "semi-senior",
+          "roles": ["frontend", "fullstack"],
+          "frequency": "clave-menos-frecuente",
+          "question": {"en": "When does NgRx earn its place in an Angular app, and how do its pieces fit?"},
+          "answer": {"en": "NgRx is a Redux-style unidirectional flow: actions describe what happened (events, not commands), reducers fold them into one store with pure functions, selectors derive read views with memoization, and effects isolate side effects — fetching, routing, notifications — at the boundary. It earns its place when shared state has many writers and readers, when you want time-travel debugging or auditable updates across teams. It is overhead for local UI state: a service with signals or component state is simpler. Whatever you choose, keep one owner per piece of state: copying store data into components creates duplicates that drift, and effects should return actions instead of mutating state."},
+          "codeBlocks": [],
+          "trickies": [],
+          "sources": [{"label": "NgRx: Store guide", "url": "https://ngrx.io/guide/store"}, {"label": "NgRx: Effects guide", "url": "https://ngrx.io/guide/effects"}],
+          "tags": ["ngrx", "state", "angular"]
+        }
   ]
 }

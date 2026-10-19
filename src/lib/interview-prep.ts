@@ -147,6 +147,43 @@ function compareText(left: string, right: string): number {
   return left.localeCompare(right, 'en', { sensitivity: 'base' });
 }
 
+// Búsqueda global (Fase A, cambio 6): ranking área > título de pregunta >
+// respuesta. Cada pregunta cae en su MEJOR nivel de coincidencia y el orden
+// dentro del nivel respeta el orden del banco.
+export type InterviewSearchLevel = 'area' | 'title' | 'answer';
+
+export interface InterviewSearchMatch {
+  question: InterviewQuestionView;
+  level: InterviewSearchLevel;
+}
+
+export interface InterviewSearchGroups {
+  area: InterviewSearchMatch[];
+  title: InterviewSearchMatch[];
+  answer: InterviewSearchMatch[];
+}
+
+export function searchQuestionsByRank(
+  questions: InterviewQuestionView[],
+  query: string,
+  areaLabels: Record<string, string>
+): InterviewSearchGroups {
+  const needle = normalize(query.trim());
+  const groups: InterviewSearchGroups = { area: [], title: [], answer: [] };
+  if (needle.length === 0) return groups;
+  for (const question of questions) {
+    const level: InterviewSearchLevel | null = normalize(areaLabel(question.area, areaLabels)).includes(needle)
+      ? 'area'
+      : normalize(question.question.en).includes(needle)
+        ? 'title'
+        : normalize(question.answer.en).includes(needle)
+          ? 'answer'
+          : null;
+    if (level) groups[level].push({ question, level });
+  }
+  return groups;
+}
+
 function stableHash(value: string): number {
   let hash = 2166136261;
   for (let index = 0; index < value.length; index += 1) {
@@ -165,12 +202,12 @@ export function filterAndSortQuestions(
 ): InterviewQuestionView[] {
   const query = normalize(filters.search.trim());
   const filtered = questions.filter((question) => {
-    const matchesArea = filters.areas.length === 0 || filters.areas.includes(question.area);
-    const matchesLevel = filters.levels.length === 0 || filters.levels.includes(question.level);
-    const matchesRole =
-      filters.roles.length === 0 || filters.roles.some((role) => question.roles.includes(role));
-    const matchesFrequency =
-      filters.frequencies.length === 0 || filters.frequencies.includes(question.frequency);
+    // Facetado estricto (Fase A, cambio 5): selección vacía = 0 resultados, igual
+    // en áreas, nivel, rol y frecuencia. El árbol queda coherente (☐ = nada).
+    const matchesArea = filters.areas.includes(question.area);
+    const matchesLevel = filters.levels.includes(question.level);
+    const matchesRole = filters.roles.some((role) => question.roles.includes(role));
+    const matchesFrequency = filters.frequencies.includes(question.frequency);
     const matchesTricky = !filters.onlyTricky || question.trickies.length > 0;
     const matchesCode = !filters.onlyCode || question.codeBlocks.length > 0;
     const matchesSearch =

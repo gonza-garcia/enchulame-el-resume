@@ -1,5 +1,5 @@
-import type { AnalysisJson, CoverLetterJson } from './contract';
-import { composeMatchReport, composeCoverLetterMd } from './contract';
+import type { AnalysisJson } from './contract';
+import { composeMatchReport } from './contract';
 
 export const SKILL_CAPTURE = 'skills/job-seeking/capture-job-offer/SKILL.md';
 export const SKILL_ADAPT = 'skills/job-seeking/adapt-resume-to-offer/SKILL.md';
@@ -106,36 +106,6 @@ Archivos a escribir:
 ${block}
 
 Al terminar, verific\u00e1 que los archivos existen con ls y confirm\u00e1 las rutas creadas. No ejecutes build ni tests.`;
-}
-
-export function coverLetterPrompt(offer: { empresa: string; rol: string; slug: string }): string {
-  return `# Tarea: escribir la cover letter de una oferta
-
-${commonContext()}
-
-1. Le\u00e9 la skill \`skills/job-seeking/adapt-resume-to-offer/SKILL.md\`, seccion "Cover letter", y segui sus pasos en modo app (devolver JSON, no escribir archivos).
-2. Oferta objetivo: ${offer.empresa} - ${offer.rol} (carpeta docs/job-offers/${offer.slug}/).
-3. Le\u00e9 docs/job-offers/${offer.slug}/offer.md, match-report.md si existe, y adapted-resume.json si existe (si no, src/content/resume.json).
-4. Idioma: el de la oferta. Estructura de 3 a 4 parrafos, 250 a 350 palabras, claims solo del CV y el match report, gaps sin disimular, numeros reales.
-5. Mostrame la carta completa y preguntame si apruebo el texto antes de devolver el JSON final. Si pido cambios, reescribila y mostrame la version nueva.
-6. Devolv\u00e9 SOLO un bloque \`\`\`json con { "subject": string o null, "letter": "texto completo con parrafos separados por doble salto", "locale": "en" o "es", el idioma usado en la carta }. Sin texto alrededor.
-
-${JSON_RULES}
-
-Esto lo ejecuta un agente externo sin contexto previo: la skill y este prompt son todo tu contexto.`;
-}
-
-export function coverLetterFilesForOffer(
-  slug: string,
-  meta: { empresa: string; rol: string; fecha: string },
-  letter: CoverLetterJson
-): FileToWrite[] {
-  return [
-    {
-      path: `docs/job-offers/${slug}/cover-letter.md`,
-      content: composeCoverLetterMd(meta, letter)
-    }
-  ];
 }
 
 export function analysisFilesForOffer(slug: string, analysis: AnalysisJson): FileToWrite[] {

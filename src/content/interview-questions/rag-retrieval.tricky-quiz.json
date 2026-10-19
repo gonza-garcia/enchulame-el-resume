@@ -1,6 +1,6 @@
 {
   "area": "rag-retrieval",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-18T00:00:00.000Z",
   "trickies": [
     {
       "id": "ai-agents-rag-pipeline-and-failure-modes",
@@ -33,12 +33,52 @@
       ]
     },
     {
+      "id": "rag-retrieval-hybrid-search-and-reranking",
+      "items": [
+        {
+          "question": "Does adding a reranker to a RAG pipeline improve quality for free?",
+          "answer": "No: it is an extra runtime step. Reranking more candidates buys recall and adds latency and cost, so the top-N must be tuned on your eval set.",
+          "trap": "Accuracy gains come with a measured latency and cost trade-off; assuming they are free is the trap."
+        }
+      ]
+    },
+    {
+      "id": "rag-retrieval-long-context-vs-rag",
+      "items": [
+        {
+          "question": "The whole knowledge base fits in the context window. Should I still build RAG?",
+          "answer": "Not for size alone: if it fits comfortably and every requester may see all of it, put it in the prompt and cache the stable prefix. Add retrieval when the corpus grows, permissions differ, or freshness and attribution matter.",
+          "trap": "RAG is not mainly about fitting text; it is about scale, access control, freshness, and provenance."
+        }
+      ]
+    },
+    {
+      "id": "rag-retrieval-stale-index-and-permissions",
+      "items": [
+        {
+          "question": "Can I instruct the model to ignore documents the requester may not see?",
+          "answer": "No. Visibility is enforced at query time by filtering retrieval on document ACLs before ranking; the model never decides access.",
+          "trap": "Everything in context can leak or influence the answer; a prompt rule is not authorization."
+        }
+      ]
+    },
+    {
       "id": "rag-retrieval-when-not-to-use-rag",
       "items": [
         {
           "question": "What answer signals vocabulary without judgement?",
           "answer": "Listing RAG components instead of naming cases where retrieval is the wrong tool.",
           "trap": "Saying RAG is always better than fine-tuning."
+        }
+      ]
+    },
+    {
+      "id": "rag-retrieval-semantic-layer-and-dbt",
+      "items": [
+        {
+          "question": "We have a semantic layer, so each tool can still define revenue its own way?",
+          "answer": "No: the point is one shared definition per metric; per-tool re-derivations are exactly the metric drift it prevents.",
+          "trap": "The layer only helps if definitions are actually shared and governed."
         }
       ]
     }
@@ -80,6 +120,18 @@
         ],
         "correctIndex": 1,
         "explanation": "Document processing is part of grounding: what the model reads must be extracted and normalised first."
+      },
+      {
+        "id": "rag-retrieval-mcq-11",
+        "question": "A knowledge base of about 50 pages is fixed and every user may see all of it. What is the simplest sound design?",
+        "options": [
+          "Put the whole corpus in the prompt with a cached stable prefix; add retrieval only when scale, permissions, freshness, or attribution require it",
+          "Always build RAG: a long context window is never a valid alternative to retrieval",
+          "Fine-tune the model on the documents so retrieval becomes unnecessary",
+          "Chunk and embed the corpus so every answer is grounded in the top-20 chunks"
+        ],
+        "correctIndex": 0,
+        "explanation": "Under roughly 200K tokens the whole corpus can live in the prompt, and prompt caching keeps it cheap and fast; RAG earns its pipeline when scale, access control, freshness, or provenance enter the picture."
       },
       {
         "id": "rag-retrieval-mcq-2",
@@ -222,6 +274,21 @@
           "Versions documents and chunks for traceability",
           "Adds staleness signals or freshness filtering",
           "Adds an eval for superseded citations"
+        ]
+      },
+      {
+        "id": "rag-retrieval-sc-4",
+        "prompt": "This retrieval helper answers support questions from an internal wiki. The wiki is re-indexed every night and some pages are restricted to managers. Review the code and say what breaks in production.",
+        "code": {
+          "language": "ts",
+          "code": "async function answer(question: string, user: User) {\n  const hits = await index.search(question, { topK: 20 });\n  const context = hits.map((h) => h.text).join('\\n');\n  return llm(`Answer using only this context:\\n${context}\\n\\nQuestion: ${question}`);\n}"
+        },
+        "modelAnswer": "Two failures. Permissions: search() ignores the user, so restricted wiki pages can land in the context of any requester — filter by document ACL (and tenant) before ranking, and never ask the model to hide what it already received. Freshness: a nightly re-index serves yesterday's edits and deleted pages; re-index incrementally on source change, carry document timestamps into the chunks, and treat 'not in the index yet' as a valid answer instead of forcing one. Neither is a prompting problem: the runtime owns visibility and freshness. Test both with retrieval cases where the right answer is forbidden, outdated, or missing, and score retrieval separately from generation.",
+        "rubric": [
+          "Identifies the missing ACL filter before ranking as an authorization bug, not a prompting issue",
+          "Identifies the stale-index problem (nightly batch, edits and deletions) and proposes incremental re-indexing or invalidation",
+          "Makes 'no valid evidence' a legitimate model outcome instead of forcing an answer",
+          "Proposes retrieval evals with forbidden, outdated, and missing cases, scored separately from generation"
         ]
       }
     ]

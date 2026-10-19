@@ -1,6 +1,6 @@
 {
   "area": "python-backend-cloud",
-  "generatedAt": "2026-10-05T00:00:00.000Z",
+  "generatedAt": "2026-10-18T00:00:00.000Z",
   "questions": [
     {
       "id": "python-backend-cloud-docker-and-cloud-baseline",
@@ -139,6 +139,40 @@
       "tags": [
         "python",
         "interviewing"
+      ]
+    },
+    {
+      "id": "python-backend-cloud-intermediate-sql",
+      "area": "python-backend-cloud",
+      "topic": "sql",
+      "level": "semi-senior",
+      "roles": [
+        "backend",
+        "fullstack"
+      ],
+      "frequency": "muy-preguntada",
+      "question": {
+        "en": "What separates intermediate SQL from basic SQL in production work?"
+      },
+      "answer": {
+        "en": "Basics read rows; intermediate SQL shapes and defends them. Window functions compute rankings, running totals and period deltas without self-joins — ROW_NUMBER, LAG/LEAD over (PARTITION BY ... ORDER BY ...) — and they run after WHERE, so filter ranked rows in a subquery. EXPLAIN ANALYZE shows the plan tree with real numbers beside the estimates: a sequential scan on a big table, a bad join order, or a function wrapped around an indexed column explains most slow queries, and Rows Removed by Filter shows the waste. Then the correctness traps interviews love: NULLs make NOT IN match nothing and drop rows from aggregates, implicit casts defeat indexes, and GROUP BY must cover the select list. Being able to read a plan and kill the self-join is the bar."
+      },
+      "codeBlocks": [],
+      "trickies": [],
+      "sources": [
+        {
+          "label": "PostgreSQL: Window Functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html"
+        },
+        {
+          "label": "PostgreSQL: Using EXPLAIN",
+          "url": "https://www.postgresql.org/docs/current/using-explain.html"
+        }
+      ],
+      "tags": [
+        "sql",
+        "performance",
+        "data"
       ]
     }
   ]

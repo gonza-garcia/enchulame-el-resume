@@ -1,6 +1,6 @@
 {
   "area": "ui-components-machine-coding",
-  "generatedAt": "2026-09-17T00:00:00Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "questions": [
     {
       "id": "ui-components-machine-coding-design-component-api",
@@ -211,6 +211,20 @@
         { "label": "NamasteDev — Top Machine Coding Questions", "url": "https://namastedev.com/topics/machine-coding-round-questions-part-1/top-machine-coding-questions-for-frontend-interviews" }
       ],
       "tags": ["pagination", "url-state", "data-fetching"]
-    }
+    },
+        {
+          "id": "ui-components-machine-coding-charts-libraries",
+          "area": "ui-components-machine-coding",
+          "topic": "data-visualization",
+          "level": "semi-senior",
+          "roles": ["frontend", "fullstack"],
+          "frequency": "clave-menos-frecuente",
+          "question": { "en": "How do Chart.js and D3 differ, and what should you get right in any data visualization?" },
+          "answer": { "en": "Chart.js gives you finished chart types on canvas: sane defaults, configuration over code, and performance on large datasets (data decimation, tree-shaking); you trade away low-level control, and canvas means no per-element CSS. D3 is not a chart library but a set of primitives — scales, axes, shapes, layouts, data joins — so you compose any visualization in SVG or canvas at the cost of building everything yourself. The D3 data join (enter, update, exit, with key functions for object constancy) is the model that makes dynamic data render correctly. Whatever you pick: choose the encoding for the comparison you want to support, label axes, keep interaction accessible (keyboard, aria, tabular fallback), and measure rendering as series grow." },
+          "codeBlocks": [],
+          "trickies": [],
+          "sources": [{"label": "Chart.js docs", "url": "https://www.chartjs.org/docs/latest/"}, {"label": "D3: Joining data", "url": "https://d3js.org/d3-selection/joining"}],
+          "tags": ["charts", "d3", "data-visualization"]
+        }
   ]
 }

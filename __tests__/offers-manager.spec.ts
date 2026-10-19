@@ -29,6 +29,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
     expect(ayi.matchScore).toBe(85);
     expect(ayi.meta.salario).toBe(null);
     expect(ayi.meta.recruiter).toBe(null);
+    expect(ayi.hasReviewPlan).toBe(true);
   });
 
   test('badges por estado y botones por estado', async ({ page }) => {
@@ -36,9 +37,10 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
     await waitHydrated(page);
     const card = page.locator('.offer-card').filter({ hasText: 'Nimbus Software' });
     await expect(card.locator('.offer-card-badge')).toContainText('CV adaptado');
-    // En estado adaptada queda solo el boton de cover letter (sin analizar ni adaptar)
-    await expect(card.locator('.offer-action-btn')).toHaveCount(1);
-    await expect(card.locator('.offer-action-btn')).toContainText('Cover letter');
+    // En estado adaptada quedan cargar repaso (navega a /interview) y cover letter
+    await expect(card.locator('.offer-action-btn')).toHaveCount(2);
+    await expect(card.getByRole('button', { name: 'Cargar repaso' })).toBeEnabled();
+    await expect(card.getByRole('button', { name: 'Cover letter' })).toBeVisible();
   });
 
   test('agregar oferta: validacion y guardado con verificacion end-to-end', async ({ page }) => {
@@ -107,6 +109,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
     await expect(card.locator('.offer-card-badge')).toContainText('Agregada');
     await expect(card.getByRole('button', { name: 'Analizar', exact: true })).toBeVisible();
     await expect(card.getByRole('button', { name: 'Analizar a mano' })).toBeVisible();
+    await expect(card.getByRole('button', { name: 'Cargar repaso' })).toHaveCount(0);
     await expect(card.locator('.offer-card-score')).toHaveCount(0);
   });
 
@@ -194,41 +197,57 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
     await expect(card.getByRole('button', { name: 'Analizar', exact: true })).toHaveCount(0);
   });
 
-  test('cover letter: prompt, vista previa editable, descarga y guardado', async ({ page }) => {
-    // Nimbus Software esta adaptada: el boton Cover letter esta disponible
+  test('cargar repaso: navega a /interview y se deshabilita sin plan en disco', async ({ page }) => {
     await page.goto('/adapted/');
     await waitHydrated(page);
-    await page.locator('.offer-card').filter({ hasText: 'Nimbus Software' }).getByRole('button', { name: 'Cover letter' }).click();
+
+    // Aurora Labs tiene interview-review-plan.json: el boton navega a /interview
+    const auroraBtn = page
+      .locator('.offer-card')
+      .filter({ hasText: 'Aurora Labs' })
+      .getByRole('button', { name: 'Cargar repaso' });
+    await expect(auroraBtn).toBeEnabled();
+    await expect(auroraBtn).toHaveAttribute('title', /temas priorizados del match-report/);
+    await auroraBtn.click();
+    await expect(page).toHaveURL(
+      /\/interview\/\?repaso=2026-10-05-aurora-labs-reactjs-frontend-developer$/
+    );
+
+    // TestCorp esta analizada pero sin plan: boton deshabilitado que explica como generarlo
+    await page.goto('/adapted/');
+    await waitHydrated(page);
+    const testcorpBtn = page
+      .locator('.offer-card')
+      .filter({ hasText: 'TestCorp' })
+      .getByRole('button', { name: 'Cargar repaso' });
+    await expect(testcorpBtn).toBeDisabled();
+    await expect(testcorpBtn).toHaveAttribute('title', /build-interview-review-plan/);
+    await expect(testcorpBtn).toHaveAttribute('title', /interview-review-plan\.json/);
+  });
+
+  test('cover letter: el boton abre el modal de lectura, con PDF y DOCX', async ({ page }) => {
+    // Nimbus Software esta adaptada y ya tiene cover-letter.md guardada por la skill
+    await page.goto('/adapted/');
+    await waitHydrated(page);
+    await page
+      .locator('.offer-card')
+      .filter({ hasText: 'Nimbus Software' })
+      .getByRole('button', { name: 'Cover letter' })
+      .click();
 
     const dialog = page.getByRole('dialog', { name: 'Cover letter: Nimbus Software' });
     await expect(dialog).toBeVisible();
-    await expect(dialog.locator('.ai-prompt')).toContainText('adapt-resume-to-offer');
-    await expect(dialog.locator('.ai-prompt')).toContainText('Cover letter');
+    // Lectura: la carta se muestra tal como quedo guardada, sin editar y sin prompt
+    await expect(dialog.locator('.cover-text')).toContainText('Hi Nimbus team');
+    await expect(dialog.locator('textarea')).toHaveCount(0);
+    await expect(dialog.locator('.ai-prompt')).toHaveCount(0);
+    await expect(dialog.getByRole('button', { name: 'Guardar como PDF' })).toBeVisible();
+    await expect(dialog.locator('.cover-words')).toContainText('cover-letter.md');
 
-    const letterJson = {
-      subject: 'Senior Frontend Engineer - application',
-      letter: 'Hi Nimbus team,\n\nI build React frontends for data-heavy products. Most recently I modernized the Freightline Control cargo operations console at Aeronix Logistics, a real-time React application that replaced dozens of spreadsheets and internal tools.\n\nTwo details from your post stood out: the end-to-end ownership of product surfaces and the focus on real-time analytics dashboards. Both describe how I already work: I designed a shared component library used by two teams, and I raised test coverage with Vitest until weekly releases were sustainable.\n\nI am based in Rosario, Argentina, fully remote-ready. Happy to walk through details in a call.\n\nAriana Montiel',
-      locale: 'en'
-    };
-    await dialog.locator('.ai-paste').fill('```json\n' + JSON.stringify(letterJson, null, 2) + '\n```');
-    await dialog.getByRole('button', { name: 'Revisar carta' }).click();
-
-    // Vista previa: editable + descargable
-    const preview = page.locator('.modal-box.modal-cover');
-    await expect(preview.locator('.cover-text')).toContainText('Hi Nimbus team');
-    await expect(preview.locator('.cover-words')).toBeVisible();
-    // Edicion manual del usuario
-    await preview.locator('.cover-text').fill(letterJson.letter + '\n\nP.S. Edited by user.');
+    // Export DOCX de la carta (nombre neutro, ADR-0036: sin empresa ni slug)
     const downloadPromise = page.waitForEvent('download');
-    await preview.getByRole('button', { name: 'Descargar cover-letter.md' }).click();
+    await dialog.getByRole('button', { name: 'Descargar DOCX' }).click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toBe('cover-letter.md');
-
-    // Confirmar → SaveModal con el archivo compuesto (incluye la edicion del usuario)
-    await preview.getByRole('button', { name: 'Continuar al guardado' }).click();
-    const save = page.getByRole('dialog', { name: 'Guardar cover letter' });
-    await expect(save.locator('.save-file-head code')).toContainText('nimbus-software-senior-frontend-engineer/cover-letter.md');
-    await save.getByRole('button', { name: 'Ver contenido' }).click();
-    await expect(save.locator('.save-file-content')).toContainText('P.S. Edited by user.');
+    expect(download.suggestedFilename()).toBe('Montiel Ariana - Cover Letter - EN.docx');
   });
 });

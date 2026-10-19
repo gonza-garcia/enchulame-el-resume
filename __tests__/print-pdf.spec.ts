@@ -139,7 +139,7 @@ test.describe('Print PDF - no browser headers/footers', () => {
     const title = await page.evaluate(
       () => (window as unknown as { __printedTitle?: string }).__printedTitle
     );
-    expect(title).toBe('Ariana Montiel - CV - EN');
+    expect(title).toBe('Montiel Ariana - CV - EN');
 
     await page.locator('#btn-es').click();
     await page.locator('#btn-export').click();
@@ -147,10 +147,10 @@ test.describe('Print PDF - no browser headers/footers', () => {
     const titleEs = await page.evaluate(
       () => (window as unknown as { __printedTitle?: string }).__printedTitle
     );
-    expect(titleEs).toBe('Ariana Montiel - CV - ES');
+    expect(titleEs).toBe('Montiel Ariana - CV - ES');
   });
 
-  test('el dialogo de PDF sugiere el nombre con la empresa en /adapted', async ({ page }) => {
+  test('el dialogo de PDF sugiere el nombre neutro, sin empresa, en /adapted', async ({ page }) => {
     await page.addInitScript(() => {
       window.print = () => {
         (window as unknown as { __printedTitle?: string }).__printedTitle = document.title;
@@ -166,6 +166,9 @@ test.describe('Print PDF - no browser headers/footers', () => {
     const title = await page.evaluate(
       () => (window as unknown as { __printedTitle?: string }).__printedTitle
     );
-    expect(title).toBe('Ariana Montiel - CV - Nimbus Software - EN');
+    // ADR-0036: el nombre de archivo no lleva empresa ni rol, para no delatar
+    // que el CV esta adaptado para esa postulacion.
+    expect(title).toBe('Montiel Ariana - CV - EN');
+    expect(title).not.toContain('Nimbus');
   });
 });

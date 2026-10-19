@@ -7,6 +7,7 @@ modalidad: remote
 location: Remote (Americas)
 salario: N/A
 recruiter: N/A
+demo: true
 ---
 
 # Oferta original

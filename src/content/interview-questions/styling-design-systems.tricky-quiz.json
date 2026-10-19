@@ -1,6 +1,6 @@
 {
   "area": "styling-design-systems",
-  "generatedAt": "2026-09-17T00:00:00.000Z",
+  "generatedAt": "2026-10-16T00:00:00.000Z",
   "trickies": [
     {
       "id": "styling-design-systems-css-modules-scope",
@@ -131,6 +131,16 @@
           "trap": "The naive answer rewards inventory growth even when consumers cannot safely adopt or maintain the system."
         }
       ]
+    },
+    {
+      "id": "styling-design-systems-storybook-workflow",
+      "items": [
+        {
+          "question": "Stories are just demos, so they can drift from tests?",
+          "answer": "No: the same story drives interaction, accessibility, and visual tests in CI.",
+          "trap": "Unexecuted docs rot; play functions make stories executable."
+        }
+      ]
     }
   ],
   "quiz": {
@@ -254,6 +264,18 @@
         ],
         "correctIndex": 2,
         "explanation": "Upgrade success and accessibility regressions test whether the system delivers safe, useful outcomes for consumers. Component count, unused inventory, selector count, and raw CSS volume can grow without adoption or quality."
+      },
+      {
+        "id": "styling-design-systems-mcq-11",
+        "question": "What makes a Storybook story useful as an automated test?",
+        "options": [
+          "A play function drives and asserts user interactions inside the rendered story",
+          "The story file is excluded from the production bundle",
+          "Controls let designers edit args at runtime",
+          "The story has a static title"
+        ],
+        "correctIndex": 0,
+        "explanation": "Play functions run interactions and assertions against the rendered story, so the same story serves as documentation and as an interaction, accessibility, or visual test in CI."
       }
     ],
     "scenarios": [

@@ -34,7 +34,7 @@ qué contrato es dueña, qué archivos puede escribir y qué no toca. Antes de
 escribir un archivo, leer esa sección en la skill dueña de su contrato.
 El estado de una oferta se deriva de la presencia de archivos: Agregada (offer.md),
 Analizada (match-report.md), Adaptada (adapted-resume.json). El gestor de ofertas
-en `/adapted` lista exactamente lo que hay en disco.
+en la tab "CVs adaptados" de "Mis CVs" (`/`) lista exactamente lo que hay en disco.
 
 ## Agent skills
 
@@ -95,7 +95,8 @@ En modo app (prompt de la app o de un agente externo), la entrevista devuelve el
 - Astro 7 como generador estático.
 - Zod para validar los contratos (perfil, plan, banco) durante el build.
 - JavaScript vanilla para el CV principal, toggle, exports y temas.
-- React 19 en las islas interactivas `/adapted`, `/interview` y `/learning`.
+- React 19 en las islas interactivas: la tab "CVs adaptados" de "Mis CVs" (`/`),
+  `/interview` y `/learning`.
 - Shiki para pre-renderizar los bloques de código de interview prep durante el build.
 
 ## Comandos
@@ -142,7 +143,6 @@ src/
     progress-storage.ts
   pages/
     index.astro
-    adapted.astro
     interview.astro
     learning.astro
   schemas/

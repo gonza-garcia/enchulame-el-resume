@@ -56,12 +56,17 @@ export default function OffersManager({ offers, isDev, userName }: OffersManager
 
   useEffect(() => {
     const current = offers.find((o) => o.listing.slug === selected);
-    const target = window as unknown as { __exportResume?: unknown };
-    target.__exportResume = current?.adaptedResume ?? null;
+    // Clave propia del CV adaptado: el export resuelve el documento activo por tab
+    // (Fase D) y no debe pisar la proyeccion del CV base.
+    const target = window as unknown as { __adaptedExportResume?: unknown };
+    target.__adaptedExportResume = current?.adaptedResume ?? null;
   }, [offers, selected]);
 
   useEffect(() => {
     const onExportJson = () => {
+      // El export JSON actua sobre el documento activo: en la tab de CVs base lo
+      // maneja el CV base, aca solo cuando la tab de adaptados esta activa.
+      if (document.documentElement.getAttribute('data-cv-tab') !== 'adapted') return;
       const current = offers.find((o) => o.listing.slug === selected);
       if (!current?.adaptedResume) return;
       const blob = new Blob([JSON.stringify(current.adaptedResume, null, 2)], {
@@ -194,7 +199,15 @@ export default function OffersManager({ offers, isDev, userName }: OffersManager
               + Agregar oferta
             </button>
           </div>
-          <a href="/" className="back-link">&larr; CV principal</a>
+          <button
+            type="button"
+            className="back-link"
+            onClick={() =>
+              document.dispatchEvent(new CustomEvent('cv:tab-select', { detail: { tab: 'base' } }))
+            }
+          >
+            &larr; CVs base
+          </button>
         </div>
         <div className="offer-list">
           {offers.map((o) => (

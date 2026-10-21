@@ -98,7 +98,14 @@ y los dos locales:
    - Experiencia: por empleo (empresa, rol, fechas, ubicación opcional) y, dentro
      de cada empleo, por proyecto de trabajo (nombre, url opcional, fechas) con
      sus bullets. Cada bullet es un logro concreto y defendible, con texto en es
-     y en y `skillIds` opcionales.
+     y en y `skillIds` opcionales. El nombre del proyecto sigue el formato
+     `Marca cliente - descriptor del proyecto` (ej: "Aeronix - cargo operations
+     console"): la marca primero para el escaneo rápido de recruiters y
+     el descriptor después para mostrar alcance técnico (ADR-0039). Las fechas del
+     proyecto se guardan en el JSON pero NO se muestran: la línea del proyecto se
+     renderiza como bullet etiquetado `Project:` dentro de la descripción del
+     empleo, y el único rango de fechas visible es el del empleo, para que un
+     parser ATS no lea los proyectos como empleos separados.
    - Educación: institución, título, fechas y note opcional (por ejemplo, una
      carrera incompleta declarada de forma honesta).
    - Certificaciones: nombre y note opcional. El uso diario de herramientas no es

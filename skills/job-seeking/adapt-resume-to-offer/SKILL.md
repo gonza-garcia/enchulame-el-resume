@@ -256,6 +256,11 @@ estructura, mismos campos, sin campos nuevos. Reglas de contenido:
 
 - Solo skills que el usuario pueda defender en entrevista. Si un gap es real,
   queda como gap: no se finge.
+- Formato ATS de experiencia (ADR-0039): los proyectos de cada empleo van con
+  nombre `Marca cliente - descriptor` ("Aeronix - cargo operations
+  console") y conservan sus `startDate`/`endDate` en el JSON; el render los
+  muestra como bullets con la etiqueta `Project:` y sin fechas propias, y el único
+  rango de fechas visible es el del empleo.
 - El score de match no se infla y el wording se ajusta a las keywords de la
   oferta solo cuando hay sustento real en el CV base.
 - El título sigue siendo `Frontend Developer` salvo decisión explícita.
@@ -294,9 +299,10 @@ adaptado. Una sola pregunta interactiva, ya con el CV terminado:
   volver a preguntar.
 - **Locale o locales**: `es`, `en` o ambos. Por defecto, el idioma de la oferta.
 
-El PDF se genera desde la vista de impresión de la app (`/adapted`, con el CSS de
-print que oculta el sidebar y el panel de la oferta) o desde el export PDF de la
-app, para que quede igual al que el usuario obtendría imprimiendo a mano.
+El PDF se genera desde la vista de impresión de la app ("Mis CVs" en `/`, tab "CVs
+adaptados", con el CSS de print que oculta el sidebar y el panel de la oferta) o desde
+el export PDF de la app, para que quede igual al que el usuario obtendría imprimiendo
+a mano.
 
 **Carpeta por empresa, nombre de archivo neutro.** Un nombre de archivo con la
 empresa o el rol delata que el CV fue adaptado para esa postulación cuando se

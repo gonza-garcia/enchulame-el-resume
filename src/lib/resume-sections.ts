@@ -21,3 +21,9 @@ export function positioningLabel(id: string): string {
   if (id.toLowerCase() === 'ai') return 'AI';
   return id.charAt(0).toUpperCase() + id.slice(1);
 }
+
+/** Etiqueta visible de proyecto de trabajo dentro de un empleo (formato ATS, ADR-0039). */
+export const PROJECT_LABEL: Record<'en' | 'es', string> = {
+  en: 'Project:',
+  es: 'Proyecto:'
+};

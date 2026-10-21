@@ -5,7 +5,7 @@ interface Props {
 const { title } = Astro.props;
 ---
 <!doctype html>
-<html lang="en" data-theme="navy" data-accents="name sections urls skills">
+<html lang="en" data-theme="navy" data-accents="name sections urls skills" data-cv-tab="base">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +41,7 @@ const { title } = Astro.props;
 
       html[data-accents~="name"] h1 { color: var(--accent); }
       html[data-accents~="sections"] h2 { color: var(--accent); border-bottom-color: var(--accent); }
-      html[data-accents~="urls"] a.subproject-url { color: var(--accent); }
+      html[data-accents~="urls"] .bullets li.proj-url { color: var(--accent); }
       html[data-accents~="skills"] .skill-cat { color: var(--accent); }
 
       * { box-sizing: border-box; }
@@ -64,6 +64,70 @@ const { title } = Astro.props;
         background: var(--bg);
         padding: 0.6in 0.7in;
         box-shadow: 0 2px 18px rgba(0,0,0,0.08);
+      }
+
+      /* Cards por posicionamiento del CV base (Fase D): selector + acciones.
+         Chrome de pantalla: no se imprime. */
+      .cv-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 10px;
+        margin: 0 0 18px;
+      }
+      .cv-card {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: var(--bg);
+        transition: border-color 140ms ease-out, background 140ms ease-out;
+      }
+      .cv-card:has(.cv-card-select[aria-pressed="true"]) {
+        border-color: color-mix(in srgb, var(--accent) 35%, white);
+        background: color-mix(in srgb, var(--accent) 5%, white);
+      }
+      .cv-card-select {
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        font-family: inherit;
+        color: inherit;
+      }
+      .cv-card-title { display: block; font-weight: 700; font-size: 11pt; color: var(--ink); }
+      .cv-card-summary {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 9.5pt;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .cv-card-actions { display: flex; gap: 8px; }
+      .cv-card-action {
+        border: 1px solid var(--rule);
+        background: transparent;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-family: inherit;
+        font-size: 9pt;
+        color: var(--ink);
+        cursor: pointer;
+        transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out;
+      }
+      .cv-card-action:hover {
+        background: color-mix(in srgb, var(--accent) 8%, white);
+        color: var(--accent);
+        border-color: color-mix(in srgb, var(--accent) 25%, white);
+      }
+      .cv-card-action:focus-visible, .cv-card-select:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
       }
 
       .toolbar {
@@ -287,27 +351,31 @@ const { title } = Astro.props;
       .job-head {
         margin-bottom: 6px;
       }
-      .job-head .company {
-        font-size: 12pt;
+      .job-head .job-role {
+        font-size: 11pt;
         font-weight: 700;
-        margin-right: 8px;
       }
-      .job-head .meta {
+      .job-head .job-company {
+        font-size: 10.5pt;
+        font-weight: 700;
+      }
+      .job-head .job-dates {
         font-size: 10pt;
         color: var(--muted);
       }
+      .proj-label {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 8.5pt;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-right: 6px;
+      }
 
       .subproject { margin-bottom: 10px; break-inside: avoid; page-break-inside: avoid; }
-      .subproject-head {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: baseline;
-        margin-bottom: 3px;
-      }
-      .subproject-name { font-weight: 700; font-size: 10.5pt; }
-      .subproject-dates { font-size: 9.5pt; color: var(--muted); white-space: nowrap; }
-      a.subproject-url { display: block; font-size: 9.5pt; color: var(--muted); text-decoration: none; margin: 0 0 3px; word-break: break-all; }
+      .bullets li.proj-line { font-weight: 700; margin-top: 6px; }
+      .bullets li.proj-url { font-size: 9.5pt; color: var(--muted); list-style: none; margin-left: -18px; word-break: break-all; }
       ul.bullets {
         list-style: disc;
         padding-left: 18px;
@@ -504,7 +572,7 @@ const { title } = Astro.props;
           -webkit-print-color-adjust: exact;
         }
         body { background: #fff; font-size: 11pt; margin: 0; padding: 0; }
-        .toolbar, .linkedin-modal { display: none !important; }
+        .toolbar, .linkedin-modal, .cv-cards, .cv-tabs { display: none !important; }
         .page {
           max-width: none;
           margin: 0;
@@ -520,10 +588,10 @@ const { title } = Astro.props;
         h1 { font-size: 20pt; }
         h2 { font-size: 12pt; }
         a { color: var(--ink); text-decoration: none; }
-        .contactline, .subproject-dates, .edu-dates, .edu-note, .proj-meta, .job-head .meta {
+        .contactline, .job-head .job-dates, .edu-dates, .edu-note, .proj-meta, .bullets li.proj-url {
           color: var(--ink);
         }
-        h1, h2, .skill-cat, a.subproject-url { color: var(--accent) !important; }
+        h1, h2, .skill-cat, .bullets li.proj-url { color: var(--accent) !important; }
         h2 { border-bottom-color: var(--accent) !important; }
       }
 
@@ -553,6 +621,46 @@ const { title } = Astro.props;
       .sidebar-header h2 { margin: 0; font-size: 14pt; border: 0; padding: 0; text-transform: none; letter-spacing: 0; }
       .back-link { font-size: 9pt; color: var(--muted); text-decoration: none; }
       .back-link:hover { color: var(--ink); }
+      button.back-link {
+        border: 0;
+        background: transparent;
+        font-family: inherit;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      /* Tabs "CVs base" / "CVs adaptados" de Mis CVs (Fase D). El estado vive en
+         html[data-cv-tab]; el panel inactivo queda fuera del render y del print. */
+      .cv-tabs {
+        display: flex;
+        gap: 6px;
+        padding: 12px 20px 0;
+        max-width: 8.5in;
+        margin: 0 auto;
+      }
+      .cv-tab {
+        border: 1px solid var(--rule);
+        background: transparent;
+        border-radius: 8px 8px 0 0;
+        padding: 8px 16px;
+        font-family: inherit;
+        font-size: 10pt;
+        color: var(--muted);
+        cursor: pointer;
+        transition: background 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out;
+      }
+      .cv-tab:hover { color: var(--ink); }
+      .cv-tab[aria-selected="true"] {
+        background: var(--bg);
+        border-color: var(--rule);
+        border-bottom-color: var(--bg);
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .cv-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .cv-panel[data-tab="base"], .cv-panel[data-tab="adapted"] { display: none; }
+      html[data-cv-tab="base"] .cv-panel[data-tab="base"],
+      html[data-cv-tab="adapted"] .cv-panel[data-tab="adapted"] { display: block; }
       .offer-list { flex: 1; overflow-y: auto; padding: 8px; }
       .offer-card {
         width: 100%;

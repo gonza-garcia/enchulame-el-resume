@@ -1,20 +1,20 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Adapted page /adapted/', () => {
-  test('main CV exposes navigation to adapted resumes', async ({ page }) => {
+test.describe('Tab CVs adaptados de Mis CVs', () => {
+  test('main CV exposes the adapted resumes tab', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('nav.site-nav a[href="/adapted/"]')).toBeVisible();
+    await expect(page.locator('.cv-tab', { hasText: 'CVs adaptados' })).toBeVisible();
   });
 
   test('page loads and sidebar shows offers', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await expect(page.locator('h2')).toContainText(['Ofertas']);
     // Ofertas capturadas en disco (Aurora Labs + Nimbus Software, y las que agreguen)
     await expect(page.locator('.offer-card').count()).resolves.toBeGreaterThan(0);
   });
 
   test('Aurora Labs offer card has correct metadata', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     const card = page.locator('.offer-card').filter({ hasText: 'Aurora Labs' });
     await expect(card).toHaveCount(1);
     await expect(card).toContainText('ReactJS Frontend Developer');
@@ -23,7 +23,7 @@ test.describe('Adapted page /adapted/', () => {
   });
 
   test('markdown content renders as HTML (not raw text)', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     // The offer content should have rendered HTML headings
     const offerContent = page.locator('.split-left .split-content').first();
     await expect(offerContent).toBeVisible();
@@ -38,7 +38,7 @@ test.describe('Adapted page /adapted/', () => {
   });
 
   test('match report is a separate tab with the analysis', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     // Aurora Labs is analizada: the Match report tab exists
     await page.locator('.offer-card').filter({ hasText: 'Aurora Labs' }).click();
     const reportTab = page.locator('.split-tabs button', { hasText: 'Match report' });
@@ -49,7 +49,7 @@ test.describe('Adapted page /adapted/', () => {
   });
 
   test('split-screen shows offer on left, adapted CV on right', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     // Seleccionar la tarjeta de Aurora Labs (la primera del listado es la mas nueva)
     await page.locator('.offer-card').filter({ hasText: 'Aurora Labs' }).click();
     await expect(page.locator('.split-left')).toBeVisible();
@@ -63,20 +63,22 @@ test.describe('Adapted page /adapted/', () => {
     await expect(activeCv).toContainText('SOLID');
   });
 
-  test('back link goes to main CV', async ({ page }) => {
-    await page.goto('/adapted/');
-    await expect(page.locator('.back-link')).toHaveAttribute('href', '/');
+  test('back button returns to the CVs base tab', async ({ page }) => {
+    await page.goto('/?tab=adaptados');
+    await page.locator('.back-link').click();
+    await expect(page.locator('.cv-panel[data-tab="base"]')).toBeVisible();
+    await expect(page.locator('.cv-panel[data-tab="adapted"]')).toBeHidden();
   });
 
   test('match score badge shows correct color (high = green)', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     const score = page.locator('.offer-card').filter({ hasText: 'Aurora Labs' }).locator('.offer-card-score');
     await expect(score).toHaveClass(/high/);
     await expect(score).toContainText('85/100');
   });
 
   test('adapted CV renders all sections', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await page.locator('.offer-card').filter({ hasText: 'Nimbus Software' }).click();
     const activeCv = page.locator('.split-right article.lang.active');
     await expect(activeCv.locator('h2', { hasText: 'Professional Summary' })).toBeVisible();
@@ -87,7 +89,7 @@ test.describe('Adapted page /adapted/', () => {
   });
 
   test('education note renders in the Aurora Labs adapted CV', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await page.locator('.offer-card').filter({ hasText: 'Aurora Labs' }).click();
     await expect(page.locator('.split-right')).toContainText('degree unfinished');
   });

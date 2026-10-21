@@ -2,8 +2,9 @@
 import { codeToHtml } from 'shiki';
 import '../styles/ui.css';
 import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/SiteNav.astro';
 import InterviewPrep from '../islands/interview-prep/InterviewPrep';
-import { loadProfile } from '../lib/profile';
+import { loadProfile, nameInitials } from '../lib/profile';
 import { loadLearningPlan } from '../lib/learning-plan';
 import { assertReviewPlanQuestionIds, loadReviewPlans } from '../lib/interview-review-plan';
 import {
@@ -198,6 +199,18 @@ const sources = Array.from(
 ---
 
 <Layout title={`Prep entrevistas - ${profile.identity.name.en}`}>
+  {/* Navbar slim de 3 destinos (Fase D): brand + links, sin controles de export/tema
+      (el Toolbar completo vive en "Mis CVs"). */}
+  <div class="toolbar">
+    <SiteNav
+      brand={{
+        mark: nameInitials(profile.identity.name.en),
+        name: profile.identity.name.en,
+        role: profile.positionings[0].title.en
+      }}
+    />
+    <div class="spacer"></div>
+  </div>
   <InterviewPrep
     client:load
     questions={questions}

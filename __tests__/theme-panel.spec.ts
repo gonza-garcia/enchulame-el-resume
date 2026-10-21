@@ -41,12 +41,12 @@ test.describe('Theme panel', () => {
 
   test('accent applies to name (h1) when "name" is checked', async ({ page }) => {
     await page.click('button[data-theme="teal"]');
-    await expect(page.locator('.lang.active h1')).toHaveCSS('color', /rgb\(15,\s*76,\s*76\)/i);
+    await expect(page.locator('#cv-panel-base .lang.active h1')).toHaveCSS('color', /rgb\(15,\s*76,\s*76\)/i);
   });
 
   test('accent applies to section headings (h2) when "sections" is checked', async ({ page }) => {
     await page.click('button[data-theme="navy"]');
-    const h2Color = await page.locator('.lang.active h2').first().evaluate((el) => getComputedStyle(el).color);
+    const h2Color = await page.locator('#cv-panel-base .lang.active h2').first().evaluate((el) => getComputedStyle(el).color);
     // Navy #1a365d → r:26, g:54, b:93
     expect(h2Color).toMatch(/rgb\(26,\s*54,\s*93\)/i);
   });

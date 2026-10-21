@@ -71,13 +71,14 @@ export function buildResumeDocx(resume: ResumeLocale): Document {
 
   children.push(heading('Experience'));
   for (const job of resume.experience) {
-    children.push(labelLine(job.company, `${job.role} (${job.startDate} - ${job.endDate})`));
+    children.push(new Paragraph({ children: [new TextRun({ text: job.role, bold: true })] }));
+    children.push(new Paragraph({ children: [new TextRun({ text: job.company, bold: true })] }));
+    children.push(text(`${job.startDate} - ${job.endDate}`));
     for (const project of job.projects) {
       children.push(
         new Paragraph({
-          children: [
-            new TextRun({ text: `${project.name} (${project.startDate} - ${project.endDate})`, italics: true })
-          ]
+          bullet: { level: 0 },
+          children: [new TextRun({ text: `Project: ${project.name}`, italics: true })]
         })
       );
       if (project.url) children.push(text(project.url));

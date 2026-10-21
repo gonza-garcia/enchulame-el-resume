@@ -18,10 +18,10 @@ function AdaptedCv({ data, activeLang }: { data: Resume; activeLang: 'es' | 'en'
             <p className="titleline">{data[langKey].title}</p>
             <p className="contactline">
               <span>{data[langKey].contact.phone}</span><span className="sep"> • </span>
-              <a href={`mailto:${data[langKey].contact.email}`}>{data[langKey].contact.email}</a><span className="sep"> • </span>
+              <span>{data[langKey].contact.email}</span><span className="sep"> • </span>
               <span>{data[langKey].contact.location}</span><span className="sep"> • </span>
-              <a href={`https://${data[langKey].contact.linkedin}`}>{data[langKey].contact.linkedin}</a><span className="sep"> • </span>
-              <a href={`https://${data[langKey].contact.github}`}>{data[langKey].contact.github}</a>
+              <span>{data[langKey].contact.linkedin}</span><span className="sep"> • </span>
+              <span>{data[langKey].contact.github}</span>
             </p>
           </header>
           <section>
@@ -42,19 +42,15 @@ function AdaptedCv({ data, activeLang }: { data: Resume; activeLang: 'es' | 'en'
             {data[langKey].experience.map((job, i) => (
               <div className="job" key={i}>
                 <div className="job-head">
-                  <span className="company">{job.company}</span>
-                  <span className="meta">{job.role} | {job.startDate} - {job.endDate}</span>
+                  <div className="job-role">{job.role}</div>
+                  <div className="job-company">{job.company}</div>
+                  <div className="job-dates">{job.startDate} - {job.endDate}</div>
                 </div>
                 {job.projects.map((project, j) => (
                   <div className="subproject" key={j}>
-                    <div className="subproject-intro">
-                      <div className="subproject-head">
-                        <span className="subproject-name">{project.name}</span>
-                        <span className="subproject-dates">{project.startDate} - {project.endDate}</span>
-                      </div>
-                      {project.url && <a className="subproject-url" href={project.url}>{project.url}</a>}
-                    </div>
                     <ul className="bullets">
+                      <li className="proj-line"><span className="proj-label">{langKey === 'es' ? 'Proyecto:' : 'Project:'}</span>{project.name}</li>
+                      {project.url && <li className="proj-url">{project.url}</li>}
                       {project.bullets.map((bullet, k) => <li key={k}>{bullet}</li>)}
                     </ul>
                   </div>

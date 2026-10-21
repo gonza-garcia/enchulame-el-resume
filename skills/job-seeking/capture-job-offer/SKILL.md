@@ -83,6 +83,28 @@ Tres casos posibles:
 Criterio de completado: tenés texto verbatim de la oferta en tu contexto, venga
 del camino que venga.
 
+### 1b. Chequeo de duplicados y postulaciones previas
+
+Antes de obtener nada (ADR-0038), contraer `docs/job-offers/*/offer.md` de todas las
+ofertas capturadas y sus `application.md`:
+
+- **Por URL**: si el job id o la URL del input ya aparece en el frontmatter `url` o
+  `url_alternativa` de algún `offer.md`, NO capturar nada. Informar a la usuario: la
+  carpeta donde ya está, su estado (Agregada, Analizada o Adaptada según los archivos
+  presentes) y, si tiene `application.md`, "ya postulada" con su `fecha_envio` y su
+  `estado`. Es el caso típico de "puede que ya haya aplicado".
+- **Por contenido**: comparar empresa y rol normalizados y el parecido del texto contra
+  las ofertas capturadas. Si es el mismo aviso publicado otra vez (texto idéntico o casi),
+  crear UNA sola carpeta y registrar el link nuevo en el frontmatter `url_alternativa`.
+  Si el texto se parece pero es distinto (misma empresa, rol parecido), capturar normal y
+  marcar el posible duplicado en el lote de preguntas del final.
+- **Por postulación**: si la carpeta que se va a crear o reusar ya tiene `application.md`,
+  avisar "ya postulada" con fecha y estado antes de hacer cualquier trabajo.
+
+Criterio de completado: el input está cotejado contra lo capturado y las postulaciones
+registradas, y el resultado (nuevo, duplicado por link, posible duplicado por contenido)
+queda dicho en la respuesta.
+
 ### 2. Obtener la oferta del link
 
 Estrategia por orden, cortando en el primer intento que devuelva el contenido
@@ -148,6 +170,9 @@ Del texto y del link:
 - `rol`: título del puesto (como aparece; no inventar seniority).
 - `fecha`: fecha de hoy en formato YYYY-MM-DD salvo que la oferta indique otra.
 - `url`: el link de la oferta, o null si vino de un texto pegado sin link.
+- `url_alternativa` (opcional, repetible): otras URLs del mismo aviso que encontró el
+  chequeo de duplicados (publicaciones repetidas). No cambia la carpeta; va al
+  frontmatter al guardar. El JSON de captura conserva sus 10 campos.
 - `modalidad`: remote | hybrid | onsite | unknown (según la oferta).
 - `location`: ciudad y país, o null.
 - `salario`: rango o monto tal como aparece (moneda, periodo y bandas incluidas), o null.
@@ -210,9 +235,10 @@ docs/job-offers/
 - **Slug**: `fecha-empresa-rol`, minúsculas, guiones por espacios, sin acentos
   ni caracteres especiales. Ejemplo: `2026-10-05-aurora-labs-reactjs-frontend-developer`.
 - **Colisión**: si la carpeta ya existe y es una oferta distinta, sufijar con
-  `-2`, `-3`, etc.
-- **offer.md**: frontmatter con los campos de metadata (empresa, rol, fecha,
-  url, modalidad, location, salario, recruiter) seguido del heading
+  `-2`, `-3`, etc. Si es la MISMA oferta (link repetido o contenido idéntico), no crear
+  carpeta nueva: ver el chequeo de duplicados (paso 1b).
+- **offer.md**: frontmatter con los campos de metadata (empresa, rol, fecha, url,
+  url_alternativa opcional, modalidad, location, salario, recruiter) seguido del heading
   `# Oferta original` y el texto verbatim completo debajo.
 - `cover-letter.md` (opcional) lo genera adapt-resume-to-offer cuando el usuario
   la pide: la carta aprobada para esa oferta. No cambia el estado de la oferta.
@@ -223,6 +249,7 @@ empresa: EMPRESA
 rol: ROL
 fecha: YYYY-MM-DD
 url: URL o N/A
+url_alternativa: URL o N/A
 modalidad: remote | hybrid | onsite
 location: Ciudad, Pais
 salario: Rango o N/A
@@ -291,6 +318,8 @@ documentado, se termina el trabajo y recién ahí se pregunta.
 
 - No hay link ni texto de la oferta, o el link está roto, el fetch falló y no hay
   texto: pedir el texto completo de la oferta tal como lo recibió.
+- El link ya está capturado (chequeo de duplicados, paso 1b): no hay trabajo nuevo.
+  Se informa dónde está, en qué estado y si ya se postuló, y se corta.
 
 **No bloquea** (default + pregunta al final):
 

@@ -1,0 +1,45 @@
+---
+/**
+ * Navbar consistente del sitio (Fase D): brand + los 3 destinos, la misma pieza en
+ * las 4 páginas. Vive dentro del Toolbar en "Mis CVs" y como barra slim en
+ * `/interview` y `/learning`. Los destinos están fijos acá para no repetirlos.
+ */
+export interface SiteNavBrand {
+  mark: string;
+  name: string;
+  role: string;
+}
+
+interface Props {
+  brand: SiteNavBrand;
+}
+
+const { brand } = Astro.props;
+
+const destinations = [
+  { href: '/', label: 'Mis CVs' },
+  { href: '/interview/', label: 'Prep entrevistas' },
+  { href: '/learning/', label: 'Plan de estudios' }
+];
+
+const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
+const currentPath = normalize(Astro.url.pathname);
+const isActive = (href: string) => currentPath === normalize(href);
+---
+
+<a href="/" class="brand" aria-label="Mis CVs">
+  <span class="brand-mark">{brand.mark}</span>
+  <span class="brand-text">
+    <span class="brand-name">{brand.name}</span>
+    <span class="brand-role">{brand.role}</span>
+  </span>
+</a>
+<nav class="site-nav" aria-label="Site navigation">
+  {destinations.map((link) => (
+    <a
+      class={`site-nav-link${isActive(link.href) ? ' active' : ''}`}
+      href={link.href}
+      aria-current={isActive(link.href) ? 'page' : undefined}
+    >{link.label}</a>
+  ))}
+</nav>

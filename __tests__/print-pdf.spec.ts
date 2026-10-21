@@ -70,7 +70,7 @@ test.describe('Print PDF - no browser headers/footers', () => {
   test('print keeps a complete subproject together when it fits', async ({ page }) => {
     await page.goto('/');
     const project = page
-      .locator('.lang.active .subproject')
+      .locator('#cv-panel-base .lang.active .subproject')
       .filter({ hasText: 'Freightline Control (cargo operations console)' });
     await expect(project).toContainText('Modernized Aeronix');
 
@@ -86,9 +86,11 @@ test.describe('Print PDF - no browser headers/footers', () => {
   test('print renders only the active projection', async ({ page }) => {
     await page.goto('/');
     await page.emulateMedia({ media: 'print' });
+    // checkVisibility: los articulos del panel de adaptados existen en el DOM aunque
+    // su tab este inactiva; solo cuenta lo que de verdad se imprime.
     const visible = await page.evaluate(() =>
       Array.from(document.querySelectorAll('article.lang'))
-        .filter((article) => getComputedStyle(article).display !== 'none')
+        .filter((article) => article.checkVisibility())
         .map((article) => `${article.getAttribute('data-positioning')}:${article.getAttribute('data-lang')}`)
     );
     expect(visible).toEqual(['frontend:en']);
@@ -99,14 +101,14 @@ test.describe('Print PDF - no browser headers/footers', () => {
     await page.emulateMedia({ media: 'print' });
     const switched = await page.evaluate(() =>
       Array.from(document.querySelectorAll('article.lang'))
-        .filter((article) => getComputedStyle(article).display !== 'none')
+        .filter((article) => article.checkVisibility())
         .map((article) => `${article.getAttribute('data-positioning')}:${article.getAttribute('data-lang')}`)
     );
     expect(switched).toEqual(['ai:es']);
   });
 
   test('adapted page print hides sidebar, offer panel, and split-headers', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     const printCss = await page.evaluate(() => {
       const blocks: string[] = [];
       for (const sheet of Array.from(document.styleSheets)) {
@@ -150,13 +152,13 @@ test.describe('Print PDF - no browser headers/footers', () => {
     expect(titleEs).toBe('Montiel Ariana - CV - ES');
   });
 
-  test('el dialogo de PDF sugiere el nombre neutro, sin empresa, en /adapted', async ({ page }) => {
+  test('el dialogo de PDF sugiere el nombre neutro, sin empresa, en la tab de adaptados', async ({ page }) => {
     await page.addInitScript(() => {
       window.print = () => {
         (window as unknown as { __printedTitle?: string }).__printedTitle = document.title;
       };
     });
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await page.waitForFunction(
       () => document.documentElement.getAttribute('data-offers-hydrated') === 'true'
     );

@@ -10,16 +10,21 @@ type Locale = 'es' | 'en';
 declare global {
   interface Window {
     __exportResume?: Record<Locale, unknown> | Record<Locale, never> | null;
+    __adaptedExportResume?: Record<Locale, unknown> | Record<Locale, never> | null;
   }
 }
 
 const PAGE_TITLE = document.title;
 
 function getExportResume(): Record<Locale, unknown> | null {
-  const fromWindow = window.__exportResume;
+  // El export actua sobre el documento activo: en la tab "CVs adaptados" es el
+  // adapted-resume de la oferta seleccionada; en "CVs base", la proyeccion activa.
+  const onAdaptedTab = document.documentElement.getAttribute('data-cv-tab') === 'adapted';
+  const fromWindow = onAdaptedTab ? window.__adaptedExportResume : window.__exportResume;
   if (fromWindow && 'es' in fromWindow && 'en' in fromWindow) {
     return fromWindow as Record<Locale, unknown>;
   }
+  if (onAdaptedTab) return null;
   const dataEl = document.getElementById('resume-data');
   if (dataEl && dataEl.textContent) {
     try {
@@ -128,6 +133,8 @@ exportBtn?.addEventListener('click', (e) => {
   e.stopPropagation();
   setExport(!exportOpen);
 });
+// Las cards de posicionamiento piden abrir el menu de export sobre su CV activo.
+document.addEventListener('toolbar:export-open', () => setExport(true));
 document.addEventListener('click', (e) => {
   if (exportOpen && !exportMenu?.contains(e.target as Node) && e.target !== exportBtn) setExport(false);
 });

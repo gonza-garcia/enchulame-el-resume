@@ -82,8 +82,8 @@ _Avoid_: refresh, reload, sincronización
 ### Componentes y skills
 
 **Isla de ofertas**:
-Componente React hidratado en /adapted que administra la lista de ofertas, sus
-estados, modales y verificaciones. No interviene en el CV principal.
+Componente React hidratado en la tab "CVs adaptados" de "Mis CVs" (`/`) que administra
+la lista de ofertas, sus estados, modales y verificaciones. No interviene en el CV base.
 _Avoid_: gestor de ofertas, offers manager
 
 **Isla de interview prep**:

@@ -12,7 +12,7 @@ async function waitHydrated(page: import('@playwright/test').Page) {
   );
 }
 
-test.describe.serial('Offers manager (isla React en /adapted)', () => {
+test.describe.serial('Offers manager (isla React en la tab CVs adaptados)', () => {
   test.afterAll(() => {
     if (createdOfferDir) fs.rmSync(createdOfferDir, { recursive: true, force: true });
   });
@@ -33,7 +33,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('badges por estado y botones por estado', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     const card = page.locator('.offer-card').filter({ hasText: 'Nimbus Software' });
     await expect(card.locator('.offer-card-badge')).toContainText('CV adaptado');
@@ -44,7 +44,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('agregar oferta: validacion y guardado con verificacion end-to-end', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     await page.getByRole('button', { name: '+ Agregar oferta' }).click();
 
@@ -100,7 +100,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
 
   test('oferta agregada aparece en sidebar con badge Agregada y botones de analisis', async ({ page }) => {
     // La oferta de la suite serial anterior persiste en disco hasta afterAll
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     const card = page
       .locator('.offer-card')
@@ -114,7 +114,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('modal de IA de captura: prompt con placeholder y autocompletado del form', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     await page.getByRole('button', { name: '+ Agregar oferta' }).click();
     await page.getByRole('button', { name: 'Usar IA' }).click();
@@ -152,7 +152,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('modal de IA de captura rechaza output sin JSON', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     await page.getByRole('button', { name: '+ Agregar oferta' }).click();
     await page.getByRole('button', { name: 'Usar IA' }).click();
@@ -163,7 +163,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('analisis manual: template y guardado de match-report', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     const card = page.locator('.offer-card').filter({ hasText: 'TestCorp' });
     await card.getByRole('button', { name: 'Analizar a mano' }).click();
@@ -188,7 +188,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('oferta analizada muestra badge y bot\u00f3n Adaptar CV', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     const card = page.locator('.offer-card').filter({ hasText: 'TestCorp' });
     await expect(card.locator('.offer-card-badge')).toContainText('Analizada');
@@ -198,7 +198,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
   });
 
   test('cargar repaso: navega a /interview y se deshabilita sin plan en disco', async ({ page }) => {
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
 
     // Aurora Labs tiene interview-review-plan.json: el boton navega a /interview
@@ -214,7 +214,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
     );
 
     // TestCorp esta analizada pero sin plan: boton deshabilitado que explica como generarlo
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     const testcorpBtn = page
       .locator('.offer-card')
@@ -227,7 +227,7 @@ test.describe.serial('Offers manager (isla React en /adapted)', () => {
 
   test('cover letter: el boton abre el modal de lectura, con PDF y DOCX', async ({ page }) => {
     // Nimbus Software esta adaptada y ya tiene cover-letter.md guardada por la skill
-    await page.goto('/adapted/');
+    await page.goto('/?tab=adaptados');
     await waitHydrated(page);
     await page
       .locator('.offer-card')

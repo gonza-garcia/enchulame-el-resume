@@ -16,8 +16,12 @@ privado de planning) y no forma parte del producto.
   (ADR-0026). El perfil es la fuente única de datos, en capas: identidad, hechos, skills como
   entidad y posicionamientos.
 - El contenido base tiene dos locales: `es` y `en`. La UI de las islas queda en español.
-- El sitio es Astro 7 (upgrade documentado en ADR-0020). El CV (`/`) es estático vanilla;
-  `/adapted`, `/interview` y `/learning` son islas React (ADR-0021, ADR-0024 y ADR-0029).
+- El sitio es Astro 7 (upgrade documentado en ADR-0020). "Mis CVs" (`/`) fusiona el CV
+  base canónico imprimible (estático vanilla) con los CVs adaptados en dos tabs, y aloja
+  la isla React del gestor de ofertas en su tab "CVs adaptados"; `/interview` y
+  `/learning` son islas React (ADR-0021, ADR-0024, ADR-0029 y ADR-0040). La navbar de
+  3 destinos ("Mis CVs", "Prep entrevistas" y "Plan de estudios") es la misma en todas
+  las páginas (ADR-0040).
 - `/interview` publica el banco de prep de entrevistas en inglés, con filtros por área, nivel,
   rol y frecuencia, un "Filtro" de texto sobre las tarjetas y una búsqueda global con ranking
   (área > título > respuesta), preguntas trampa, quizzes y escenarios de código. El contenido
@@ -30,16 +34,17 @@ privado de planning) y no forma parte del producto.
   y `adapted-resume.json`; el estado se deriva del disco (ADR-0022). El repo lleva dos ofertas
   demo ficticias (Aurora Labs y Nimbus Software) como fixtures del producto; en una instancia
   propias, las ofertas reales del usuario quedan fuera de git.
-- El gestor de ofertas en `/adapted` lista exactamente lo que hay en disco y sus flujos de
-  creación usan el puente de prompts con las skills del repo (ADR-0023).
+- El gestor de ofertas, en la tab "CVs adaptados" de "Mis CVs", lista exactamente lo que
+  hay en disco y sus flujos de creación usan el puente de prompts con las skills del repo
+  (ADR-0023).
 - Las skills del flujo viven en `skills/job-seeking/`: `build-profile`, `capture-job-offer`,
   `adapt-resume-to-offer`, `research-content`, `content-designer`, `capture-learning-plan`
   y `build-interview-review-plan`.
 - Cada oferta puede llevar un plan de repaso (`interview-review-plan.json`, ADR-0035) que
   `build-interview-review-plan` genera cruzando los "Temas a repasar" del match-report
-  contra el banco. `/adapted` ofrece "Cargar repaso" por oferta (navega a `/interview`) y
-  `/interview` lo carga con confirmación (AlertDialog) y toast, con marcas por tema y
-  filtro opcional al repaso, sin tocar `interview-progress`.
+  contra el banco. La tab "CVs adaptados" ofrece "Cargar repaso" por oferta (navega a
+  `/interview`) y `/interview` lo carga con confirmación (AlertDialog) y toast, con marcas
+  por tema y filtro opcional al repaso, sin tocar `interview-progress`.
 
 ## Fuente de verdad
 
@@ -87,10 +92,15 @@ pegar y guardar después, con el mismo destino.
 ### Formato y arquitectura
 
 - Astro 7 genera HTML, CSS y JavaScript estáticos.
-- El CV principal mantiene interactividad vanilla. Las páginas `/adapted`, `/interview` y
-  `/learning` usan islas React porque administran estados y flujos de interacción más
-  complejos.
+- El CV principal mantiene interactividad vanilla. La isla del gestor de ofertas vive en
+  la tab "CVs adaptados" de "Mis CVs" y las páginas `/interview` y `/learning` usan islas
+  React porque administran estados y flujos de interacción más complejos (ADR-0040).
 - El layout principal es single column para mantener la lectura ATS.
+- La experiencia laboral se renderiza en formato ATS-safe, revisión v3 (ADR-0039): una
+  entrada por empleo en tres líneas (rol, empresa, fechas del empleo); los proyectos
+  internos se renderizan como bullets con la etiqueta `Project:` y sin fechas propias, con
+  nombres en la convención `Marca cliente - descriptor`; y la línea de contacto va en
+  texto plano sin links.
 - El toggle de idioma, los exports y el panel de tema funcionan del lado cliente.
 - El PDF se genera con `window.print()` y CSS de impresión, sin una librería de PDF.
 - La impresión conserva el accent elegido para headings y URLs, con texto y fondo claros para
@@ -136,6 +146,25 @@ pegar y guardar después, con el mismo destino.
 - `/learning` e `/interview` quedan conectadas con enlaces de datos bidireccionales y quizzes
   por fase, sobre el banco reorganizado en áreas 1:1 con las fases (los id de pregunta se
   conservan para no perder el progreso guardado).
+
+### Página "Mis CVs" (ADR-0040)
+
+- "Mis CVs" vive en `/` con tabs "CVs base" (default) y "CVs adaptados". El CV base
+  canónico imprimible sigue en `/`: sin JavaScript se renderiza el CV base y el print
+  emite solo el documento activo (el chrome de tabs y cards no se imprime).
+- La tab "CVs base" tiene cards por posicionamiento como selector (título, resumen y
+  acciones "Imprimir PDF" / "Exportar") con el CV activo debajo; reemplazan al toggle
+  del toolbar, que queda con idioma / export / tema.
+- La tab "CVs adaptados" aloja el gestor de ofertas con sus cards por oferta y el estado
+  derivado del disco (ADR-0022 sin cambios).
+- La ruta `/adapted` ya no existe: el deep link canónico es `/?tab=adaptados` (se acepta
+  también `?tab=adapted`). El back-link del gestor es "← CVs base" y activa la tab.
+- Navbar consistente de 3 destinos ("Mis CVs" · "Prep entrevistas" · "Plan de estudios")
+  en todas las páginas, desde el componente compartido `SiteNav`. El Toolbar completo
+  (idioma / export / tema) vive solo en "Mis CVs"; `/interview` y `/learning` conservan
+  su header propio.
+- El diálogo de PDF sugiere el nombre neutro del ADR-0036 en ambas tabs, y los exports
+  actúan sobre el documento activo resuelto por tab.
 
 ### Plan de repaso por oferta (ADR-0035)
 
@@ -217,6 +246,9 @@ están en `docs/deploy.md`.
 | 0035 | Vigente | Plan de repaso por oferta |
 | 0036 | Vigente | Nombres neutros para los documentos exportados |
 | 0037 | Vigente | Contenido externo como dato no confiable |
+| 0038 | Vigente | Chequeo de duplicados y postulaciones previas antes de capturar |
+| 0039 | Vigente | Formato de experiencia ATS-safe |
+| 0040 | Vigente | "Mis CVs": fusión de `/` y `/adapted` con tabs y navbar consistente |
 
 Los ADRs personales (decisiones del CV y hosting de las apps personales) están en
 `docs/planning/adr/` y son legado del planning. Los ADRs históricos se conservan como
@@ -318,3 +350,26 @@ contexto y no contradecir las decisiones vigentes de este README.
   seguir links internos, sin enviar datos del perfil, y reportando cualquier intento de
   inyección al usuario (ADR-0037). La regla operativa vive en `capture-job-offer` y la
   referencian el resto de las skills y el `AGENTS.md`.
+- 19 oct 2026: chequeo de duplicados y postulaciones previas antes de capturar
+  (ADR-0038): `capture-job-offer` compara el input por link (`url` y `url_alternativa`
+  de las ofertas capturadas), por contenido (el mismo aviso publicado otra vez) y por
+  `application.md` ("ya postulada", con fecha y estado), y el frontmatter de `offer.md`
+  suma `url_alternativa` para registrar publicaciones repetidas sin crear carpeta nueva.
+- 19 oct 2026: formato de experiencia ATS-safe (ADR-0039): el empleo se renderiza en dos
+  líneas (rol y luego `Empresa | fechas del empleo`), los proyectos internos van con la
+  etiqueta `Project:` y años compactos (`2023-2026`), y los nombres de proyecto siguen la
+  convención `Marca cliente - descriptor` en el perfil y los CV adaptados. Aplica en el CV
+  principal, el CV adaptado y el export DOCX; `build-profile` y `adapt-resume-to-offer`
+  escriben la convención.
+- 21 oct 2026: revisión v3 del formato ATS-safe (ADR-0039) tras probar el PDF contra el
+  parser de Compassion: el empleo va en tres líneas (rol, empresa, fechas), los proyectos
+  se renderizan como bullets con la etiqueta `Project:` y sin fechas propias, y la línea de
+  contacto queda en texto plano sin links. Los años compactos de proyecto del formato v2
+  quedan descartados por defecto (disparaban empleos falsos en el parser).
+- 21 oct 2026: Fase D — "Mis CVs" fusiona `/` y `/adapted` en dos tabs ("CVs base" con
+  cards por posicionamiento que reemplazan al toggle del toolbar, y "CVs adaptados" con
+  el gestor de ofertas), la ruta `/adapted` se elimina sin stub (deep link canónico
+  `/?tab=adaptados`) y la navbar de 3 destinos ("Mis CVs", "Prep entrevistas" y "Plan de
+  estudios") queda consistente en todas las páginas desde el componente `SiteNav`, con el
+  Toolbar completo solo en "Mis CVs". El print sigue emitiendo solo el documento activo y
+  el diálogo de PDF sugiere el nombre neutro en ambas tabs (ADR-0040).

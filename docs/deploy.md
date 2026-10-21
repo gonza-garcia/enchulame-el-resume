@@ -45,9 +45,10 @@ build. No se publica nunca.
 El único requisito es servir `dist/` con HTTPS. Notas comunes:
 
 - Servir `index.html` ante rutas desconocidas no hace falta: el sitio genera una carpeta por
-  página (`/adapted/index.html`, `/interview/index.html`, `/learning/index.html`).
-- La página `/adapted` es una herramienta local de trabajo: sus flujos de creación de ofertas
-  viven en el dev server (ADR-0023). En el sitio publicado no hay backend de ofertas.
+  página (`/index.html`, `/interview/index.html`, `/learning/index.html`).
+- La tab "CVs adaptados" de "Mis CVs" es una herramienta local de trabajo: sus flujos de
+  creación de ofertas viven en el dev server (ADR-0023). En el sitio publicado no hay
+  backend de ofertas.
 - Si el host permite headers, mantener el cache de los assets con hash y el HTML sin cache
   largo.
 

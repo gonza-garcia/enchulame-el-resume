@@ -1,11 +1,8 @@
 ---
+import SiteNav from './SiteNav.astro';
+
 interface ExportItem {
   value: string;
-  label: string;
-}
-
-interface NavigationLink {
-  href: string;
   label: string;
 }
 
@@ -15,11 +12,6 @@ export interface ToolbarBrand {
   role: string;
 }
 
-export interface PositioningOption {
-  id: string;
-  label: string;
-}
-
 interface Props {
   idPrefix?: string;
   brand: ToolbarBrand;
@@ -27,9 +19,7 @@ interface Props {
   exportItems?: ExportItem[];
   showTheme?: boolean;
   tip?: string;
-  navLinks?: NavigationLink[];
   showLang?: boolean;
-  positionings?: PositioningOption[];
 }
 
 const {
@@ -44,14 +34,10 @@ const {
   ],
   showTheme = false,
   tip = '',
-  navLinks = [],
-  showLang = true,
-  positionings = []
+  showLang = true
 } = Astro.props;
 
 const p = idPrefix;
-const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const isActive = (href: string) => currentPath === href.replace(/\/+$/, '');
 
 // Aviso no invasivo del modo de build: nunca en dev (que es la app viva con los
 // datos reales del usuario y no es un artefacto publicable).
@@ -63,32 +49,8 @@ const buildNotice = import.meta.env.DEV
 ---
 
 <div class="toolbar" role="toolbar" aria-label="Site controls" data-pdf-title={pdfTitle}>
-  <a href="/" class="brand" aria-label="CV principal">
-    <span class="brand-mark">{brand.mark}</span>
-    <span class="brand-text">
-      <span class="brand-name">{brand.name}</span>
-      <span class="brand-role">{brand.role}</span>
-    </span>
-  </a>
-  {navLinks.length > 0 && (
-    <nav class="site-nav" aria-label="Site navigation">
-      {navLinks.map((link) => (
-        <a
-          class={`site-nav-link${isActive(link.href) ? ' active' : ''}`}
-          href={link.href}
-          aria-current={isActive(link.href) ? 'page' : undefined}
-        >{link.label}</a>
-      ))}
-    </nav>
-  )}
+  <SiteNav brand={brand} />
   <div class="spacer"></div>
-  {positionings.length > 1 && (
-    <div class="toggle" role="group" aria-label="Positioning">
-      {positionings.map((option, index) => (
-        <button type="button" data-positioning={option.id} aria-pressed={index === 0 ? 'true' : 'false'}>{option.label}</button>
-      ))}
-    </div>
-  )}
   {showLang && (
     <div class="toggle" role="group" aria-label="Language">
       <button type="button" id={`${p}btn-en`} aria-pressed="true">EN</button>

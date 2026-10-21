@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 
 test.describe('Header unificado (Toolbar compartido)', () => {
-  const pages = ['/', '/adapted/'];
+  const pages = ['/', '/?tab=adaptados'];
 
   for (const path of pages) {
     test(`header completo y estilizado en ${path}`, async ({ page }) => {
@@ -13,7 +13,7 @@ test.describe('Header unificado (Toolbar compartido)', () => {
       await expect(brand.locator('.brand-mark')).toHaveText('AM');
       await expect(brand.locator('.brand-name')).toContainText('Ariana Montiel');
 
-      await expect(page.locator('.site-nav-link', { hasText: 'CVs adaptados' })).toBeVisible();
+      await expect(page.locator('.site-nav-link', { hasText: 'Mis CVs' })).toBeVisible();
       await expect(page.locator('.site-nav-link', { hasText: 'Prep entrevistas' })).toBeVisible();
 
       await expect(page.locator('.toolbar .toggle button#btn-en')).toBeVisible();
@@ -42,13 +42,13 @@ test.describe('Header unificado (Toolbar compartido)', () => {
   });
 
   test('nav marca activa la pagina actual', async ({ page }) => {
-    await page.goto('/adapted/');
-    await expect(page.locator('.site-nav-link', { hasText: 'CVs adaptados' })).toHaveClass(/active/);
+    await page.goto('/?tab=adaptados');
+    await expect(page.locator('.site-nav-link', { hasText: 'Mis CVs' })).toHaveClass(/active/);
     await expect(page.locator('.site-nav-link', { hasText: 'Prep entrevistas' })).not.toHaveClass(/active/);
   });
 
-  test('toggle de idioma del header controla el CV adaptado en /adapted', async ({ page }) => {
-    await page.goto('/adapted/');
+  test('toggle de idioma del header controla el CV adaptado en la tab de adaptados', async ({ page }) => {
+    await page.goto('/?tab=adaptados');
     await page.waitForFunction(
       () => document.documentElement.getAttribute('data-offers-hydrated') === 'true'
     );
@@ -60,8 +60,8 @@ test.describe('Header unificado (Toolbar compartido)', () => {
     await page.locator('.toolbar #btn-en').click();
   });
 
-  test('export JSON en /adapted descarga el adapted-resume de la oferta seleccionada', async ({ page }) => {
-    await page.goto('/adapted/');
+  test('export JSON en la tab de adaptados descarga el adapted-resume de la oferta seleccionada', async ({ page }) => {
+    await page.goto('/?tab=adaptados');
     await page.waitForFunction(
       () => document.documentElement.getAttribute('data-offers-hydrated') === 'true'
     );
@@ -73,13 +73,13 @@ test.describe('Header unificado (Toolbar compartido)', () => {
     expect(download.suggestedFilename()).toBe('2026-10-05-nimbus-software-senior-frontend-engineer-adapted-resume.json');
   });
 
-  test('modal de LinkedIn en /adapted usa el CV adaptado seleccionado', async ({ page }) => {
-    await page.goto('/adapted/');
+  test('modal de LinkedIn en la tab de adaptados usa el CV adaptado seleccionado', async ({ page }) => {
+    await page.goto('/?tab=adaptados');
     await page.waitForFunction(
       () => document.documentElement.getAttribute('data-offers-hydrated') === 'true'
     );
     await page.locator('.offer-card').filter({ hasText: 'Nimbus Software' }).click();
-    const exported = await page.evaluate(() => window.__exportResume);
+    const exported = await page.evaluate(() => window.__adaptedExportResume);
     expect(exported).toBeTruthy();
     expect(exported.en.summary).toContain('real-time analytics');
   });

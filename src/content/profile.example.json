@@ -19,8 +19,8 @@
         "projects": [
           {
             "name": {
-              "es": "Freightline Control (consola de operaciones de carga)",
-              "en": "Freightline Control (cargo operations console)"
+              "es": "Freightline Control - consola de operaciones de carga",
+              "en": "Freightline Control - cargo operations console"
             },
             "startDate": { "es": "Ene 2023", "en": "Jan 2023" },
             "endDate": { "es": "Ago 2026", "en": "Aug 2026" },
@@ -92,7 +92,7 @@
             ]
           },
           {
-            "name": { "es": "Portal de clientes (autoservicio)", "en": "Customer portal (self-service)" },
+            "name": { "es": "Portal de clientes - autoservicio", "en": "Customer portal - self-service" },
             "startDate": { "es": "Abr 2021", "en": "Apr 2021" },
             "endDate": { "es": "Dic 2022", "en": "Dec 2022" },
             "bullets": [

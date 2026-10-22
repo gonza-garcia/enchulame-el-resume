@@ -27,7 +27,7 @@ test.describe('Resume content sanity (demo fixtures)', () => {
     await page.goto('/');
     await expect(page.locator(EN)).toContainText('Aeronix Logistics');
     await expect(page.locator(EN)).toContainText('Solmar Retail Tech');
-    await expect(page.locator(EN)).toContainText('Freightline Control (cargo operations console)');
+    await expect(page.locator(EN)).toContainText('Client: Freightline Control (2023-2026) | cargo operations console');
     await expect(page.locator(EN)).toContainText('Modernized Aeronix');
   });
 

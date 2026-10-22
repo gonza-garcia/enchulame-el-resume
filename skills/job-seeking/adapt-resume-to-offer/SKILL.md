@@ -259,8 +259,11 @@ estructura, mismos campos, sin campos nuevos. Reglas de contenido:
 - Formato ATS de experiencia (ADR-0039): los proyectos de cada empleo van con
   nombre `Marca cliente - descriptor` ("Aeronix - cargo operations
   console") y conservan sus `startDate`/`endDate` en el JSON; el render los
-  muestra como bullets con la etiqueta `Project:` y sin fechas propias, y el único
-  rango de fechas visible es el del empleo.
+  muestra como bloques de cliente (`Client: <cliente> (<años>) | descriptor`)
+  con los años en paréntesis, bullets de carácter literal (`•`, `-`) y el único
+  rango de fechas largo visible es el del empleo. Fondo y evidencia:
+  `docs/research/ats-parsing.md`; una evidencia nueva de parse se registra en
+  ADR-0039 antes de cambiar el formato.
 - El score de match no se infla y el wording se ajusta a las keywords de la
   oferta solo cuando hay sustento real en el CV base.
 - El título sigue siendo `Frontend Developer` salvo decisión explícita.
@@ -396,7 +399,8 @@ Estructura en 3 a 4 párrafos cortos, entre 250 y 350 palabras en total:
 4. **Cierre**: llamado a la acción simple y disponibilidad (remoto, zona,
    idioma).
 
-Reglas de estilo (anti-huella de IA, alineadas con docs/research/README.md):
+Reglas de estilo (anti-huella de IA, alineadas con la investigación
+`J:\.webdev\.projects\enchulame-el-resume\enchulame-el-resume-repo\docs\planning\cv-ats-and-ai-writing.md`):
 
 - Variar la cadencia: párrafos de largo distinto, sin listas paralelas de tres.
 - Verbos simples sobre inflados (led, built, shipped antes que spearheaded).

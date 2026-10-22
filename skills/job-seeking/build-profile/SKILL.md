@@ -102,10 +102,15 @@ y los dos locales:
      `Marca cliente - descriptor del proyecto` (ej: "Aeronix - cargo operations
      console"): la marca primero para el escaneo rápido de recruiters y
      el descriptor después para mostrar alcance técnico (ADR-0039). Las fechas del
-     proyecto se guardan en el JSON pero NO se muestran: la línea del proyecto se
-     renderiza como bullet etiquetado `Project:` dentro de la descripción del
-     empleo, y el único rango de fechas visible es el del empleo, para que un
-     parser ATS no lea los proyectos como empleos separados.
+     proyecto se guardan en el JSON y se muestran como años compactos entre
+     paréntesis en la línea de cliente (`Client: <cliente> (2023-2026) |
+     descriptor`), que se renderiza como bullet de texto literal dentro de la
+     descripción del empleo: el único rango de fechas largo es el del empleo, para
+     que un parser ATS no lea los proyectos como empleos separados. Los bullets
+     llevan carácter literal (`•` y `-`), no marker de lista, para que se copien
+     con el texto (ADR-0039, revisión v4). Fondo, fuentes y métodos de
+     verificación: `docs/research/ats-parsing.md`. Si aparece evidencia nueva de
+     un parse de ATS, registrarla en ADR-0039 antes de cambiar el formato.
    - Educación: institución, título, fechas y note opcional (por ejemplo, una
      carrera incompleta declarada de forma honesta).
    - Certificaciones: nombre y note opcional. El uso diario de herramientas no es

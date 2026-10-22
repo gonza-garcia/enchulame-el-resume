@@ -1,5 +1,6 @@
 import { AlignmentType, Document, HeadingLevel, Packer, Paragraph, TextRun } from 'docx';
 import type { ResumeLocale } from '../schemas/resume';
+import { clientBlock } from '../lib/resume-sections';
 
 /**
  * Export a DOCX del CV y de la cover letter, todo del lado del cliente.
@@ -29,8 +30,13 @@ function emptyLine(): Paragraph {
   return new Paragraph({ children: [] });
 }
 
-/** CV completo (proyeccion del perfil o CV adaptado) a documento DOCX. */
-export function buildResumeDocx(resume: ResumeLocale): Document {
+/**
+ * CV completo (proyeccion del perfil o CV adaptado) a documento DOCX.
+ * Los marcadores de bullet son caracteres literales en el texto (ADR-0039 v4):
+ * el numbering nativo de Word no vive en la capa de texto y los extractores
+ * ATS que leen el XML lo pierden, igual que los markers de lista CSS en el PDF.
+ */
+export function buildResumeDocx(resume: ResumeLocale, locale: 'en' | 'es' = 'en'): Document {
   const children: Paragraph[] = [];
 
   children.push(
@@ -77,15 +83,17 @@ export function buildResumeDocx(resume: ResumeLocale): Document {
     for (const project of job.projects) {
       children.push(
         new Paragraph({
-          bullet: { level: 0 },
-          children: [new TextRun({ text: `Project: ${project.name}`, italics: true })]
+          children: [
+            new TextRun({
+              text: `\u2022 ${clientBlock(project.name, project.startDate, project.endDate, locale)}`,
+              bold: true
+            })
+          ]
         })
       );
-      if (project.url) children.push(text(project.url));
+      if (project.url) children.push(text(`- ${project.url}`));
       for (const bullet of project.bullets) {
-        children.push(
-          new Paragraph({ bullet: { level: 0 }, children: [new TextRun(bullet)] })
-        );
+        children.push(text(`- ${bullet}`));
       }
       children.push(emptyLine());
     }
@@ -159,8 +167,12 @@ export function downloadBlob(blob: Blob, filename: string): void {
   URL.revokeObjectURL(url);
 }
 
-export async function downloadResumeDocx(resume: ResumeLocale, filename: string): Promise<void> {
-  const blob = await Packer.toBlob(buildResumeDocx(resume));
+export async function downloadResumeDocx(
+  resume: ResumeLocale,
+  filename: string,
+  locale: 'en' | 'es' = 'en'
+): Promise<void> {
+  const blob = await Packer.toBlob(buildResumeDocx(resume, locale));
   downloadBlob(blob, filename);
 }
 

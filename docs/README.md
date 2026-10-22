@@ -96,11 +96,11 @@ pegar y guardar después, con el mismo destino.
   la tab "CVs adaptados" de "Mis CVs" y las páginas `/interview` y `/learning` usan islas
   React porque administran estados y flujos de interacción más complejos (ADR-0040).
 - El layout principal es single column para mantener la lectura ATS.
-- La experiencia laboral se renderiza en formato ATS-safe, revisión v3 (ADR-0039): una
-  entrada por empleo en tres líneas (rol, empresa, fechas del empleo); los proyectos
-  internos se renderizan como bullets con la etiqueta `Project:` y sin fechas propias, con
-  nombres en la convención `Marca cliente - descriptor`; y la línea de contacto va en
-  texto plano sin links.
+- La experiencia laboral se renderiza en formato ATS-safe, revisión v4 (ADR-0039): una
+  entrada por empleo en tres líneas (rol, empresa, fechas del empleo); las asignaciones por
+  cliente se renderizan como bloques `Client: <cliente> (<años>) | descriptor` dentro de la
+  descripción, con bullets de carácter literal (`•`, `-`) y nombres en la convención
+  `Marca cliente - descriptor`; y la línea de contacto va en texto plano sin links.
 - El toggle de idioma, los exports y el panel de tema funcionan del lado cliente.
 - El PDF se genera con `window.print()` y CSS de impresión, sin una librería de PDF.
 - La impresión conserva el accent elegido para headings y URLs, con texto y fondo claros para
@@ -366,6 +366,18 @@ contexto y no contradecir las decisiones vigentes de este README.
   se renderizan como bullets con la etiqueta `Project:` y sin fechas propias, y la línea de
   contacto queda en texto plano sin links. Los años compactos de proyecto del formato v2
   quedan descartados por defecto (disparaban empleos falsos en el parser).
+- 21 oct 2026: revisión v4 del formato ATS-safe (ADR-0039): las asignaciones por cliente
+  vuelven con años en paréntesis como bloques `Client: <cliente> (<años>) | descriptor`
+  dentro del empleo (patrón umbrella con placements, sin flag de job-hop), y los bullets
+  usan caracteres literales (`•`, `-`) en vez de markers de lista para que se copien con
+  el texto y los parsers los lean como delimitadores.
+- 21 oct 2026: investigación de parsing ATS consolidada en `docs/research/ats-parsing.md`
+  (hallazgos, fuentes citadas y métodos de verificación: test de copia, capa de texto del
+  PDF y parse real), con la regla de ciclo evidencia -> ADR-0039 -> cambio de formato, y
+  referenciada desde `build-profile` y `adapt-resume-to-offer`. La referencia anti-huella
+  de estilo de `adapt-resume-to-offer` apunta a la investigación real
+  (`enchulame-el-resume-repo/docs/planning/cv-ats-and-ai-writing.md`) en vez del
+  `docs/research/README.md` inexistente.
 - 21 oct 2026: Fase D — "Mis CVs" fusiona `/` y `/adapted` en dos tabs ("CVs base" con
   cards por posicionamiento que reemplazan al toggle del toolbar, y "CVs adaptados" con
   el gestor de ofertas), la ruta `/adapted` se elimina sin stub (deep link canónico
@@ -373,3 +385,11 @@ contexto y no contradecir las decisiones vigentes de este README.
   estudios") queda consistente en todas las páginas desde el componente `SiteNav`, con el
   Toolbar completo solo en "Mis CVs". El print sigue emitiendo solo el documento activo y
   el diálogo de PDF sugiere el nombre neutro en ambas tabs (ADR-0040).
+- 21 oct 2026: cierre del formato ATS revisión v4 (ADR-0039) con specs que afirman el
+  contrato de render en las tres superficies (CV base, CV adaptado y DOCX): línea
+  `Client:`/`Cliente:` con años compactos entre paréntesis, bullets de texto literal
+  (`•`, `-`), sin rangos de fecha sueltos por proyecto y contacto en texto plano. El
+  DOCX pasa a marcadores literales (el numbering nativo de Word no llega a la capa de
+  texto que leen los extractores) y rotula el label por idioma según la proyección
+  activa; el contenido demo se alinea a la convención `Marca cliente - descriptor`
+  para que el ejemplo demuestre el contrato.

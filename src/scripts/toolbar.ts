@@ -173,7 +173,7 @@ async function exportDocx(): Promise<void> {
   const resume = data[lang] as ResumeLocale | undefined;
   if (!resume || !resume.name) return;
   const filename = exportFileName(resume.name, 'CV', lang, 'docx');
-  await downloadResumeDocx(resume, filename);
+  await downloadResumeDocx(resume, filename, lang);
 }
 
 // ===== Modal de LinkedIn (compartido por todas las paginas con Toolbar) =====

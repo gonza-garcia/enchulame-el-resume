@@ -71,7 +71,7 @@ test.describe('Print PDF - no browser headers/footers', () => {
     await page.goto('/');
     const project = page
       .locator('#cv-panel-base .lang.active .subproject')
-      .filter({ hasText: 'Freightline Control (cargo operations console)' });
+      .filter({ hasText: 'Client: Freightline Control (2023-2026) | cargo operations console' });
     await expect(project).toContainText('Modernized Aeronix');
 
     const breakRules = await project.evaluate((element) => {

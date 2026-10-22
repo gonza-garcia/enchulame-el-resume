@@ -375,9 +375,12 @@ const { title } = Astro.props;
 
       .subproject { margin-bottom: 10px; break-inside: avoid; page-break-inside: avoid; }
       .bullets li.proj-line { font-weight: 700; margin-top: 6px; }
-      .bullets li.proj-url { font-size: 9.5pt; color: var(--muted); list-style: none; margin-left: -18px; word-break: break-all; }
+      .bullets li.bullet-item { margin-left: 14px; }
+      .bullets li.proj-url { font-size: 9.5pt; color: var(--muted); margin-left: 14px; word-break: break-all; }
       ul.bullets {
-        list-style: disc;
+        /* Los marcadores son caracteres literales en el texto (ADR-0039 v4): el
+           marker de lista CSS no se copia ni aparece en la capa de texto del PDF. */
+        list-style: none;
         padding-left: 18px;
         margin: 0;
       }

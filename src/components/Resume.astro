@@ -6,7 +6,7 @@ import Layout from '../layouts/Layout.astro';
 import Toolbar from './Toolbar.astro';
 import OffersManager from '../islands/offers-manager/OffersManager';
 import type { OfferView } from '../islands/offers-manager/contract';
-import { SECTION_TITLES as sectionTitles, positioningLabel, PROJECT_LABEL as projectLabel } from '../lib/resume-sections';
+import { SECTION_TITLES as sectionTitles, positioningLabel, clientBlock } from '../lib/resume-sections';
 
 interface Props {
   projections: Record<string, BilingualProjection>;
@@ -130,9 +130,9 @@ const payload = {
                 {job.projects.map((project) => (
                   <div class="subproject">
                     <ul class="bullets">
-                      <li class="proj-line"><span class="proj-label">{projectLabel[key]}</span>{project.name}</li>
-                      {project.url && <li class="proj-url">{project.url}</li>}
-                      {project.bullets.map((bullet) => <li>{bullet}</li>)}
+                      <li class="proj-line"><span aria-hidden="true">{'\u2022 '}</span>{clientBlock(project.name, project.startDate, project.endDate, key)}</li>
+                      {project.url && <li class="proj-url"><span aria-hidden="true">{'- '}</span>{project.url}</li>}
+                      {project.bullets.map((bullet) => <li class="bullet-item"><span aria-hidden="true">{'- '}</span>{bullet}</li>)}
                     </ul>
                   </div>
                 ))}

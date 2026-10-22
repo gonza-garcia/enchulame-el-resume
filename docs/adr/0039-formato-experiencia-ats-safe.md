@@ -100,3 +100,45 @@ La evidencia de arriba falsó parte de los puntos 1 y 2. El formato vigente es:
 
 El nombre de proyecto `Marca cliente - descriptor` se mantiene. Aplica igual en
 CV principal, CV adaptado y export DOCX.
+
+## Revisión v4 (21 oct 2026): bloques de cliente y bullets de texto literal
+
+Decisión del usuario, con investigación de referencia (patrón "umbrella and
+placements" para empleados de consultora con múltiples clientes; el formato
+`Assignment: ... (Duration)` de las guías de temp/contract work; y las reglas de
+delimitadores de bullet de los parsers ATS: estándar `•`, `-`, `*`; símbolos
+decorativos se pierden):
+
+1. **Bloques de cliente explícitos**: la línea del proyecto se renderiza como
+   `Client: <cliente> (<años compactos>) | <descriptor>` (o `Cliente:` en es),
+   en negrita como mini-encabezado dentro de la descripción del empleo. Los años
+   vuelven entre paréntesis por decisión explícita del usuario, aceptando el
+   riesgo residual que documenta la evidencia de Compassion: la línea va como
+   bullet y no como línea suelta para minimizarlo. El patrón "umbrella" (un solo
+   empleador con las asignaciones adentro) es lo que evita el flag de job-hop que
+   generan las entradas separadas por cliente.
+2. **Bullets de texto literal**: los marcadores son caracteres en el texto
+   (`•` para los bloques de cliente, `-` para los logros), con `list-style: none`
+   en el render. El marker de lista CSS no está en la capa de texto del PDF (se
+   pierde al copiar y los parsers no siempre lo ven como delimitador); un
+   carácter literal se copia y se parsea. Sin `::before` posicionados (reordenan
+   la extracción del PDF en Chromium). En el export DOCX aplica lo mismo: los
+   marcadores van como texto de los runs y no como listas nativas de Word, cuyo
+   numbering tampoco llega a la capa de texto que leen los extractores.
+3. El empleo sigue en tres líneas (rol, empresa, fechas del empleo) y el contacto
+   en texto plano sin links. El label de la línea de cliente se rotula por idioma
+   (`Client:` / `Cliente:`) también en el DOCX, que exporta la proyección activa.
+
+La revisión v3 queda superada en su punto 2: los años del proyecto vuelven a la
+vista, entre paréntesis.
+
+## Corolario de contenido (21 oct 2026): el demo demuestra la convención
+
+Los proyectos del contenido de ejemplo (`src/content/profile.example.json` y los
+`adapted-resume.json` demo) usaban la forma heredada `Marca (descriptor)` y el
+render v4 los mostraba con el nombre completo y los años después del
+paréntesis. Quedaron alineados a `Marca cliente - descriptor` (decisión 3), que
+es lo que escriben las skills: el ejemplo demuestra el contrato y las specs de
+render afirman la línea completa `Client: <cliente> (<años>) | <descriptor>`.
+`clientBlock` conserva el fallback "sin separador, el nombre va completo" para
+proyectos internos sin cliente.

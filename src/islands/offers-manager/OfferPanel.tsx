@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { type OfferView } from './contract';
 import { type Resume } from '../../schemas/resume';
-import { SECTION_TITLES } from '../../lib/resume-sections';
+import { SECTION_TITLES, clientBlock } from '../../lib/resume-sections';
 
 interface OfferPanelProps {
   offer: OfferView;
@@ -49,9 +49,9 @@ function AdaptedCv({ data, activeLang }: { data: Resume; activeLang: 'es' | 'en'
                 {job.projects.map((project, j) => (
                   <div className="subproject" key={j}>
                     <ul className="bullets">
-                      <li className="proj-line"><span className="proj-label">{langKey === 'es' ? 'Proyecto:' : 'Project:'}</span>{project.name}</li>
-                      {project.url && <li className="proj-url">{project.url}</li>}
-                      {project.bullets.map((bullet, k) => <li key={k}>{bullet}</li>)}
+                      <li className="proj-line"><span aria-hidden="true">{'\u2022 '}</span>{clientBlock(project.name, project.startDate, project.endDate, langKey)}</li>
+                      {project.url && <li className="proj-url"><span aria-hidden="true">{'- '}</span>{project.url}</li>}
+                      {project.bullets.map((bullet, k) => <li className="bullet-item" key={k}><span aria-hidden="true">{'- '}</span>{bullet}</li>)}
                     </ul>
                   </div>
                 ))}

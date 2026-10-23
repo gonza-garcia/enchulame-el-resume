@@ -131,13 +131,18 @@ pegar y guardar después, con el mismo destino.
   directo. El camino de clonar a CV maestro está documentado arriba.
 - La salida al repo público sigue el protocolo del ADR-0027.
 
-### Página `/learning` (ADR-0029 y ADR-0030)
+### Página `/learning` (ADR-0029, ADR-0030 y ADR-0041)
 
 - `/learning` navega el plan por fases ordenadas por los roles que habilitan, con recursos
   mapeados por skill a la demanda del mercado, marcas de progreso por recurso (hecho, en curso,
   skipped), gate por fase, panel de perfil frente al plan (cubiertas, gaps por presencia,
   prioridades por demanda dentro del orden de fases y sugerencias desde hechos) y material de
   investigación como lista de lectura ordenada, fuera del contrato y del perfil.
+- Los gates se presentan citando evidencia, nunca inventando estado (ADR-0041): un gate con
+  citas (`gateEvidence`: commit / URL / archivo, con label, fecha y fuente) se muestra como
+  "cumplido con evidencia citada" y no se marca a mano; sin citas, el gate se marca a mano y
+  el resumen desglosa "con evidencia citada" y "marcados a mano". El estado se deriva de las
+  citas: el contrato del plan no tiene ningún boolean de estado.
 - El contenido del plan es bilingüe es/en por campo con ambos obligatorios; se renderiza según
   el toggle del sitio y la UI queda en español.
 - El progreso del plan es dato del usuario: clave propia `learning-progress` en `localStorage`,
@@ -249,6 +254,7 @@ están en `docs/deploy.md`.
 | 0038 | Vigente | Chequeo de duplicados y postulaciones previas antes de capturar |
 | 0039 | Vigente | Formato de experiencia ATS-safe |
 | 0040 | Vigente | "Mis CVs": fusión de `/` y `/adapted` con tabs y navbar consistente |
+| 0041 | Vigente | Gates de `/learning` con evidencia citada, sin estado inventado |
 
 Los ADRs personales (decisiones del CV y hosting de las apps personales) están en
 `docs/planning/adr/` y son legado del planning. Los ADRs históricos se conservan como
@@ -393,3 +399,10 @@ contexto y no contradecir las decisiones vigentes de este README.
   texto que leen los extractores) y rotula el label por idioma según la proyección
   activa; el contenido demo se alinea a la convención `Marca cliente - descriptor`
   para que el ejemplo demuestre el contrato.
+- 23 oct 2026: Fase E — los gates de `/learning` se presentan citando evidencia, nunca
+  inventando estado (ADR-0041): `gateEvidence` opcional por fase con citas
+  `commit` / `url` / `file` (ref verificable, label, `asOf` y `source`), estado derivado
+  de las citas ("cumplido con evidencia citada" sin marcado manual; sin citas, marcado a
+  mano como siempre) y resumen desglosado. Contrato aditivo: `gate` sigue siendo el
+  texto del criterio y `version: 1` no cambia. Aviso de resync al thread memento por el
+  cambio de contrato del plan.

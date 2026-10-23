@@ -2,7 +2,9 @@ import {
   learningProgressSchema,
   type LearningGateStatus,
   type LearningProgress,
-  type LearningResourceStatus
+  type LearningResourceStatus,
+  type PlanEvidence,
+  type PlanPhase
 } from '../schemas/learning-plan';
 import { LEARNING_PROGRESS_STORAGE_KEY } from '../scripts/storage-keys';
 import type { ProgressStore } from './progress-storage';
@@ -49,6 +51,27 @@ export function gateStatus(progress: LearningProgress, phaseId: string): Learnin
   return progress.gates[phaseId]?.status ?? 'pendiente';
 }
 
+/** Citas de evidencia del gate de una fase (ADR-0041); vacias si no tiene. */
+export function gateEvidence(phase: Pick<PlanPhase, 'gateEvidence'>): PlanEvidence[] {
+  return phase.gateEvidence ?? [];
+}
+
+/**
+ * Estado VISIBLE del gate, derivado (ADR-0041): nunca se guarda ni se inventa.
+ * Con citas de evidencia el estado es "con-evidencia" y el marcado manual no
+ * aplica (el dueño de la evidencia es quien produce las citas, p. ej. memento);
+ * sin citas, el estado es el marcado manual del usuario o "pendiente".
+ */
+export type GateDisplayState = 'con-evidencia' | 'marcado-a-mano' | 'pendiente';
+
+export function gateDisplayState(
+  phase: Pick<PlanPhase, 'id' | 'gateEvidence'>,
+  progress: LearningProgress
+): GateDisplayState {
+  if (gateEvidence(phase).length > 0) return 'con-evidencia';
+  return gateStatus(progress, phase.id) === 'cumplido' ? 'marcado-a-mano' : 'pendiente';
+}
+
 export function setResourceStatus(
   progress: LearningProgress,
   resourceId: string,
@@ -82,17 +105,25 @@ export interface LearningProgressSummary {
   totalResources: number;
   metGates: number;
   totalGates: number;
+  evidenceGates: number;
+  manualGates: number;
 }
 
 export function summarizeProgress(
   progress: LearningProgress,
   resourceIds: string[],
-  phaseIds: string[]
+  phases: Pick<PlanPhase, 'id' | 'gateEvidence'>[]
 ): LearningProgressSummary {
+  const evidenceGates = phases.filter((phase) => gateEvidence(phase).length > 0).length;
+  const manualGates = phases.filter(
+    (phase) => gateDisplayState(phase, progress) === 'marcado-a-mano'
+  ).length;
   return {
     markedResources: resourceIds.filter((id) => resourceStatus(progress, id) !== 'sin-marcar').length,
     totalResources: resourceIds.length,
-    metGates: phaseIds.filter((id) => gateStatus(progress, id) === 'cumplido').length,
-    totalGates: phaseIds.length
+    metGates: evidenceGates + manualGates,
+    totalGates: phases.length,
+    evidenceGates,
+    manualGates
   };
 }

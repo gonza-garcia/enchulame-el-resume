@@ -47,8 +47,15 @@ Campos del JSON (detalle exacto en `src/schemas/learning-plan.ts`):
   (label localizado, source y asOf). La demanda cuelga de la skill, nunca del
   recurso (ADR-0028), y cada claim de demanda cita dataset y ventana temporal.
 - `phases`: fases ordenadas (id, order, title, duration, topics, enablesRoles,
-  skillIds, interviewArea, project opcional, gate, resourceIds). Sin huecos en
-  order; cada fase con al menos un recurso y un gate.
+  skillIds, interviewArea, project opcional, gate, gateEvidence opcional,
+  resourceIds). Sin huecos en order; cada fase con al menos un recurso y un gate.
+- `gateEvidence` (opcional, ADR-0041): citas de evidencia del gate de la fase,
+  una por hecho verificable (type `commit` | `url` | `file`, ref, label localizado,
+  asOf `YYYY-MM-DD`, source de quien la produjo). El estado del gate nunca se
+  guarda ni se inventa: con citas, `/learning` muestra "cumplido con evidencia
+  citada" y el marcado manual no aplica; sin citas, el gate se marca a mano. Las
+  citas se copian tal cual de la fuente que las produce (p. ej. el thread
+  memento): no fabricar commits, URLs ni fechas.
 - `resources`: catálogo plano en muchos a muchos con skills (id, title como
   nombre propio sin traducir, url, creator, platform, price, duration,
   language del material, confidence opcional con fecha de captura, opinion,

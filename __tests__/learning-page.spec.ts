@@ -90,3 +90,43 @@ test.describe('Pagina /learning (plan navegable)', () => {
     expect(stored).toBe('es');
   });
 });
+
+test.describe('Gates con evidencia citada (ADR-0041)', () => {
+  test('el gate con evidencia se presenta citado y sin marcado manual', async ({ page }) => {
+    await page.goto('/learning/');
+    const phase = page.locator('#fase-3-rag');
+    await expect(phase).toContainText('Cumplido con evidencia citada');
+    await expect(phase).toContainText('Commit');
+    await expect(phase).toContainText('d4e5f6a');
+    await expect(phase.locator('a[href="https://example.com/rag-failure-taxonomy"]')).toHaveCount(1);
+    await expect(phase).toContainText('Archivo');
+    await expect(phase.locator('code', { hasText: 'notes/rag/error-analysis.md' })).toHaveCount(1);
+    await expect(phase).toContainText('study log');
+    await expect(phase).toContainText('2026-09-30');
+    // Sin toggle: el estado lo da la evidencia, no un marcado manual.
+    await expect(phase.locator('.learning-gate-evidence')).toHaveCount(1);
+    await expect(phase.locator('.learning-gate button')).toHaveCount(0);
+  });
+
+  test('el gate sin evidencia se sigue marcando a mano', async ({ page }) => {
+    await page.goto('/learning/');
+    const phase = page.locator('#fase-0-decision');
+    await expect(phase).toContainText('Estado del gate (marcado a mano):');
+    await expect(phase.locator('.learning-gate button')).toHaveCount(2);
+    await expect(phase).not.toContainText('con evidencia citada');
+  });
+
+  test('las citas se rotulan con el idioma activo', async ({ page }) => {
+    await page.goto('/learning/');
+    await page.locator('.learning-lang-btn', { hasText: 'ES' }).click();
+    const phase = page.locator('#fase-3-rag');
+    await expect(phase).toContainText('Suite de evaluacion de RAG corriendo en CI');
+    await page.locator('.learning-lang-btn', { hasText: 'EN' }).click();
+    await expect(phase).toContainText('RAG evaluation suite running in CI');
+  });
+
+  test('el resumen desglosa gates con evidencia y marcados a mano', async ({ page }) => {
+    await page.goto('/learning/');
+    await expect(page.locator('.learning-progress-count')).toContainText('1 con evidencia citada · 0 marcados a mano');
+  });
+});

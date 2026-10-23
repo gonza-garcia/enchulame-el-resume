@@ -38,10 +38,13 @@ Esta skill NO captura ofertas. Su input es una oferta ya capturada por
   confirmación explícita del usuario en ese momento.
 - **Export PDF del CV adaptado**: cuando el CV adaptado queda listo, la skill
   ofrece (nunca asume) guardar su PDF en la ubicación que el usuario elija,
-  dentro de una carpeta `CV - <empresa>` y con nombre de archivo neutro
-  (`<apellidos> <nombres> - CV - <LOCALE>.pdf`), para no delatar que el CV está
-  adaptado. Ese archivo vive fuera de `docs/job-offers/`, es del usuario, y no
-  cambia el estado de la oferta.
+  dentro de una carpeta del día (`Ofertas YYYY-MM-DD`) y, adentro, de una carpeta
+  `CV - <empresa>`, con nombre de archivo neutro (`<apellidos> <nombres> - CV -
+  <LOCALE>.pdf`), para no delatar que el CV está adaptado. Cuando la cover
+  letter queda aprobada, se ofrece además guardarla como PDF en esa misma carpeta
+  (`<apellidos> <nombres> - Cover Letter - <LOCALE>.pdf`). Esos archivos viven
+  fuera de `docs/job-offers/`, son del usuario, y no cambian el estado de la
+  oferta.
 
 ## Herramientas disponibles
 
@@ -307,11 +310,16 @@ adaptados", con el CSS de print que oculta el sidebar y el panel de la oferta) o
 el export PDF de la app, para que quede igual al que el usuario obtendría imprimiendo
 a mano.
 
-**Carpeta por empresa, nombre de archivo neutro.** Un nombre de archivo con la
-empresa o el rol delata que el CV fue adaptado para esa postulación cuando se
-sube a un portal o se adjunta a un email. La convención es:
+**Carpeta del día, carpeta por empresa, nombre de archivo neutro.** Un nombre de
+archivo con la empresa o el rol delata que el CV fue adaptado para esa postulación
+cuando se sube a un portal o se adjunta a un email, y suelto todo junto no se
+encuentra después. La convención es:
 
-- **Carpeta destino**: `CV - <empresa>` dentro de la ubicación elegida, con la
+- **Carpeta del día**: `Ofertas YYYY-MM-DD` dentro de la ubicación elegida, con la
+  fecha del día en que se guarda (ej: `Ofertas 2026-10-22`). Se crea si no existe y
+  se reutiliza si ya está: todo lo que se guarda ese día cae adentro, ofertas
+  distintas incluidas.
+- **Carpeta destino**: `CV - <empresa>` dentro de la carpeta del día, con la
   empresa tal como aparece en la oferta. Se crea si no existe y se reutiliza si
   ya está (varias ofertas de la misma empresa comparten carpeta).
 - **Nombre del archivo**: `<apellidos> <nombres> - CV - <LOCALE>.pdf`, con el
@@ -330,8 +338,8 @@ sube a un portal o se adjunta a un email. La convención es:
 En modo app este paso no aplica: la app exporta el PDF por su cuenta.
 
 Criterio de completado: se ofreció apenas el CV quedó listo y, si el usuario
-aceptó, el PDF con nombre neutro existe en `CV - <empresa>` dentro de la
-ubicación elegida.
+aceptó, el PDF con nombre neutro existe en `CV - <empresa>` dentro de la carpeta
+del día (`Ofertas YYYY-MM-DD`) de la ubicación elegida.
 
 ## Reglas
 
@@ -444,6 +452,32 @@ pedirle a otro agente que lo haga ni armar prompts de guardado.
 
 Criterio de completado: `cover-letter.md` existe en la carpeta de la oferta con
 el texto aprobado.
+
+### C6. Ofrecer el PDF de la cover letter
+
+En cuanto el usuario aprobó la carta y `cover-letter.md` quedó escrito (paso C5),
+ofrecer de inmediato guardar también la cover letter como PDF, en la misma
+carpeta del CV: `CV - <empresa>` dentro de la carpeta del día (`Ofertas
+YYYY-MM-DD`) de la ubicación elegida. Una sola pregunta interactiva, o sumada al
+lote de preguntas del final si el flujo ya iba a preguntar algo:
+
+- **Misma carpeta que el PDF del CV**: si el usuario aceptó guardar el CV, el PDF
+  de la carta va al lado, en esa carpeta `CV - <empresa>`. Si no aceptó o no se
+  ofreció, ofrecer igual con la misma convención (crear la carpeta del día y la
+  de la empresa si hiciera falta).
+- **Nombre del archivo**: `<apellidos> <nombres> - Cover Letter - <LOCALE>.pdf`,
+  misma convención neutra que el CV, con el locale de la carta en mayúsculas. Si
+  el usuario quiere dos locales, un archivo por locale.
+- El PDF se genera igual que el de la app: impresión del navegador o export PDF de
+  la app, con el texto aprobado tal cual quedó en `cover-letter.md`. Si el export
+  sugiere un nombre con la empresa o el slug, se reemplaza por esta convención.
+
+Este PDF es organización local del usuario: no toca `docs/job-offers/`, no cambia
+el estado de la oferta y no se envía solo: cada envío requiere confirmación
+explícita del usuario.
+
+Criterio de completado: se ofreció apenas la carta quedó aprobada y guardada y,
+si el usuario aceptó, el PDF existe en la misma carpeta que el del CV.
 
 ## Reglas de la cover letter
 

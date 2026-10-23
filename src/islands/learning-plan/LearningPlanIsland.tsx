@@ -3,6 +3,7 @@ import type {
   LearningPlan,
   LearningResourceStatus,
   LocalizedText,
+  PlanEvidence,
   PlanPhase,
   PlanResource,
   PlanSkill
@@ -12,6 +13,7 @@ import type { ProfileReadModel } from '../../lib/profile-read-model';
 import { computePlanProfileJoin } from '../../lib/learning-gaps';
 import {
   emptyLearningProgress,
+  gateEvidence,
   gateStatus,
   LEARNING_GATE_STATUS_LABELS,
   LEARNING_RESOURCE_STATUS_LABELS,
@@ -33,6 +35,12 @@ import {
 import { LANG_STORAGE_KEY, POSITIONING_STORAGE_KEY } from '../../scripts/storage-keys';
 
 type Lang = 'es' | 'en';
+
+const EVIDENCE_TYPE_LABELS: Record<PlanEvidence['type'], string> = {
+  commit: 'Commit',
+  url: 'URL',
+  file: 'Archivo'
+};
 
 interface LearningPlanProps {
   plan: LearningPlan;
@@ -132,6 +140,7 @@ function PhaseSection({
   const roles = plan.roles.filter((role) => phase.enablesRoles.includes(role.id));
   const resources = plan.resources.filter((resource) => phase.resourceIds.includes(resource.id));
   const gate = gateStatus(progress, phase.id);
+  const evidence = gateEvidence(phase);
 
   return (
     <section
@@ -178,8 +187,34 @@ function PhaseSection({
           <p className="learning-phase-gate">
             <strong>Gate:</strong> {pick(phase.gate, lang)}
           </p>
-          <div className="learning-gate" role="group" aria-label={`Gate de ${pick(phase.title, lang)}`}>
+          {evidence.length > 0 ? (
+          <div
+            className="learning-gate-evidence"
+            role="group"
+            aria-label={`Gate de ${pick(phase.title, lang)}`}
+          >
             <span className="learning-gate-label">Estado del gate:</span>
+            <strong className="learning-gate-evidence-state">Cumplido con evidencia citada</strong>
+            <ul className="learning-gate-evidence-list">
+              {evidence.map((item) => (
+                <li key={`${item.type}-${item.ref}`}>
+                  <span className="learning-gate-evidence-kind">{EVIDENCE_TYPE_LABELS[item.type]}</span>{' '}
+                  {item.type === 'url' ? (
+                    <a href={item.ref}>{item.ref}</a>
+                  ) : (
+                    <code>{item.ref}</code>
+                  )}{' '}
+                  — {pick(item.label, lang)}{' '}
+                  <span className="learning-gate-evidence-meta">
+                    ({item.asOf}, {item.source})
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div className="learning-gate" role="group" aria-label={`Gate de ${pick(phase.title, lang)}`}>
+            <span className="learning-gate-label">Estado del gate (marcado a mano):</span>
             {(['pendiente', 'cumplido'] as const).map((option) => (
               <button
                 key={option}
@@ -192,6 +227,7 @@ function PhaseSection({
               </button>
             ))}
           </div>
+        )}
         </div>
         <div className="learning-phase-resources">
           <h4>Recursos</h4>
@@ -283,7 +319,7 @@ export default function LearningPlanIsland({
   const summary = summarizeProgress(
     progress,
     plan.resources.map((resource) => resource.id),
-    phases.map((phase) => phase.id)
+    phases
   );
 
   const join = computePlanProfileJoin(plan, profile);
@@ -357,7 +393,8 @@ export default function LearningPlanIsland({
             <strong>
               {summary.metGates}/{summary.totalGates}
             </strong>{' '}
-            gates cumplidos
+            gates cumplidos ({summary.evidenceGates} con evidencia citada ·{' '}
+            {summary.manualGates} marcados a mano)
           </p>
           <div className="learning-progress-tools" role="group" aria-label="Progreso del plan">
             <button type="button" className="learning-progress-btn" onClick={exportProgressFile}>

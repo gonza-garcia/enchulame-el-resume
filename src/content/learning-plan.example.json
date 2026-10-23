@@ -485,6 +485,38 @@
         "es": "El sistema responde con fuentes citadas, la suite de evaluacion corre en CI, la taxonomia de errores esta publicada con sus numeros, y se puede explicar cada decision de chunking y retrieval con su porque.",
         "en": "The system answers with cited sources, the evaluation suite runs in CI, the failure taxonomy is published with its numbers, and every chunking and retrieval decision can be explained."
       },
+      "gateEvidence": [
+        {
+          "type": "commit",
+          "ref": "d4e5f6a",
+          "label": {
+            "es": "Suite de evaluacion de RAG corriendo en CI con el reporte por cambio.",
+            "en": "RAG evaluation suite running in CI with a per-change report."
+          },
+          "asOf": "2026-09-30",
+          "source": "study log"
+        },
+        {
+          "type": "url",
+          "ref": "https://example.com/rag-failure-taxonomy",
+          "label": {
+            "es": "Taxonomia de errores publicada con sus numeros antes y despues.",
+            "en": "Failure taxonomy published with its before and after numbers."
+          },
+          "asOf": "2026-10-02",
+          "source": "study log"
+        },
+        {
+          "type": "file",
+          "ref": "notes/rag/error-analysis.md",
+          "label": {
+            "es": "Notas del error analysis: consultas reales leidas y fallos etiquetados.",
+            "en": "Error analysis notes: real queries read and labelled failures."
+          },
+          "asOf": "2026-10-05",
+          "source": "study log"
+        }
+      ],
       "resourceIds": ["dlai-rag", "freecodecamp-rag-produccion", "edteam-rag", "hf-nlp-course"]
     },
     {

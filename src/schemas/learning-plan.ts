@@ -44,6 +44,20 @@ export const planResourceSchema = z.object({
   skillIds: z.array(nonEmptyString).min(1)
 });
 
+/**
+ * Evidencia citada de un gate (ADR-0041): un puntero verificable (commit, URL o
+ * archivo) con quien lo produjo y cuando. El estado del gate no se guarda en el
+ * plan: se deriva de la presencia de citas (o del marcado manual del usuario en
+ * gates sin citas). Nunca un boolean de estado inventado.
+ */
+export const planEvidenceSchema = z.object({
+  type: z.enum(['commit', 'url', 'file']),
+  ref: nonEmptyString,
+  label: localizedTextSchema,
+  asOf: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  source: nonEmptyString
+});
+
 export const planPhaseSchema = z.object({
   id: nonEmptyString,
   order: z.int().min(0),
@@ -55,6 +69,7 @@ export const planPhaseSchema = z.object({
   interviewArea: nonEmptyString.optional(),
   project: localizedTextSchema.optional(),
   gate: localizedTextSchema,
+  gateEvidence: z.array(planEvidenceSchema).optional(),
   resourceIds: z.array(nonEmptyString).min(1)
 });
 
@@ -172,6 +187,7 @@ export type PlanSkill = z.infer<typeof planSkillSchema>;
 export type PlanRole = z.infer<typeof planRoleSchema>;
 export type PlanResourceConfidence = z.infer<typeof planResourceConfidenceSchema>;
 export type PlanResource = z.infer<typeof planResourceSchema>;
+export type PlanEvidence = z.infer<typeof planEvidenceSchema>;
 export type PlanPhase = z.infer<typeof planPhaseSchema>;
 export type LearningPlan = z.infer<typeof learningPlanSchema>;
 export type LearningResourceStatus = z.infer<typeof learningResourceStatusSchema>;

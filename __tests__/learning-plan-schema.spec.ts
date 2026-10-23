@@ -125,3 +125,52 @@ test.describe('Learning plan loader', () => {
     expect(() => loadLearningPlan(contentDir)).toThrow(/failed learning plan validation/);
   });
 });
+
+test.describe('Gate evidence del plan (ADR-0041)', () => {
+  test('the example plan cites one verifiable pointer per evidence type on the RAG phase', () => {
+    const result = learningPlanSchema.safeParse(examplePlan);
+    expect(issuesOf(result)).toEqual([]);
+    if (!result.success) return;
+    const phase = result.data.phases.find((item) => item.id === 'fase-3-rag');
+    expect(phase?.gateEvidence?.map((item) => item.type)).toEqual(['commit', 'url', 'file']);
+    for (const item of phase?.gateEvidence ?? []) {
+      expect(item.ref.length).toBeGreaterThan(0);
+      expect(item.asOf).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(item.source.length).toBeGreaterThan(0);
+      expect(item.label.es.length).toBeGreaterThan(0);
+      expect(item.label.en.length).toBeGreaterThan(0);
+    }
+  });
+
+  test('phases without gateEvidence keep validating (cambio aditivo)', () => {
+    const plan = clone();
+    for (const phase of plan.phases) delete phase.gateEvidence;
+    expect(issuesOf(learningPlanSchema.safeParse(plan))).toEqual([]);
+  });
+
+  test('evidence without a verifiable pointer, with a bad type or a bad date is rejected', () => {
+    const emptyRef = clone();
+    emptyRef.phases[3].gateEvidence[0].ref = '';
+    expect(issuesOf(learningPlanSchema.safeParse(emptyRef)).join(' ')).toContain('gateEvidence');
+
+    const badType = clone();
+    badType.phases[3].gateEvidence[0].type = 'screenshot';
+    expect(issuesOf(learningPlanSchema.safeParse(badType)).length).toBeGreaterThan(0);
+
+    const badDate = clone();
+    badDate.phases[3].gateEvidence[0].asOf = 'ayer';
+    expect(issuesOf(learningPlanSchema.safeParse(badDate)).length).toBeGreaterThan(0);
+  });
+
+  test('the contract carries no invented state: evidence has no done flag', () => {
+    const result = learningPlanSchema.safeParse(examplePlan);
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    for (const phase of result.data.phases) {
+      for (const item of phase.gateEvidence ?? []) {
+        expect(item).not.toHaveProperty('done');
+        expect(item).not.toHaveProperty('status');
+      }
+    }
+  });
+});

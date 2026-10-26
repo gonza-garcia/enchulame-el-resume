@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { applicationSchema, type Application } from '../schemas/application';
 
 export type OfferState = 'agregada' | 'analizada' | 'adaptada';
 
@@ -12,6 +13,13 @@ export interface OfferMeta {
   location: string | null;
   salario: string | null;
   recruiter: string | null;
+  /**
+   * Posicionamientos (perfiles) a los que apunta la oferta, ids separados por
+   * coma en el frontmatter de `offer.md` (`perfiles: frontend, ai`). Campo
+   * opcional y multi-perfil: sin el campo, la oferta no se asigna a ningun
+   * perfil y solo aparece en "Todas".
+   */
+  perfiles: string[];
 }
 
 export interface OfferListing {
@@ -26,6 +34,9 @@ export interface OfferListing {
   hasCoverLetter: boolean;
   hasReviewPlan: boolean;
   matchScore: number | null;
+  /** Resultado de la postulacion (`application.md`), si existe en la carpeta. */
+  hasApplication: boolean;
+  application: Application | null;
 }
 
 export const JOBS_DIR = 'docs/job-offers';
@@ -34,6 +45,7 @@ export const REPORT_FILE = 'match-report.md';
 export const ADAPTED_FILE = 'adapted-resume.json';
 export const COVER_LETTER_FILE = 'cover-letter.md';
 export const REVIEW_PLAN_FILE = 'interview-review-plan.json';
+export const APPLICATION_FILE = 'application.md';
 
 /**
  * Que ofertas entran en el listado. En dev se ve todo: es la app viva con los
@@ -99,6 +111,20 @@ export function buildSlug(empresa: string, rol: string, fecha: string): string {
   return `${fecha}-${slugify(empresa)}-${slugify(rol)}`;
 }
 
+/**
+ * Ids de posicionamiento del frontmatter `perfiles` (separados por coma o en
+ * lista entre corchetes). Tolera espacios, ids repetidos y el campo ausente.
+ */
+export function parsePerfilesField(value: string | undefined): string[] {
+  if (!value) return [];
+  const ids = value
+    .replace(/^\[|\]$/g, '')
+    .split(',')
+    .map((id) => id.trim())
+    .filter((id) => id.length > 0);
+  return Array.from(new Set(ids));
+}
+
 function metaFromOfferMd(slug: string, raw: string): OfferMeta {
   const fm = parseFrontmatter(raw);
   return {
@@ -109,8 +135,48 @@ function metaFromOfferMd(slug: string, raw: string): OfferMeta {
     modalidad: fm.modalidad || 'unknown',
     location: fm.location || null,
     salario: fm.salario && fm.salario !== 'N/A' ? fm.salario : null,
-    recruiter: fm.recruiter && fm.recruiter !== 'N/A' ? fm.recruiter : null
+    recruiter: fm.recruiter && fm.recruiter !== 'N/A' ? fm.recruiter : null,
+    perfiles: parsePerfilesField(fm.perfiles)
   };
+}
+
+/** Valores legacy o sin dato que se normalizan a null. */
+function cleanFrontmatterValue(value: string | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const lower = trimmed.toLowerCase();
+  if (lower === 'n/a' || lower === 'pendiente') return null;
+  return trimmed;
+}
+
+/**
+ * Parsea y valida el `application.md` de una oferta (contrato de resultado de la
+ * Fase F). Falla ruidosamente nombrando el archivo si el estado no es del contrato
+ * o si falta el motivo de un veto o descarte. `fecha_envio` es alias legacy de
+ * `fecha`.
+ */
+export function parseApplicationFile(raw: string, source: string): Application {
+  const fm = parseFrontmatter(raw);
+  const candidate = {
+    empresa: cleanFrontmatterValue(fm.empresa) ?? '',
+    rol: cleanFrontmatterValue(fm.rol) ?? '',
+    fecha: cleanFrontmatterValue(fm.fecha) ?? cleanFrontmatterValue(fm.fecha_envio),
+    estado: (fm.estado ?? '').trim().toLowerCase(),
+    motivo: cleanFrontmatterValue(fm.motivo),
+    ats: cleanFrontmatterValue(fm.ats),
+    confirmacion: cleanFrontmatterValue(fm.confirmacion),
+    cv_enviado: cleanFrontmatterValue(fm.cv_enviado),
+    cover_enviado: cleanFrontmatterValue(fm.cover_enviado),
+    outcome: cleanFrontmatterValue(fm.outcome),
+    outcome_fecha: cleanFrontmatterValue(fm.outcome_fecha)
+  };
+  const parsed = applicationSchema.safeParse(candidate);
+  if (!parsed.success) {
+    const issues = parsed.error.issues.map((issue) => `${issue.path.join('.') || 'frontmatter'}: ${issue.message}`);
+    throw new Error(`application.md invalido en ${source}: ${issues.join(' | ')}`);
+  }
+  return parsed.data;
 }
 
 /** Lista fisica de ofertas en docs/job-offers con estado derivado del disco. */
@@ -150,6 +216,15 @@ export function listOffers(cwd: string = process.cwd()): OfferListing[] {
       if (Number.isFinite(parsed)) matchScore = parsed;
     }
 
+    const applicationPath = path.join(dir, APPLICATION_FILE);
+    const hasApplication = fs.existsSync(applicationPath);
+    const application = hasApplication
+      ? parseApplicationFile(
+          fs.readFileSync(applicationPath, 'utf-8'),
+          path.posix.join(JOBS_DIR, slug, APPLICATION_FILE)
+        )
+      : null;
+
     offers.push({
       slug,
       meta: metaFromOfferMd(slug, raw),
@@ -160,7 +235,9 @@ export function listOffers(cwd: string = process.cwd()): OfferListing[] {
       hasAdapted,
       hasCoverLetter,
       hasReviewPlan,
-      matchScore
+      matchScore,
+      hasApplication,
+      application
     });
   }
 
@@ -173,7 +250,10 @@ export interface OfferDetail {
   offerRaw: string;
   reportRaw: string | null;
   adaptedResume: unknown | null;
+  /** Texto crudo del adapted-resume.json (para la vista y la descarga). */
+  adaptedRaw: string | null;
   coverLetterRaw: string | null;
+  applicationRaw: string | null;
 }
 
 /** Contenido completo de una oferta para el render del split-view. */
@@ -184,11 +264,14 @@ export function readOfferDetail(slug: string, cwd: string = process.cwd()): Offe
   const reportPath = path.join(dir, REPORT_FILE);
   const adaptedPath = path.join(dir, ADAPTED_FILE);
   const coverLetterPath = path.join(dir, COVER_LETTER_FILE);
+  const applicationPath = path.join(dir, APPLICATION_FILE);
   const reportRaw = fs.existsSync(reportPath) ? fs.readFileSync(reportPath, 'utf-8') : null;
   let adaptedResume: unknown = null;
+  let adaptedRaw: string | null = null;
   if (fs.existsSync(adaptedPath)) {
+    adaptedRaw = fs.readFileSync(adaptedPath, 'utf-8');
     try {
-      adaptedResume = JSON.parse(fs.readFileSync(adaptedPath, 'utf-8'));
+      adaptedResume = JSON.parse(adaptedRaw);
     } catch {
       adaptedResume = null;
     }
@@ -196,5 +279,8 @@ export function readOfferDetail(slug: string, cwd: string = process.cwd()): Offe
   const coverLetterRaw = fs.existsSync(coverLetterPath)
     ? fs.readFileSync(coverLetterPath, 'utf-8')
     : null;
-  return { slug, offerRaw, reportRaw, adaptedResume, coverLetterRaw };
+  const applicationRaw = fs.existsSync(applicationPath)
+    ? fs.readFileSync(applicationPath, 'utf-8')
+    : null;
+  return { slug, offerRaw, reportRaw, adaptedResume, adaptedRaw, coverLetterRaw, applicationRaw };
 }

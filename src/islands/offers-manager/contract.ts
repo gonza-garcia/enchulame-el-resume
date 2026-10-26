@@ -4,6 +4,16 @@ import type { OfferListing, OfferMeta, OfferState, CoverLetterFile } from '../..
 
 export type { OfferListing, OfferMeta, OfferState, CoverLetterFile };
 
+/** Chip de estado de la postulacion (application.md): pills solo para etiquetas. */
+export const POST_BADGE_CLASS: Record<string, string> = {
+  enviada: 'of-badge-enviada',
+  confirmada: 'of-badge-confirmada',
+  vetada: 'of-badge-vetada',
+  descartada: 'of-badge-descartada',
+  borrador: 'of-badge-borrador',
+  'en preparacion': 'of-badge-borrador'
+};
+
 export interface OfferView {
   listing: OfferListing;
   offerHtml: string;
@@ -21,6 +31,8 @@ export interface CaptureJson {
   location: string | null;
   salario?: string | null;
   recruiter?: string | null;
+  /** Ids de posicionamientos del perfil a los que apunta la oferta (opcional, multi-perfil). */
+  perfiles?: string[] | null;
   descripcion_empresa: string | null;
   oferta_texto: string;
 }
@@ -44,6 +56,7 @@ export const captureJsonSchema = z.object({
   location: z.string().nullable(),
   salario: z.string().nullable().optional(),
   recruiter: z.string().nullable().optional(),
+  perfiles: z.array(z.string().min(1)).nullable().optional(),
   descripcion_empresa: z.string().nullable(),
   oferta_texto: z.string().min(1)
 });
@@ -125,6 +138,9 @@ export function composeOfferMd(
     `location: ${meta.location ?? 'N/A'}`,
     `salario: ${meta.salario ?? 'N/A'}`,
     `recruiter: ${meta.recruiter ?? 'N/A'}`,
+    ...(meta.perfiles && meta.perfiles.length > 0
+      ? [`perfiles: ${meta.perfiles.map((id) => id.trim()).filter(Boolean).join(', ')}`]
+      : []),
     '---',
     '',
     '# Oferta original',
@@ -183,6 +199,8 @@ export interface OfferFormValues {
   recruiter: string;
   seniority: string;
   stack: string;
+  /** Ids de posicionamientos separados por coma (ej: frontend, ai). */
+  perfiles: string;
 }
 
 export function todayIso(): string {

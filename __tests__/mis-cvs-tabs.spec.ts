@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Mis CVs: tabs CVs base / CVs adaptados', () => {
+test.describe('Mis perfiles: tabs CVs base / CVs adaptados', () => {
   test('por defecto se ve la tab CVs base con las cards y el CV', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('#cv-tab-base')).toHaveAttribute('aria-selected', 'true');

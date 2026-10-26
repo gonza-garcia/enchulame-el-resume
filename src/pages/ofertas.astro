@@ -1,0 +1,546 @@
+---
+/**
+ * "Ofertas" (Fase F, variante D): la vista de resultados del pipeline como
+ * producto. Sidebar de filtros (Estado, Perfil, Top matches), cards compactas y
+ * visor a la derecha con las 4 vistas (Oferta original / CV adaptado / Cover
+ * letter / Postulacion). La data viene de las carpetas de docs/job-offers con el
+ * read model; en build generico solo entran ofertas demo (ADR-0033). Sin
+ * seguimiento ni acciones de envio: el Submit de cualquier postulacion lo aprieta
+ * siempre el usuario.
+ */
+import { marked } from 'marked';
+import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/SiteNav.astro';
+import OffersView from '../islands/offers-view/OffersView';
+import { listOffers, readOfferDetail, stripFrontmatter } from '../lib/job-offers';
+import { loadProfile, nameInitials } from '../lib/profile';
+import { resumeSchema } from '../schemas/resume';
+import type { OfferRow } from '../islands/offers-view/contract';
+
+const { profile } = loadProfile();
+
+const rows: OfferRow[] = listOffers().map((listing) => {
+  const detail = readOfferDetail(listing.slug);
+  const offerRaw = detail?.offerRaw ?? '';
+  const coverRaw = detail?.coverLetterRaw ?? null;
+  let adaptedResume: OfferRow['adaptedResume'] = null;
+  if (detail?.adaptedResume) {
+    const parsed = resumeSchema.safeParse(detail.adaptedResume);
+    if (parsed.success) adaptedResume = parsed.data;
+  }
+  return {
+    slug: listing.slug,
+    empresa: listing.meta.empresa,
+    rol: listing.meta.rol,
+    fecha: listing.meta.fecha,
+    url: listing.meta.url,
+    modalidad: listing.meta.modalidad,
+    location: listing.meta.location,
+    salario: listing.meta.salario,
+    recruiter: listing.meta.recruiter,
+    perfiles: listing.meta.perfiles,
+    estado: listing.estado,
+    matchScore: listing.matchScore,
+    hasReviewPlan: listing.hasReviewPlan,
+    application: listing.application,
+    offerHtml: marked.parse(stripFrontmatter(offerRaw)) as string,
+    offerRaw,
+    coverHtml: coverRaw ? (marked.parse(stripFrontmatter(coverRaw)) as string) : null,
+    coverRaw,
+    adaptedResume,
+    adaptedResumeInvalid: Boolean(detail?.adaptedResume) && !adaptedResume,
+    adaptedRaw: detail?.adaptedRaw ?? null,
+    applicationRaw: detail?.applicationRaw ?? null
+  };
+});
+
+const positionings = profile.positionings.map((positioning) => ({
+  id: positioning.id,
+  title: positioning.title.en
+}));
+---
+
+<Layout title={`Ofertas - ${profile.identity.name.en}`}>
+  {/* Navbar slim de 4 destinos (Fase F): brand + links, sin controles de
+      export/tema (el Toolbar completo vive en "Mis perfiles"). */}
+  <div class="toolbar">
+    <SiteNav
+      brand={{
+        mark: nameInitials(profile.identity.name.en),
+        name: profile.identity.name.en,
+        role: profile.positionings[0].title.en
+      }}
+    />
+    <div class="spacer"></div>
+  </div>
+
+  <OffersView client:load rows={rows} positionings={positionings} />
+
+  <style is:global>
+    /* ===== Vista "Ofertas" (Fase F, variante D) =====
+       Reglas de UI: pills solo para etiquetas (chips/badges), rectangulos para
+       acciones (boton base + primario/secundario/ghost), segmented para las
+       vistas del visor, focus-visible, transiciones 150ms, prefers-reduced-motion
+       y escala tipografica 11/12/13. */
+    .of-shell {
+      display: grid;
+      grid-template-columns: 180px minmax(280px, 1fr) minmax(330px, 1.15fr);
+      gap: 12px;
+      align-items: start;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 16px 20px 32px 20px;
+      color: var(--ink);
+    }
+
+    /* ---- Boton base + variantes (rectangulos: acciones) ---- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      color: var(--ink);
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+    }
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn.primary {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .btn.primary:hover {
+      background: color-mix(in srgb, var(--accent) 85%, var(--ink));
+      color: var(--bg);
+    }
+    .btn.secondary {
+      background: var(--bg);
+    }
+    .btn.ghost {
+      border-color: transparent;
+      color: var(--muted);
+      background: transparent;
+    }
+    .btn.ghost:hover {
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ---- Pills: solo etiquetas (chips y badges de postulacion). Sus estilos
+       viven globales en Layout.astro para compartirlos con el gestor de ofertas. ---- */
+
+    /* ---- Sidebar de filtros ---- */
+    .of-side {
+      border-right: 1px solid var(--rule);
+      padding-right: 10px;
+    }
+    .of-sec {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 14px 0 6px 2px;
+    }
+    .of-sec:first-child {
+      margin-top: 0;
+    }
+    .of-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 6px 8px;
+      border: none;
+      border-left: 2px solid transparent;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+      color: var(--ink);
+      background: transparent;
+      transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    }
+    .of-item:hover {
+      background: color-mix(in srgb, var(--ink) 6%, var(--bg));
+    }
+    .of-item.on {
+      background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+      border-left-color: var(--accent);
+      font-weight: 700;
+    }
+    .of-item.muted {
+      color: var(--muted);
+    }
+    .of-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .of-count {
+      font-size: 11px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ---- Feed de cards compactas ---- */
+    .of-feed {
+      min-width: 0;
+    }
+    .of-card {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      width: 100%;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: var(--bg);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .of-card:hover {
+      border-color: var(--accent);
+    }
+    .of-card.sel {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .of-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .of-score {
+      min-width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      border: 2px solid #1f7a4d;
+      color: #1f7a4d;
+      flex: 0 0 auto;
+    }
+    .of-score.mid {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .of-card-body {
+      display: block;
+      flex: 1;
+      min-width: 0;
+    }
+    .of-card-title {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 2px 0;
+    }
+    .of-card-title .muted {
+      font-weight: 400;
+    }
+    .of-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .of-row.tight {
+      gap: 5px;
+      margin: 6px 0;
+    }
+    .of-row.spread {
+      justify-content: space-between;
+    }
+    .of-clamp {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 6px 0 0 0;
+    }
+
+    /* ---- Visor a la derecha ---- */
+    .of-viewer {
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      background: var(--bg);
+      min-width: 0;
+      position: sticky;
+      top: 10px;
+    }
+    .of-viewer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .of-segmented {
+      display: inline-flex;
+      gap: 2px;
+      padding: 2px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      background: var(--bg);
+    }
+    .of-segmented button {
+      border: none;
+      border-radius: 4px;
+      padding: 5px 11px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: background-color 150ms ease, color 150ms ease;
+    }
+    .of-segmented button:hover {
+      color: var(--ink);
+    }
+    .of-segmented button.on {
+      background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .of-segmented button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .of-menu-wrap {
+      position: relative;
+    }
+    .of-menu-btn {
+      padding: 6px 8px;
+    }
+    .of-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      z-index: 20;
+      min-width: 180px;
+      padding: 4px;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .of-menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      border-radius: 4px;
+      background: transparent;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease, color 150ms ease;
+    }
+    .of-menu-item:hover {
+      background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+      color: var(--accent);
+    }
+    .of-menu-item.disabled {
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+    .of-menu-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .of-pane {
+      padding: 12px 14px;
+      max-height: 620px;
+      overflow: auto;
+      font-size: 12px;
+    }
+    .of-empty {
+      padding: 24px 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .of-empty-line {
+      margin: 8px 0;
+    }
+    .muted {
+      color: var(--muted);
+    }
+    .tiny {
+      font-size: 11px;
+    }
+
+    /* ---- Prosa del markdown (oferta original, cover letter) ---- */
+    .of-prose h1,
+    .of-prose h2,
+    .of-prose h3,
+    .of-prose h4 {
+      font-size: 13px;
+      margin: 12px 0 6px 0;
+    }
+    .of-prose p,
+    .of-prose ul,
+    .of-prose ol {
+      font-size: 12px;
+      margin: 6px 0;
+      line-height: 1.5;
+    }
+    .of-prose ul,
+    .of-prose ol {
+      padding-left: 18px;
+    }
+    .of-prose a {
+      color: var(--accent);
+    }
+    .of-prose code {
+      font-size: 11px;
+      background: color-mix(in srgb, var(--ink) 6%, var(--bg));
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    /* ---- Vista "Postulacion" ---- */
+    .of-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .of-meta-grid div {
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 7px 9px;
+      background: var(--bg);
+      font-size: 12px;
+    }
+    .of-meta-grid span {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .of-quote {
+      border-left: 3px solid #1f7a4d;
+      background: color-mix(in srgb, var(--ink) 5%, var(--bg));
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+      margin-top: 8px;
+    }
+
+    /* ---- Vista "CV adaptado" ---- */
+    .of-cv .of-cv-name {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .of-cv .of-cv-role {
+      font-size: 12px;
+      margin: 2px 0;
+    }
+    .of-cv .of-cv-contact {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0 0 8px 0;
+    }
+    .of-cv section h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 3px;
+      margin: 12px 0 6px 0;
+    }
+    .of-cv section p,
+    .of-cv section ul {
+      font-size: 12px;
+      margin: 4px 0;
+      line-height: 1.5;
+    }
+    .of-cv section ul {
+      padding-left: 18px;
+    }
+    .of-cv .of-cv-line {
+      margin: 3px 0;
+    }
+    .of-cv .of-cv-job {
+      margin-bottom: 10px;
+    }
+    .of-cv .of-cv-project {
+      margin: 4px 0 0 0;
+    }
+
+    /* ---- Modal del puente de prompts (+ Agregar perfil) ---- */
+    .of-modal-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 10px 0 0 0;
+      line-height: 1.5;
+    }
+    .of-modal-hint code {
+      font-size: 11px;
+    }
+
+    @media (max-width: 1000px) {
+      .of-shell {
+        grid-template-columns: 1fr;
+      }
+      .of-side {
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 10px;
+      }
+      .of-viewer {
+        position: static;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .of-shell *,
+      .of-shell *::before,
+      .of-shell *::after,
+      .modal-overlay * {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</Layout>

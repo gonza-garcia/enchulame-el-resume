@@ -13,7 +13,7 @@ test.describe('Header unificado (Toolbar compartido)', () => {
       await expect(brand.locator('.brand-mark')).toHaveText('AM');
       await expect(brand.locator('.brand-name')).toContainText('Ariana Montiel');
 
-      await expect(page.locator('.site-nav-link', { hasText: 'Mis CVs' })).toBeVisible();
+      await expect(page.locator('.site-nav-link', { hasText: 'Mis perfiles' })).toBeVisible();
       await expect(page.locator('.site-nav-link', { hasText: 'Prep entrevistas' })).toBeVisible();
 
       await expect(page.locator('.toolbar .toggle button#btn-en')).toBeVisible();
@@ -43,7 +43,7 @@ test.describe('Header unificado (Toolbar compartido)', () => {
 
   test('nav marca activa la pagina actual', async ({ page }) => {
     await page.goto('/?tab=adaptados');
-    await expect(page.locator('.site-nav-link', { hasText: 'Mis CVs' })).toHaveClass(/active/);
+    await expect(page.locator('.site-nav-link', { hasText: 'Mis perfiles' })).toHaveClass(/active/);
     await expect(page.locator('.site-nav-link', { hasText: 'Prep entrevistas' })).not.toHaveClass(/active/);
   });
 

@@ -1,8 +1,10 @@
 ---
 /**
- * Navbar consistente del sitio (Fase D): brand + los 3 destinos, la misma pieza en
- * las 4 páginas. Vive dentro del Toolbar en "Mis CVs" y como barra slim en
- * `/interview` y `/learning`. Los destinos están fijos acá para no repetirlos.
+ * Navbar consistente del sitio (Fase D/F): brand + los 4 destinos, la misma pieza
+ * en todas las páginas. Vive dentro del Toolbar en "Mis perfiles" y como barra
+ * slim en `/ofertas`, `/interview` y `/learning`. Los destinos están fijos acá
+ * para no repetirlos. Navbar como links con subrayado (regla de UI de la Fase F):
+ * el activo queda subrayado, nunca pill.
  */
 export interface SiteNavBrand {
   mark: string;
@@ -17,7 +19,8 @@ interface Props {
 const { brand } = Astro.props;
 
 const destinations = [
-  { href: '/', label: 'Mis CVs' },
+  { href: '/', label: 'Mis perfiles' },
+  { href: '/ofertas/', label: 'Ofertas' },
   { href: '/interview/', label: 'Prep entrevistas' },
   { href: '/learning/', label: 'Plan de estudios' }
 ];
@@ -27,7 +30,7 @@ const currentPath = normalize(Astro.url.pathname);
 const isActive = (href: string) => currentPath === normalize(href);
 ---
 
-<a href="/" class="brand" aria-label="Mis CVs">
+<a href="/" class="brand" aria-label="Mis perfiles">
   <span class="brand-mark">{brand.mark}</span>
   <span class="brand-text">
     <span class="brand-name">{brand.name}</span>

@@ -16,12 +16,13 @@ privado de planning) y no forma parte del producto.
   (ADR-0026). El perfil es la fuente única de datos, en capas: identidad, hechos, skills como
   entidad y posicionamientos.
 - El contenido base tiene dos locales: `es` y `en`. La UI de las islas queda en español.
-- El sitio es Astro 7 (upgrade documentado en ADR-0020). "Mis CVs" (`/`) fusiona el CV
-  base canónico imprimible (estático vanilla) con los CVs adaptados en dos tabs, y aloja
-  la isla React del gestor de ofertas en su tab "CVs adaptados"; `/interview` y
-  `/learning` son islas React (ADR-0021, ADR-0024, ADR-0029 y ADR-0040). La navbar de
-  3 destinos ("Mis CVs", "Prep entrevistas" y "Plan de estudios") es la misma en todas
-  las páginas (ADR-0040).
+- El sitio es Astro 7 (upgrade documentado en ADR-0020). "Mis perfiles" (`/`) fusiona el
+  CV base canónico imprimible (estático vanilla) con los CVs adaptados en dos tabs, y
+  aloja la isla React del gestor de ofertas en su tab "CVs adaptados"; `/ofertas` es la
+  vista de resultados del pipeline y `/interview` y `/learning` son islas React
+  (ADR-0021, ADR-0024, ADR-0029, ADR-0040 y ADR-0042). La navbar de 4 destinos
+  ("Mis perfiles", "Ofertas", "Prep entrevistas" y "Plan de estudios") es la misma en
+  todas las páginas y se estila como links con subrayado (ADR-0040 y ADR-0042).
 - `/interview` publica el banco de prep de entrevistas en inglés, con filtros por área, nivel,
   rol y frecuencia, un "Filtro" de texto sobre las tarjetas y una búsqueda global con ranking
   (área > título > respuesta), preguntas trampa, quizzes y escenarios de código. El contenido
@@ -30,13 +31,16 @@ privado de planning) y no forma parte del producto.
 - `/learning` navega el plan de estudios por fases, con progreso por recurso, gate por fase,
   panel de perfil frente al plan y enlaces bidireccionales con `/interview` (ADR-0028 y
   ADR-0029).
-- Cada oferta vive en su carpeta `docs/job-offers/<slug>/` con `offer.md`, `match-report.md`
-  y `adapted-resume.json`; el estado se deriva del disco (ADR-0022). El repo lleva dos ofertas
-  demo ficticias (Aurora Labs y Nimbus Software) como fixtures del producto; en una instancia
-  propias, las ofertas reales del usuario quedan fuera de git.
-- El gestor de ofertas, en la tab "CVs adaptados" de "Mis CVs", lista exactamente lo que
-  hay en disco y sus flujos de creación usan el puente de prompts con las skills del repo
-  (ADR-0023).
+- Cada oferta vive en su carpeta `docs/job-offers/<slug>/` con `offer.md` (con `perfiles`
+  opcional en el frontmatter: los posicionamientos del perfil a los que apunta),
+  `match-report.md`, `adapted-resume.json` y, cuando hubo postulación, `application.md`
+  (el registro con su estado, motivo, confirmación del ATS y documentos); el estado se
+  deriva del disco: Agregada, Analizada, Adaptada y Postulada (ADR-0022 y ADR-0042). El
+  repo lleva dos ofertas demo ficticias (Aurora Labs y Nimbus Software) como fixtures del
+  producto; en una instancia propia, las ofertas reales del usuario quedan fuera de git.
+- El gestor de ofertas, en la tab "CVs adaptados" de "Mis perfiles", lista exactamente lo
+  que hay en disco y sus flujos de creación usan el puente de prompts con las skills del
+  repo (ADR-0023).
 - Las skills del flujo viven en `skills/job-seeking/`: `build-profile`, `capture-job-offer`,
   `adapt-resume-to-offer`, `research-content`, `content-designer`, `capture-learning-plan`
   y `build-interview-review-plan`.
@@ -152,24 +156,57 @@ pegar y guardar después, con el mismo destino.
   por fase, sobre el banco reorganizado en áreas 1:1 con las fases (los id de pregunta se
   conservan para no perder el progreso guardado).
 
-### Página "Mis CVs" (ADR-0040)
+### Página "Mis perfiles" (ADR-0040 y ADR-0042)
 
-- "Mis CVs" vive en `/` con tabs "CVs base" (default) y "CVs adaptados". El CV base
-  canónico imprimible sigue en `/`: sin JavaScript se renderiza el CV base y el print
-  emite solo el documento activo (el chrome de tabs y cards no se imprime).
+- "Mis perfiles" (antes "Mis CVs") vive en `/` con tabs "CVs base" (default) y "CVs
+  adaptados". El CV base canónico imprimible sigue en `/`: sin JavaScript se renderiza el
+  CV base y el print emite solo el documento activo (el chrome de tabs y cards no se
+  imprime). Los posicionamientos del perfil son los perfiles (Frontend, Frontend AI, y
+  los que se agreguen).
 - La tab "CVs base" tiene cards por posicionamiento como selector (título, resumen y
   acciones "Imprimir PDF" / "Exportar") con el CV activo debajo; reemplazan al toggle
   del toolbar, que queda con idioma / export / tema.
 - La tab "CVs adaptados" aloja el gestor de ofertas con sus cards por oferta y el estado
-  derivado del disco (ADR-0022 sin cambios).
+  derivado del disco (ADR-0022 sin cambios). Las cards con `application.md` llevan el
+  chip de estado de la postulación y el panel muestra la sección "Postulación" (estado,
+  motivo, confirmación del ATS, outcome y documentos; mensaje neutro sin acciones cuando
+  no hay registro).
 - La ruta `/adapted` ya no existe: el deep link canónico es `/?tab=adaptados` (se acepta
-  también `?tab=adapted`). El back-link del gestor es "← CVs base" y activa la tab.
-- Navbar consistente de 3 destinos ("Mis CVs" · "Prep entrevistas" · "Plan de estudios")
-  en todas las páginas, desde el componente compartido `SiteNav`. El Toolbar completo
-  (idioma / export / tema) vive solo en "Mis CVs"; `/interview` y `/learning` conservan
-  su header propio.
+  también `?tab=adapted`) y con `&oferta=<slug>` selecciona la oferta pedida. El
+  back-link del gestor es "← CVs base" y activa la tab.
+- Navbar consistente de 4 destinos ("Mis perfiles" · "Ofertas" · "Prep entrevistas" ·
+  "Plan de estudios") en todas las páginas, desde el componente compartido `SiteNav`,
+  como links con subrayado. El Toolbar completo (idioma / export / tema) vive solo en
+  "Mis perfiles"; `/ofertas`, `/interview` y `/learning` conservan la barra slim.
 - El diálogo de PDF sugiere el nombre neutro del ADR-0036 en ambas tabs, y los exports
   actúan sobre el documento activo resuelto por tab.
+
+### Página "Ofertas" y contrato de postulación (ADR-0042)
+
+- `/ofertas` es la vista de resultados del pipeline (variante D): sidebar de filtros
+  (Estado: Todas / Capturadas / Postuladas + estados del contrato con counts; Perfil con
+  toggle multi-perfil y "+ Agregar perfil" con puente de prompts a `build-profile`; Top
+  matches con score ≥ 80), cards compactas (score, `rol - empresa`, estado/fecha/ATS,
+  chips de metadata y 1 línea de motivo o confirmación) y visor con segmented de 4 vistas
+  (Oferta original / CV adaptado / Cover letter / Postulación) y menú de tres puntos
+  ("Cargar repaso", que navega a `/interview/?repaso=<slug>`, y "Descargar", que baja el
+  archivo de la vista activa).
+- `docs/job-offers/<slug>/application.md` es el contrato de resultado de una postulación
+  (frontmatter validado con Zod): requeridos `empresa`, `rol`, `fecha` (alias legacy
+  `fecha_envio`) y `estado` (`borrador | en preparacion | enviada | confirmada | vetada |
+  descartada`, con `motivo` obligatorio en vetada/descartada); opcionales `ats`,
+  `confirmacion`, `cv_enviado`, `cover_enviado`, `outcome` y `outcome_fecha`. El parser
+  tolera alias y campos ausentes pero falla en build nombrando el archivo.
+- El frontmatter de `offer.md` puede llevar `perfiles: frontend, ai`: ids de los
+  posicionamientos del perfil a los que apunta la oferta, dato declarado, opcional y
+  multi-perfil (una oferta puede apuntar a varios perfiles).
+- Reglas de UI: pills solo para etiquetas (chips/badges), rectángulos para acciones
+  (botón base + primario/secundario/ghost), segmented para las vistas del visor, navbar
+  como links con subrayado, `focus-visible`, transiciones 150ms, `prefers-reduced-motion`
+  y escala tipográfica 11/12/13.
+- El tracker del pipeline sigue siendo el dueño del estado del flujo de postulaciones; el
+  score mostrado es el `match_score` del match-report y el Submit de cualquier postulación
+  lo aprieta siempre el usuario (la UI no tiene acciones de envío ni seguimiento).
 
 ### Plan de repaso por oferta (ADR-0035)
 
@@ -255,6 +292,7 @@ están en `docs/deploy.md`.
 | 0039 | Vigente | Formato de experiencia ATS-safe |
 | 0040 | Vigente | "Mis CVs": fusión de `/` y `/adapted` con tabs y navbar consistente |
 | 0041 | Vigente | Gates de `/learning` con evidencia citada, sin estado inventado |
+| 0042 | Vigente | Contrato de postulación (`application.md`) y UI de resultados |
 
 Los ADRs personales (decisiones del CV y hosting de las apps personales) están en
 `docs/planning/adr/` y son legado del planning. Los ADRs históricos se conservan como
@@ -406,3 +444,21 @@ contexto y no contradecir las decisiones vigentes de este README.
   mano como siempre) y resumen desglosado. Contrato aditivo: `gate` sigue siendo el
   texto del criterio y `version: 1` no cambia. Aviso de resync al thread memento por el
   cambio de contrato del plan.
+- 26 oct 2026: Fase F arranca con su **diseño aprobado** (UI de resultados del pipeline de
+  postulaciones: sección "Ofertas" con filtros por estado, "Mis CVs" pasa a "Mis Perfiles"
+  con "+ Agregar perfil", y visor de material con las vistas Oferta original / CV adaptado /
+  Cover letter / Postulación) y su **primer cambio implementado**: el contrato de resultado
+  `application.md` con schema Zod nuevo (`src/schemas/application.ts`), lectura validada en
+  el read model de ofertas (`parseApplicationFile`, con alias legacy `fecha_envio`) y ofertas
+  demo con postulación ficticia (aurora-labs confirmada, nimbus vetada). El tracker del
+  pipeline sigue siendo el dueño del estado de las postulaciones.
+- 26 oct 2026 (tarde): la **UI de la variante D queda como producto** (ADR-0042): página
+  `/ofertas` con sidebar de filtros (Estado con counts del contrato, Perfil multi-perfil con
+  "+ Agregar perfil" vía puente de prompts a `build-profile`, Top matches), cards compactas y
+  visor con segmented de 4 vistas y menú de tres puntos (Cargar repaso / Descargar); navbar
+  de 4 destinos ("Mis perfiles" · "Ofertas" · "Prep entrevistas" · "Plan de estudios") como
+  links con subrayado; chip de estado y sección "Postulación" en el gestor de ofertas con
+  deep link `?tab=adaptados&oferta=<slug>`. Nuevo campo declarado `perfiles` en el frontmatter
+  de `offer.md` (multi-perfil, opcional) documentado en `capture-job-offer`, que es la dueña
+  del contrato de carpetas junto con el registro `application.md`. El prototipo descartable se
+  capturó como fuente primaria en la rama `prototipo/ui-resultados-fase-f`.

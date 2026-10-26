@@ -42,7 +42,7 @@ const payload = {
     tip="Tip: pick a language, then Print PDF for an ATS-friendly single-column résumé."
   />
 
-  {/* Tabs de "Mis CVs" (Fase D): "CVs base" (default) y "CVs adaptados". Chrome de
+  {/* Tabs de "Mis perfiles" (Fase D): "CVs base" (default) y "CVs adaptados". Chrome de
       pantalla, oculto en print. El estado vive en html[data-cv-tab] y en ?tab=. */}
   <script is:inline>
     // Deep link canonico: ?tab=adaptados (se acepta tambien ?tab=adapted).
@@ -51,7 +51,7 @@ const payload = {
       document.documentElement.setAttribute('data-cv-tab', 'adapted');
     }
   </script>
-  <div class="cv-tabs" role="tablist" aria-label="Mis CVs">
+  <div class="cv-tabs" role="tablist" aria-label="Mis perfiles">
     <button type="button" class="cv-tab" role="tab" id="cv-tab-base" data-cv-tab-target="base" aria-controls="cv-panel-base" aria-selected="true">CVs base</button>
     <button type="button" class="cv-tab" role="tab" id="cv-tab-adapted" data-cv-tab-target="adapted" aria-controls="cv-panel-adapted" aria-selected="false">CVs adaptados</button>
   </div>

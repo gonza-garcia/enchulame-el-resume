@@ -12,7 +12,9 @@ Las skills del flujo de trabajo viven en el repo, en `skills/job-seeking/`:
 - `capture-job-offer/SKILL.md`: obtiene una oferta (del link con estrategia de
   fetch con fallbacks, o del texto pegado), extrae metadata y la guarda bajo el
   contrato de carpetas. Es la dueña del contrato: `docs/job-offers/<slug>/` con
-  `offer.md` + `match-report.md` + `adapted-resume.json`.
+  `offer.md` (frontmatter con `perfiles` opcional), `match-report.md`,
+  `adapted-resume.json` y `application.md` (el registro de la postulación, cuando
+  la hubo).
 - `adapt-resume-to-offer/SKILL.md`: analiza el match de una oferta ya capturada
   contra el CV base y genera su `adapted-resume.json`.
 - `research-content/SKILL.md`: investiga un área del banco de entrevistas contra
@@ -33,8 +35,11 @@ Cada skill documenta su contrato y límites en su sección `Contrato y límites`
 qué contrato es dueña, qué archivos puede escribir y qué no toca. Antes de
 escribir un archivo, leer esa sección en la skill dueña de su contrato.
 El estado de una oferta se deriva de la presencia de archivos: Agregada (offer.md),
-Analizada (match-report.md), Adaptada (adapted-resume.json). El gestor de ofertas
-en la tab "CVs adaptados" de "Mis CVs" (`/`) lista exactamente lo que hay en disco.
+Analizada (match-report.md), Adaptada (adapted-resume.json) y Postulada
+(`application.md`, con su estado del contrato: borrador, en preparacion, enviada,
+confirmada, vetada o descartada). El gestor de ofertas en la tab "CVs adaptados" de
+"Mis perfiles" (`/`) lista exactamente lo que hay en disco, y la vista `/ofertas`
+muestra los resultados del pipeline con filtros por estado y perfil (ADR-0042).
 
 ## Agent skills
 
@@ -143,6 +148,7 @@ src/
     progress-storage.ts
   pages/
     index.astro
+    ofertas.astro
     interview.astro
     learning.astro
   schemas/

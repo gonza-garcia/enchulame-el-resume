@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { type OfferView } from './contract';
+import { type OfferView, POST_BADGE_CLASS } from './contract';
 import { type Resume } from '../../schemas/resume';
 import { SECTION_TITLES, clientBlock } from '../../lib/resume-sections';
 
@@ -112,6 +112,63 @@ export default function OfferPanel({ offer, lang }: OfferPanelProps) {
         )}
       </div>
       <div className="split-right">
+        {/* Seccion "Postulacion" (Cambio 3): el registro de application.md.
+            Sin application.md queda el mensaje neutro, sin acciones: el Submit de
+            cualquier postulacion lo aprieta siempre el usuario. */}
+        <section className="offer-post" aria-label="Postulación">
+          <h4>Postulación</h4>
+          {listing.application ? (
+            <>
+              <div className="offer-post-head">
+                <span
+                  className={`of-badge ${POST_BADGE_CLASS[listing.application.estado] ?? 'of-badge-borrador'}`}
+                >
+                  {listing.application.estado}
+                </span>
+                <span className="offer-post-meta">
+                  {listing.application.fecha ?? listing.meta.fecha}
+                  {listing.application.ats ? ` · ${listing.application.ats}` : ''}
+                </span>
+              </div>
+              {listing.application.outcome && (
+                <p>
+                  <b>Outcome:</b> {listing.application.outcome}
+                  {listing.application.outcome_fecha ? ` (${listing.application.outcome_fecha})` : ''}
+                </p>
+              )}
+              {listing.application.motivo && (
+                <p>
+                  <b>Motivo:</b> {listing.application.motivo}
+                </p>
+              )}
+              {listing.application.confirmacion && (
+                <>
+                  <p className="offer-post-label">Confirmación registrada:</p>
+                  <div className="offer-post-quote">{listing.application.confirmacion}</div>
+                </>
+              )}
+              <p className="offer-post-label">Documentos:</p>
+              {[listing.application.cv_enviado, listing.application.cover_enviado].filter(Boolean)
+                .length > 0 ? (
+                <div className="offer-post-row">
+                  {[listing.application.cv_enviado, listing.application.cover_enviado]
+                    .filter(Boolean)
+                    .map((doc) => (
+                      <span key={doc} className="chip">
+                        {doc}
+                      </span>
+                    ))}
+                </div>
+              ) : (
+                <p className="offer-post-empty">Sin documentos registrados en application.md.</p>
+              )}
+            </>
+          ) : (
+            <p className="offer-post-empty">
+              Oferta capturada sin postular: no hay application.md en la carpeta.
+            </p>
+          )}
+        </section>
         {adaptedResume ? (
           <div className="split-content adapted-cv">
             <AdaptedCv data={adaptedResume} activeLang={lang} />

@@ -8,6 +8,7 @@ location: Remote (Americas)
 salario: N/A
 recruiter: N/A
 demo: true
+perfiles: frontend
 ---
 
 # Oferta original

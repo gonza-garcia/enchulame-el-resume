@@ -1,4 +1,4 @@
-import { type OfferView, estadoLabel, type OfferState } from './contract';
+import { type OfferView, estadoLabel, type OfferState, POST_BADGE_CLASS } from './contract';
 
 interface OfferCardProps {
   offer: OfferView;
@@ -59,6 +59,14 @@ export default function OfferCard({
             ? 'Adaptada (JSON invalido)'
             : estadoLabel(listing.estado)}
         </span>
+        {listing.application && (
+          <span
+            className={`of-badge ${POST_BADGE_CLASS[listing.application.estado] ?? 'of-badge-borrador'} offer-card-post`}
+            title="Estado de la postulacion registrado en application.md"
+          >
+            Postulación: {listing.application.estado}
+          </span>
+        )}
       </button>
       {isDev && listing.estado === 'agregada' && (
         <div className="offer-actions">

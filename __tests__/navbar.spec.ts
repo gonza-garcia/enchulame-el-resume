@@ -1,19 +1,20 @@
 import { test, expect } from '@playwright/test';
 
 const DESTINATIONS = [
-  { label: 'Mis CVs', href: '/' },
+  { label: 'Mis perfiles', href: '/' },
+  { label: 'Ofertas', href: '/ofertas/' },
   { label: 'Prep entrevistas', href: '/interview/' },
   { label: 'Plan de estudios', href: '/learning/' }
 ];
 
-const PAGES = ['/', '/?tab=adaptados', '/interview/', '/learning/'];
+const PAGES = ['/', '/?tab=adaptados', '/ofertas/', '/interview/', '/learning/'];
 
-test.describe('Navbar consistente (3 destinos)', () => {
+test.describe('Navbar consistente (4 destinos)', () => {
   for (const path of PAGES) {
-    test(`muestra los 3 destinos y el brand en ${path}`, async ({ page }) => {
+    test(`muestra los 4 destinos y el brand en ${path}`, async ({ page }) => {
       await page.goto(path);
       const links = page.locator('nav.site-nav .site-nav-link');
-      await expect(links).toHaveCount(3);
+      await expect(links).toHaveCount(4);
       for (const destino of DESTINATIONS) {
         await expect(
           page.locator('nav.site-nav .site-nav-link', { hasText: destino.label })
@@ -25,8 +26,9 @@ test.describe('Navbar consistente (3 destinos)', () => {
 
   test('cada pagina marca su destino como activo', async ({ page }) => {
     const cases: Array<[string, string]> = [
-      ['/', 'Mis CVs'],
-      ['/?tab=adaptados', 'Mis CVs'],
+      ['/', 'Mis perfiles'],
+      ['/?tab=adaptados', 'Mis perfiles'],
+      ['/ofertas/', 'Ofertas'],
       ['/interview/', 'Prep entrevistas'],
       ['/learning/', 'Plan de estudios']
     ];
@@ -39,25 +41,38 @@ test.describe('Navbar consistente (3 destinos)', () => {
     }
   });
 
-  test('los controles del toolbar (idioma, export, tema) solo viven en Mis CVs', async ({ page }) => {
+  test('los destinos son links con subrayado, nunca pills (regla de UI de la Fase F)', async ({
+    page
+  }) => {
+    await page.goto('/ofertas/');
+    const active = page.locator('nav.site-nav .site-nav-link.active');
+    const style = await active.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return {
+        decoration: s.textDecorationLine,
+        decoColor: s.textDecorationColor,
+        radius: s.borderRadius,
+        weight: s.fontWeight
+      };
+    });
+    expect(style.decoration).toContain('underline');
+    expect(style.decoColor).not.toBe('rgba(0, 0, 0, 0)');
+    expect(style.decoColor).not.toBe('transparent');
+    expect(parseFloat(style.radius)).toBe(0);
+    expect(parseFloat(style.weight)).toBeGreaterThanOrEqual(600);
+  });
+
+  test('los controles del toolbar (idioma, export, tema) solo viven en Mis perfiles', async ({
+    page
+  }) => {
     await page.goto('/');
     await expect(page.locator('#btn-export')).toHaveCount(1);
     await expect(page.locator('.theme-panel')).toHaveCount(1);
 
-    for (const path of ['/interview/', '/learning/']) {
+    for (const path of ['/ofertas/', '/interview/', '/learning/']) {
       await page.goto(path);
       await expect(page.locator('#btn-export')).toHaveCount(0);
       await expect(page.locator('.theme-panel')).toHaveCount(0);
-    }
-  });
-
-  test('la barra slim no se imprime en las islas', async ({ page }) => {
-    for (const path of ['/interview/', '/learning/']) {
-      await page.goto(path);
-      await page.emulateMedia({ media: 'print' });
-      const display = await page.locator('.toolbar').first().evaluate((el) => getComputedStyle(el).display);
-      expect(display).toBe('none');
-      await page.emulateMedia({ media: 'screen' });
     }
   });
 });

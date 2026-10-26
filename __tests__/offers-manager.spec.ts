@@ -250,4 +250,21 @@ test.describe.serial('Offers manager (isla React en la tab CVs adaptados)', () =
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBe('Montiel Ariana - Cover Letter - EN.docx');
   });
+
+  test('seccion Postulacion: ofertas sin application.md muestran el mensaje neutro', async ({
+    page
+  }) => {
+    await page.goto('/?tab=adaptados');
+    await waitHydrated(page);
+    const sinPostulacion = page
+      .locator('.offer-card')
+      .filter({ hasNot: page.locator('.offer-card-post') })
+      .first();
+    await expect(sinPostulacion).toBeVisible();
+    await sinPostulacion.locator('.offer-card-select').click();
+    await expect(page.locator('.offer-post')).toContainText(
+      'Oferta capturada sin postular: no hay application.md en la carpeta.'
+    );
+    await expect(page.locator('.offer-post .btn')).toHaveCount(0);
+  });
 });

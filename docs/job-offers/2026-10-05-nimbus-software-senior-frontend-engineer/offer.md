@@ -8,6 +8,7 @@ location: Remote (worldwide)
 salario: N/A
 recruiter: N/A
 demo: true
+perfiles: frontend, ai
 ---
 
 # Oferta original
@@ -34,6 +35,8 @@ What you will do:
 
 *   Own dashboard surfaces end to end: design, implementation, testing and release.
 *   Keep our real-time analytics views fast and predictable under heavy data updates.
+*   Ship the new AI insights panel: LLM-generated summaries and anomaly explanations
+    over the analytics data.
 *   Evolve the shared component library and its documentation.
 *   Raise the testing bar: unit, integration and end-to-end coverage with CI gates.
 *   Lead technical discussions and mentor mid-level engineers through code review.

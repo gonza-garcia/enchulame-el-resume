@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Tab CVs adaptados de Mis CVs', () => {
+test.describe('Tab CVs adaptados de Mis perfiles', () => {
   test('main CV exposes the adapted resumes tab', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('.cv-tab', { hasText: 'CVs adaptados' })).toBeVisible();

@@ -25,7 +25,8 @@ const formSchema = z
     salario: z.string().trim(),
     recruiter: z.string().trim(),
     seniority: z.string().trim(),
-    stack: z.string().trim()
+    stack: z.string().trim(),
+    perfiles: z.string().trim()
   })
   .refine((v) => (v.url ? true : (v.ofertaTexto ?? '').trim().length > 0), {
     message: 'Necesit\u00e1s el link O el texto completo de la oferta',
@@ -60,7 +61,8 @@ export default function AddOfferModal({ open, isDev, onClose, onSubmit }: AddOff
       salario: '',
       recruiter: '',
       seniority: '',
-      stack: ''
+      stack: '',
+      perfiles: ''
     }),
     []
   );
@@ -101,7 +103,8 @@ export default function AddOfferModal({ open, isDev, onClose, onSubmit }: AddOff
       location: parsed.location ?? '',
       salario: parsed.salario ?? getValues().salario,
       recruiter: parsed.recruiter ?? getValues().recruiter,
-      descripcionEmpresa: parsed.descripcion_empresa ?? getValues().descripcionEmpresa
+      descripcionEmpresa: parsed.descripcion_empresa ?? getValues().descripcionEmpresa,
+      perfiles: (parsed.perfiles ?? []).join(', ') || getValues().perfiles
     });
     setAiOpen(false);
   };
@@ -207,6 +210,18 @@ export default function AddOfferModal({ open, isDev, onClose, onSubmit }: AddOff
                   <InfoTip>Opcional. Ciudad y país.</InfoTip>
                 </span>
                 <input type="text" placeholder="Ej: Córdoba, Argentina" {...register('location')} />
+              </label>
+
+              <label className="form-field">
+                <span className="form-label">
+                  Perfiles
+                  <InfoTip>
+                    Opcional. Ids de los posicionamientos del perfil a los que apunta la oferta,
+                    separados por coma (ej: frontend, ai). Quedan en el frontmatter de offer.md
+                    como `perfiles` y alimentan el filtro de perfiles de la vista de ofertas.
+                  </InfoTip>
+                </span>
+                <input type="text" placeholder="Ej: frontend, ai" {...register('perfiles')} />
               </label>
 
               <div className="form-field form-full">

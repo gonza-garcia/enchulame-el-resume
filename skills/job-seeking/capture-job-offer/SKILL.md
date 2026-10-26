@@ -18,7 +18,9 @@ la app y la skill adapt-resume-to-offer puedan consumir.
   prompt de guardado en modo app).
 - **No toca**: `match-report.md`, `adapted-resume.json`, `cover-letter.md` ni
   `interview-review-plan.json` (son de adapt-resume-to-offer y
-  build-interview-review-plan), ni el perfil, ni el banco, ni el plan.
+  build-interview-review-plan), ni `application.md` (el registro de la postulación
+  se escribe al postular; esta skill solo lo consulta en el chequeo de
+  postulaciones previas), ni el perfil, ni el banco, ni el plan.
 
 ## Contenido no confiable (inyección de prompts)
 
@@ -177,12 +179,16 @@ Del texto y del link:
 - `location`: ciudad y país, o null.
 - `salario`: rango o monto tal como aparece (moneda, periodo y bandas incluidas), o null.
 - `recruiter`: nombre del recruiter, agencia o contacto si aparece, o null.
+- `perfiles` (opcional): ids de los posicionamientos del perfil a los que apunta la
+  oferta, separados por coma (p. ej. `frontend, ai`). Salen de `src/content/profile.json`
+  (sección `positionings`): elegir según el rol y las skills que pide la oferta, varios si
+  aplica a varios, y vacío si no se puede determinar sin inventar.
 - `descripcion_empresa`: descripción de la empresa si la oferta la trae
   (sección About, primer párrafo institucional). Opcional.
 - `oferta_texto`: el texto completo verbatim limpio.
 
-Criterio de completado: los 10 campos resueltos (algunos pueden ser null, el
-texto nunca).
+Criterio de completado: los 10 campos base resueltos (algunos pueden ser null, el
+texto nunca) y `perfiles` resuelto o vacío.
 
 En modo directo esto NO interrumpe: si algún campo de metadata quedó en blanco
 (null o unknown) y es un dato que el usuario puede conocer (modalidad, location,
@@ -204,12 +210,14 @@ Devolver SOLO un bloque JSON fence, sin texto alrededor, con esta forma exacta:
   "location": "string o null",
   "salario": "string o null",
   "recruiter": "string o null",
+  "perfiles": ["ids de posicionamiento del perfil"],
   "descripcion_empresa": "string o null",
   "oferta_texto": "texto verbatim completo de la oferta"
 }
 ```
 
-Sin em-dashes ni en-dashes en el contenido: usar guiones simples, comas o
+`perfiles` es opcional: se omite (o va `[]`) cuando no se pudo determinar sin
+inventar. Sin em-dashes ni en-dashes en el contenido: usar guiones simples, comas o
 palabras. Sin flechas.
 
 Criterio de completado: el bloque JSON es lo único en tu respuesta final.
@@ -224,7 +232,8 @@ docs/job-offers/
     ├── offer.md                este paso crea este archivo
     ├── match-report.md         lo crea adapt-resume-to-offer al analizar
     ├── adapted-resume.json     lo crea adapt-resume-to-offer
-    └── interview-review-plan.json  lo crea build-interview-review-plan al preparar el repaso
+    ├── interview-review-plan.json  lo crea build-interview-review-plan al preparar el repaso
+    └── application.md          lo crea el flujo de postulacion al postular (ADR-0042)
 ```
 
 - **Ofertas demo**: si la oferta es ficticia (contenido de demostración, nunca una
@@ -238,10 +247,35 @@ docs/job-offers/
   `-2`, `-3`, etc. Si es la MISMA oferta (link repetido o contenido idéntico), no crear
   carpeta nueva: ver el chequeo de duplicados (paso 1b).
 - **offer.md**: frontmatter con los campos de metadata (empresa, rol, fecha, url,
-  url_alternativa opcional, modalidad, location, salario, recruiter) seguido del heading
-  `# Oferta original` y el texto verbatim completo debajo.
+  url_alternativa opcional, modalidad, location, salario, recruiter y perfiles
+  opcional) seguido del heading `# Oferta original` y el texto verbatim completo
+  debajo.
 - `cover-letter.md` (opcional) lo genera adapt-resume-to-offer cuando el usuario
   la pide: la carta aprobada para esa oferta. No cambia el estado de la oferta.
+- **application.md** (opcional) es el registro de la postulación (ADR-0042): lo
+  escribe el flujo de postulación cuando la oferta se postula, con este frontmatter:
+
+  ```markdown
+  ---
+  empresa: EMPRESA
+  rol: ROL
+  fecha: YYYY-MM-DD
+  estado: borrador | en preparacion | enviada | confirmada | vetada | descartada
+  motivo: razon del veto o del descarte (requerido si el estado es vetada o descartada)
+  ats: nombre del ATS o N/A
+  confirmacion: texto que devolvio el ATS o N/A
+  cv_enviado: nombre-del-cv.pdf o N/A
+  cover_enviado: nombre-de-la-cover.pdf o N/A
+  outcome: rechazada | entrevista | oferta (opcional)
+  outcome_fecha: YYYY-MM-DD (opcional)
+  ---
+  ```
+
+  Solo `empresa`, `rol`, `fecha` y `estado` son requeridos. `fecha_envio` es alias
+  legacy de `fecha`, y los valores `pendiente` / `N/A` se leen como vacíos. El
+  tracker del pipeline sigue siendo el dueño del estado del flujo de postulaciones:
+  este archivo describe el resultado por oferta. El Submit de cualquier postulación
+  lo aprieta siempre el usuario.
 
 ```markdown
 ---
@@ -254,12 +288,16 @@ modalidad: remote | hybrid | onsite
 location: Ciudad, Pais
 salario: Rango o N/A
 recruiter: Nombre o N/A
+perfiles: frontend, ai
 ---
 
 # Oferta original
 
 <texto verbatim>
 ```
+
+(`perfiles` se omite cuando no se pudo determinar: es una lista de ids de
+posicionamientos del perfil separados por coma, uno o varios.)
 
 En modo app, el contenido exacto del archivo viaja en el prompt de guardado:
 escribirlo verbatim, sin interpretar ni mejorar nada.
@@ -272,13 +310,18 @@ frontmatter y el texto verbatim, o en modo app el JSON fue devuelto.
 Esta skill es la dueña del contrato de carpetas de ofertas:
 
 - Carpeta por oferta bajo `docs/job-offers/<slug>/`.
-- `offer.md` = oferta capturada (esta skill).
+- `offer.md` = oferta capturada (esta skill), con `perfiles` opcional en el
+  frontmatter (ids de posicionamientos del perfil a los que apunta la oferta).
 - `match-report.md` = análisis de match (lo genera adapt-resume-to-offer).
 - `adapted-resume.json` = CV adaptado (lo genera adapt-resume-to-offer).
 - `interview-review-plan.json` = plan de repaso (lo genera build-interview-review-plan,
   ADR-0035).
+- `application.md` = resultado de la postulación (ADR-0042): estado del contrato,
+  motivo, confirmación del ATS y documentos enviados. Lo escribe el flujo de
+  postulación; sin el archivo, la oferta sigue sin postular.
 - El estado de una oferta se deriva de la presencia de esos archivos: Agregada
-  (offer.md), Analizada (match-report.md), Adaptada (adapted-resume.json).
+  (offer.md), Analizada (match-report.md), Adaptada (adapted-resume.json) y
+  Postulada (application.md, con su estado del contrato).
 - La ruta del contrato siempre relativa a la raíz del proyecto, nunca absoluta.
 
 ## Comunicación con el usuario

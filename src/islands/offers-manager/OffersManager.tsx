@@ -62,6 +62,20 @@ export default function OffersManager({ offers, isDev, userName }: OffersManager
     target.__adaptedExportResume = current?.adaptedResume ?? null;
   }, [offers, selected]);
 
+  // Deep link ?tab=adaptados&oferta=<slug> (Cambio 3): selecciona la oferta pedida.
+  // Se resuelve en un efecto (no en el estado inicial) para no romper la hidratacion;
+  // un slug desconocido queda en la seleccion por defecto.
+  useEffect(() => {
+    try {
+      const requested = new URLSearchParams(window.location.search).get('oferta');
+      if (requested && offers.some((o) => o.listing.slug === requested)) {
+        setSelected(requested);
+      }
+    } catch {
+      /* sin URLSearchParams: seleccion por defecto */
+    }
+  }, [offers]);
+
   useEffect(() => {
     const onExportJson = () => {
       // El export JSON actua sobre el documento activo: en la tab de CVs base lo
@@ -104,6 +118,12 @@ export default function OffersManager({ offers, isDev, userName }: OffersManager
         location: values.location || null,
         salario: values.salario || null,
         recruiter: values.recruiter || null,
+        perfiles: values.perfiles
+          ? values.perfiles
+              .split(',')
+              .map((id) => id.trim())
+              .filter(Boolean)
+          : null,
         descripcion_empresa: values.descripcionEmpresa || null,
         oferta_texto: values.ofertaTexto
       },

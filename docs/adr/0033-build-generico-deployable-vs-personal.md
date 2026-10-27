@@ -12,7 +12,7 @@ estático, en `api/job-offers.json` y en los bundles. O sea, cualquiera que publ
 
 Dos datos lo empeoraban. `docs/deploy.md` decía que "las ofertas reales no forman parte
 del build estático", lo cual era falso. Y `astro.config.mjs` apuntaba `site` a
-`resume.gonzalogarcia.dev`, un dominio que el ADR-0017 dejó diferido y sin comprar.
+un dominio propio, que el ADR-0017 dejó diferido y sin comprar.
 
 ## Decisión
 

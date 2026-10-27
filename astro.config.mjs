@@ -13,7 +13,7 @@ const personal = process.env.BUILD_MODE === 'personal';
 
 export default defineConfig({
   // Sin `site`: el deploy publico es el producto generico del repo publico y la
-  // URL la define ese repo. El dominio custom gonzalogarcia.dev esta diferido
+  // URL la define ese repo. El dominio custom propio esta diferido
   // (ADR-0017), asi que no figura aca.
   outDir: e2eDemo ? './dist-e2e' : personal ? './dist-personal' : './dist',
   build: {

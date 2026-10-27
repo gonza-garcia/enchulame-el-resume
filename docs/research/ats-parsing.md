@@ -6,8 +6,7 @@ del por qué, las fuentes y los métodos de verificación, para que las skills q
 el perfil y adaptan CVs no repitan errores ya descubiertos.
 
 Complemento previo: la investigación personal sobre CV, ATS y escritura sin look de
-IA (reglas anti-huella de estilo) vive en
-`J:\.webdev\.projects\enchulame-el-resume\enchulame-el-resume-repo\docs\planning\cv-ats-and-ai-writing.md`
+IA (reglas anti-huella de estilo) vive en el repo privado de planning del autor, fuera de este repo
 (25 ago 2026). Este documento cubre el parsing; ese cubre el estilo de escritura.
 
 ## Regla de trabajo: el formato se decide con evidencia

@@ -54,8 +54,8 @@ Campos del JSON (detalle exacto en `src/schemas/learning-plan.ts`):
   asOf `YYYY-MM-DD`, source de quien la produjo). El estado del gate nunca se
   guarda ni se inventa: con citas, `/learning` muestra "cumplido con evidencia
   citada" y el marcado manual no aplica; sin citas, el gate se marca a mano. Las
-  citas se copian tal cual de la fuente que las produce (p. ej. el thread
-  memento): no fabricar commits, URLs ni fechas.
+  citas se copian tal cual de la fuente que las produce (p. ej. el agente de
+  evidencias externo): no fabricar commits, URLs ni fechas.
 - `resources`: catálogo plano en muchos a muchos con skills (id, title como
   nombre propio sin traducir, url, creator, platform, price, duration,
   language del material, confidence opcional con fecha de captura, opinion,

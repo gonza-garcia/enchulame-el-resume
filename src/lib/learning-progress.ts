@@ -59,7 +59,7 @@ export function gateEvidence(phase: Pick<PlanPhase, 'gateEvidence'>): PlanEviden
 /**
  * Estado VISIBLE del gate, derivado (ADR-0041): nunca se guarda ni se inventa.
  * Con citas de evidencia el estado es "con-evidencia" y el marcado manual no
- * aplica (el dueño de la evidencia es quien produce las citas, p. ej. memento);
+ * aplica (el dueño de la evidencia es quien produce las citas, p. ej. un agente externo);
  * sin citas, el estado es el marcado manual del usuario o "pendiente".
  */
 export type GateDisplayState = 'con-evidencia' | 'marcado-a-mano' | 'pendiente';

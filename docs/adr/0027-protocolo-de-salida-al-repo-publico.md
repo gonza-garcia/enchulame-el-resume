@@ -14,7 +14,7 @@ aceptación original pide además migrar los issues a un repo privado de plannin
 
 El repo público del producto se crea como repo nuevo desde un commit huérfano con solo código
 genérico, schemas y datos demo. La historia personal jamás se hace push ahí. Este repo se
-renombra a `enchulame-el-resume-planning`, queda privado para siempre y conserva los issues,
+renombra con el sufijo `-planning`, queda privado para siempre y conserva los issues,
 los documentos personales y la historia como legado; el criterio del ticket sobre migrar
 issues se cumple en su intención, que es que los issues y los datos personales nunca queden a
 la vista pública. Cada usuario despliega desde su propia instancia: fork privado del repo

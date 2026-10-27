@@ -6,8 +6,8 @@ un agente lo entrevista para armar su perfil y el build cae en una demo ficticia
 cargó datos.
 
 Este documento es el readme de producto: estado, decisiones de producto, onboarding, deploy y
-protocolo de salida. La documentación personal de su autora vive en `docs/planning/` (repo
-privado de planning) y no forma parte del producto.
+protocolo de salida. La documentación personal de su autora vive en su repo privado de planning y no
+forma parte del producto.
 
 ## Estado actual
 
@@ -296,7 +296,7 @@ están en `docs/deploy.md`.
 | 0042 | Vigente | Contrato de postulación (`application.md`) y UI de resultados |
 
 Los ADRs personales (decisiones del CV y hosting de las apps personales) están en
-`docs/planning/adr/` y son legado del planning. Los ADRs históricos se conservan como
+el repo privado de planning y son legado suyo. Los ADRs históricos se conservan como
 contexto y no contradecir las decisiones vigentes de este README.
 
 ## Producto genérico: protocolo de salida (ADR-0027)
@@ -304,7 +304,7 @@ contexto y no contradecir las decisiones vigentes de este README.
 1. El repo público del producto se crea como repo nuevo desde un commit huérfano con solo
    código genérico, schemas y contenido demo. La historia personal jamás se hace push ahí;
    `git filter-repo` queda descartado.
-2. El repo de desarrollo se renombra `enchulame-el-resume-planning`, queda privado para
+2. El repo de desarrollo se renombra con el sufijo `-planning`, queda privado para
    siempre y conserva los issues, los documentos personales y la historia como legado.
 3. El contenido de perfil real, las ofertas reales, las cover letters, los ADRs personales y
    de hosting y el plan de estudios personal viven en el planning o en la instancia privada de
@@ -421,7 +421,7 @@ contexto y no contradecir las decisiones vigentes de este README.
   PDF y parse real), con la regla de ciclo evidencia -> ADR-0039 -> cambio de formato, y
   referenciada desde `build-profile` y `adapt-resume-to-offer`. La referencia anti-huella
   de estilo de `adapt-resume-to-offer` apunta a la investigación real
-  (`enchulame-el-resume-repo/docs/planning/cv-ats-and-ai-writing.md`) en vez del
+  (investigación interna de escritura ATS, fuera de este repo) en vez del
   `docs/research/README.md` inexistente.
 - 21 oct 2026: Fase D — "Mis CVs" fusiona `/` y `/adapted` en dos tabs ("CVs base" con
   cards por posicionamiento que reemplazan al toggle del toolbar, y "CVs adaptados" con
@@ -443,7 +443,7 @@ contexto y no contradecir las decisiones vigentes de este README.
   `commit` / `url` / `file` (ref verificable, label, `asOf` y `source`), estado derivado
   de las citas ("cumplido con evidencia citada" sin marcado manual; sin citas, marcado a
   mano como siempre) y resumen desglosado. Contrato aditivo: `gate` sigue siendo el
-  texto del criterio y `version: 1` no cambia. Aviso de resync al thread memento por el
+  texto del criterio y `version: 1` no cambia. Aviso de resync al agente de evidencias por el
   cambio de contrato del plan.
 - 26 oct 2026: Fase F arranca con su **diseño aprobado** (UI de resultados del pipeline de
   postulaciones: sección "Ofertas" con filtros por estado, "Mis CVs" pasa a "Mis Perfiles"
@@ -473,11 +473,11 @@ contexto y no contradecir las decisiones vigentes de este README.
   personal del ADR-0028 con su encuadre devuelto (título con objetivo, diagnóstico explícito
   en los summaries de roles, horizonte sin fecha en la fase 0) y **sin `gateEvidence`**: las
   citas demo del ejemplo no viajan (la evidencia nunca se inventa) y los gates quedan con
-  marcado manual hasta que memento mande su payload (ADR-0041). La skill del plan
+  marcado manual hasta que el agente de evidencias mande su payload (ADR-0041). La skill del plan
   `agent-patterns` pasa a `ai-agents` para que el join con el perfil salga exacto. El plan
   real se commitea a la instancia privada como `profile.json` y nunca viaja al repo público
-  (`sync-staging.mjs` lo excluye). Sin cambios de superficie de producto: sin re-sync al
+  (el script de sincronización interno lo excluye). Sin cambios de superficie de producto: sin re-sync al
   staging; el próximo sync lleva las entradas del 27-oct con su auditoría. Aviso de resync
-  enviado al thread memento por la cláusula transversal y **cerrado por memento el mismo
-  día sin cambio de estado en gates** (corrigió su tabla de citas, que medía contra el campo
+  enviado al agente de evidencias por la cláusula transversal y **cerrado por ese agente el
+  mismo día sin cambio de estado en gates** (corrigió su tabla de citas, que medía contra el campo
   `project` en vez del criterio `gate`).

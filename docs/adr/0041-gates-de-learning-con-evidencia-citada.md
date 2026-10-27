@@ -4,8 +4,8 @@ Estado: Vigente.
 
 ## Contexto
 
-El acuerdo de coordinación con el thread memento (ver
-`docs/planning/coordinacion-memento.md`) le da a memento la dueñía del estado y de
+El acuerdo de coordinación con el agente de evidencias (proyecto externo del
+autor, fuera de este repo) le da a ese agente la dueñía del estado y de
 la evidencia de los gates que sus rebanadas producen (Fases 3, 5 y 1-cloud del
 plan). `/learning` agrega y presenta **citando esa evidencia** (commit / URL /
 archivo) y **nunca inventa estado**.
@@ -31,7 +31,7 @@ visible.
    planes ya redactados siguen siendo solo datos, y `version: 1` no cambia.
 4. **Sin marcado manual en gates con evidencia**: si el gate tiene citas, la UI
    reemplaza el toggle por la lista de citas. El dueño del estado es quien
-   produce la evidencia (memento, para sus rebanadas); un override manual
+   produce la evidencia (el agente de evidencias, para sus rebanadas); un override manual
    inventaría estado otra vez.
 5. **El resumen desglosa**: "gates cumplidos" muestra cuántos son con evidencia
    citada y cuántos marcados a mano, para que el origen del estado sea visible
@@ -48,17 +48,17 @@ visible.
 - **Mapear la evidencia a `learning-progress` (localStorage)**: duplicaría el
   estado en un store local por usuario y perdería la cita de origen; la
   evidencia pertenece al plan, no al progreso del navegador.
-- **Hacer el campo `gateEvidence` obligatorio**: los gates sin rebanadas de
-  memento (fases propias del usuario) no tienen evidencia externa y seguirán
+- **Hacer el campo `gateEvidence` obligatorio**: los gates sin rebanadas del
+  agente de evidencias (fases propias del usuario) no tienen evidencia externa y seguirán
   marcándose a mano.
 
 ## Consecuencias
 
-- `/learning` presenta los gates de las rebanadas de memento con sus citas
+- `/learning` presenta los gates de las rebanadas del agente de evidencias con sus citas
   (commit / URL / archivo, con fecha y fuente) y solo los demás se marcan a mano.
-- El plan real, cuando se capture, podrá ir creciendo con las citas que memento
-  produzca; no requiere cambio de schema.
+- El plan real, cuando se capture, podrá ir creciendo con las citas que el agente
+  de evidencias produzca; no requiere cambio de schema.
 - El `learning-progress` del navegador (ADR-0029) sigue vivo para recursos y
   para los gates sin evidencia; su export/import no cambia.
-- Tocar el contrato del plan activa el aviso de resync al thread memento
-  (`docs/planning/coordinacion-memento.md`).
+- Tocar el contrato del plan activa el aviso de resync al agente de evidencias
+  (acuerdo de coordinación interno, fuera de este repo).

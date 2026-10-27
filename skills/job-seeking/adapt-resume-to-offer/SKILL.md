@@ -407,8 +407,8 @@ Estructura en 3 a 4 párrafos cortos, entre 250 y 350 palabras en total:
 4. **Cierre**: llamado a la acción simple y disponibilidad (remoto, zona,
    idioma).
 
-Reglas de estilo (anti-huella de IA, alineadas con la investigación
-`J:\.webdev\.projects\enchulame-el-resume\enchulame-el-resume-repo\docs\planning\cv-ats-and-ai-writing.md`):
+Reglas de estilo (anti-huella de IA, alineadas con la investigación interna
+de escritura ATS, fuera de este repo):
 
 - Variar la cadencia: párrafos de largo distinto, sin listas paralelas de tres.
 - Verbos simples sobre inflados (led, built, shipped antes que spearheaded).

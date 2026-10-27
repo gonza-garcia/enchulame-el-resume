@@ -29,6 +29,5 @@ opencode.jsonc
 /blob-report/
 /playwright/.cache/
 
-# Instancia privada: el perfil real y las ofertas reales se commitean a proposito
-# (el repo es privado). Solo el plan real queda fuera de git hasta capturarlo y decidir.
-src/content/learning-plan.json
+# Instancia privada: el perfil real, las ofertas reales y el plan real se commitean
+# a proposito (el repo es privado). Ninguno viaja al staging (ver sync-staging.mjs).

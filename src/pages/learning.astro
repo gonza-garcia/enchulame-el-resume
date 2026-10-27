@@ -18,7 +18,7 @@ const positionings = profile.positionings.map((positioning) => ({
 
 <Layout title={`Plan de estudios - ${profile.identity.name.en}`}>
   {/* Navbar slim de 3 destinos (Fase D): brand + links, sin controles de export/tema
-      (el Toolbar completo vive en "Mis CVs"). */}
+      (el Toolbar completo vive en "Mis perfiles"). */}
   <div class="toolbar">
     <SiteNav
       brand={{
@@ -48,18 +48,8 @@ const positionings = profile.positionings.map((positioning) => ({
     .learning-header-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       gap: 1rem;
-    }
-
-    .learning-back {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
-    .learning-back:hover {
-      color: var(--accent);
     }
 
     .learning-lang {

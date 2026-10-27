@@ -67,8 +67,8 @@ título PDF salen del perfil. `/learning` consume el read model del perfil
 material de la entrevista de `build-profile`, y la salida al repo público lo retira
 (ADR-0027). No editar ese archivo esperando cambios en el sitio.
 
-El plan de estudios vive en `src/content/learning-plan.json` (gitignored) con su ejemplo
-commiteado `src/content/learning-plan.example.json` y su schema en
+El plan de estudios vive en `src/content/learning-plan.json` (dato del usuario: nunca viaja al
+repo público) con su ejemplo commiteado `src/content/learning-plan.example.json` y su schema en
 `src/schemas/learning-plan.ts` (ADR-0028).
 
 No duplicar el contenido del CV en README, ADRs o documentos de ofertas. Esos archivos
@@ -82,7 +82,8 @@ decisión vigente de este README tienen prioridad sobre el texto histórico de u
 2. Ejecutar la skill `build-profile` (`skills/job-seeking/build-profile/SKILL.md`) en modo
    directo. La entrevista cubre identidad, hechos (experiencia, educación, certificaciones,
    idiomas y proyectos), skills como entidad y los posicionamientos, con cada campo de texto
-   en es y en. El perfil se guarda en `src/content/profile.json` (gitignored) y se valida con
+   en es y en. El perfil se guarda en `src/content/profile.json` (dato del usuario: nunca
+   viaja al repo público) y se valida con
    `pnpm run build`.
 3. Opcional: `capture-learning-plan` escribe `src/content/learning-plan.json` con el plan de
    estudios propio.
@@ -462,3 +463,21 @@ contexto y no contradecir las decisiones vigentes de este README.
   de `offer.md` (multi-perfil, opcional) documentado en `capture-job-offer`, que es la dueña
   del contrato de carpetas junto con el registro `application.md`. El prototipo descartable se
   capturó como fuente primaria en la rama `prototipo/ui-resultados-fase-f`.
+- 27 oct 2026: la Fase F queda **commiteada en la instancia** en cinco commits atómicos
+  (uno por cambio: contrato `application.md`, vista `/ofertas` + navbar + `perfiles`, chip y
+  sección "Postulación" con deep link, ADR-0042 y docs, y planning). Sin cambios de
+  producto: esta entrada registra el cierre de la deuda de commits de la Fase F; el WIP de
+  otras sesiones sigue sin commitear (para sus sesiones o una tarea dedicada).
+- 27 oct 2026 (tarde): **el plan real se captura** con `capture-learning-plan` (modo directo):
+  `src/content/learning-plan.json` existe y `/learning` deja de caer al ejemplo. Es el plan
+  personal del ADR-0028 con su encuadre devuelto (título con objetivo, diagnóstico explícito
+  en los summaries de roles, horizonte sin fecha en la fase 0) y **sin `gateEvidence`**: las
+  citas demo del ejemplo no viajan (la evidencia nunca se inventa) y los gates quedan con
+  marcado manual hasta que memento mande su payload (ADR-0041). La skill del plan
+  `agent-patterns` pasa a `ai-agents` para que el join con el perfil salga exacto. El plan
+  real se commitea a la instancia privada como `profile.json` y nunca viaja al repo público
+  (`sync-staging.mjs` lo excluye). Sin cambios de superficie de producto: sin re-sync al
+  staging; el próximo sync lleva las entradas del 27-oct con su auditoría. Aviso de resync
+  enviado al thread memento por la cláusula transversal y **cerrado por memento el mismo
+  día sin cambio de estado en gates** (corrigió su tabla de citas, que medía contra el campo
+  `project` en vez del criterio `gate`).

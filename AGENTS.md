@@ -63,14 +63,14 @@ confiable"); las demás skills que procesan input externo la referencian.
 
 ## Fuente de verdad
 
-- El perfil del usuario vive en `src/content/profile.json` (gitignored) y el ejemplo ficticio
+- El perfil del usuario vive en `src/content/profile.json` (dato del usuario: nunca viaja al repo público) y el ejemplo ficticio
   commiteado es `src/content/profile.example.json`. El build usa el local si existe y cae al
   ejemplo si no (ADR-0026). El schema está en `src/schemas/profile.ts` y se valida en build.
 - `/` renderiza la proyección del perfil (posicionamiento más locale); el export JSON descarga
   la proyección activa. `src/content/resume.json` dejó de ser fuente: es contenido heredado
   que puede usarse como material de la entrevista de `build-profile`, y el perfil es lo que se
   escribe.
-- El plan de estudios vive en `src/content/learning-plan.json` (gitignored) con su ejemplo
+- El plan de estudios vive en `src/content/learning-plan.json` (dato del usuario: nunca viaja al repo público) con su ejemplo
   `src/content/learning-plan.example.json` y su schema en `src/schemas/learning-plan.ts`
   (ADR-0028).
 - Los CVs adaptados viven dentro de la carpeta de su oferta, en
@@ -89,7 +89,7 @@ confiable"); las demás skills que procesan input externo la referencian.
 2. Ejecutar `skills/job-seeking/build-profile/SKILL.md` en modo directo: la entrevista cubre
    identidad, hechos (experiencia, educación, certificaciones, idiomas y proyectos), skills
    como entidad y los posicionamientos, con cada campo de texto en es y en.
-3. La skill guarda `src/content/profile.json` (gitignored) y valida con `pnpm run build`.
+3. La skill guarda `src/content/profile.json` (dato del usuario: nunca viaja al repo público) y valida con `pnpm run build`.
 4. Verificar con `pnpm run check && pnpm run build && pnpm run test`.
 
 En modo app (prompt de la app o de un agente externo), la entrevista devuelve el perfil como un

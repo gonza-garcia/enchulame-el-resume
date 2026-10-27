@@ -356,9 +356,6 @@ export default function LearningPlanIsland({
     <div className="learning-app">
       <header className="learning-header">
         <div className="learning-header-row">
-          <a className="learning-back" href="/">
-            Volver al CV
-          </a>
           <div className="learning-lang" role="group" aria-label="Idioma del plan">
             <button
               type="button"

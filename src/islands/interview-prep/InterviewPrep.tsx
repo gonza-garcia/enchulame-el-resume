@@ -1160,8 +1160,6 @@ export default function InterviewPrep({
       <header className="interview-header">
         <div className="interview-header-inner">
           <div className="interview-brand-row">
-            <a className="interview-back" href="/">← CV principal</a>
-            <span className="header-rule" aria-hidden="true" />
             <span className="header-label">Interview prep</span>
           </div>
           <div className="interview-heading">

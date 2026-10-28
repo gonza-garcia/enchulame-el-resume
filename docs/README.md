@@ -477,7 +477,50 @@ contexto y no contradecir las decisiones vigentes de este README.
   `agent-patterns` pasa a `ai-agents` para que el join con el perfil salga exacto. El plan
   real se commitea a la instancia privada como `profile.json` y nunca viaja al repo público
   (el script de sincronización interno lo excluye). Sin cambios de superficie de producto: sin re-sync al
-  staging; el próximo sync lleva las entradas del 27-oct con su auditoría. Aviso de resync
+  staging; el próximo sync lleva las entradas del 27-oct con su auditoría (cumplido en el
+  re-sync del 27-oct tarde, más abajo en este changelog). Aviso de resync
   enviado al agente de evidencias por la cláusula transversal y **cerrado por ese agente el
   mismo día sin cambio de estado en gates** (corrigió su tabla de citas, que medía contra el campo
   `project` en vez del criterio `gate`).
+- 27 oct 2026 (tarde): se quitan los **back-links de las islas** (pendiente de la Fase D,
+  decisión de la persona usuaria): `/interview` perdía "← CV principal" y `/learning`
+  "Volver al CV" — la navbar de 4 destinos + brand ya cubre la navegación a "Mis perfiles".
+  Se limpian las reglas CSS asociadas (`.interview-back` / `.header-rule` /
+  `.learning-back`) y se alinean los comentarios stale "Mis CVs" → "Mis perfiles".
+  Commit `33150a9` (selectivo en `InterviewPrep.tsx`, que tiene WIP ajeno). Por tocar
+  `/learning`, aviso de resync al agente de evidencias (sin cambios de datos ni de contrato
+  del plan). Verificación en verde: 302 tests.
+- 27 oct 2026 (tarde): **re-sync al staging** con el cambio de back-links (primera
+  superficie de producto que viaja desde el cierre de la Fase F): 221 archivos genéricos,
+  auditoría grep de identidad (los 6 tokens del gate) antes y después en
+  verde (0 fugas) y suite del staging en verde (**258 tests**). Commit del staging
+  `59fc75c`. El sync cumplió lo acordado: se llevó las entradas 27-oct del changelog y
+  arrastró el WIP genérico de otras sesiones sin commitear (`.gitignore`, `AGENTS.md`),
+  como en los syncs anteriores; lo personal y las ofertas reales quedaron fuera.
+- 27 oct 2026 (tarde): **salida al repo público** (ADR-0027): el repo público queda publicado
+  al estado actual del producto, con su `README` raíz ("Enchula mi Resume") y la licencia MIT.
+  Pre-publicación: fuera la identidad de los archivos genéricos (un dominio personal en
+  `astro.config.mjs` y en el ADR-0033), limpieza de referencias internas en docs, skills y
+  código (el agente de evidencias, sin rutas de infraestructura privada) y `.gitignore` del
+  repo público restaurado con las protecciones de datos del usuario (`profile.json`,
+  `learning-plan.json` y solo las ofertas demo), divergente por diseño del de la instancia
+  privada. Verificación en verde: 258 tests. **Esta entrada viaja al repo público en el
+  próximo sync.**
+- 28 oct 2026: se cierra la **cola de la salida al repo público**. (1) Metadata del repo en
+  GitHub: description genérica ("Enchula mi Resume — CV e interview prep en un sitio Astro
+  estático, bilingüe ES/EN y ATS friendly…"), 10 topics y homepage apuntando a la demo.
+  (2) **Deploy de la demo en Cloudflare Pages**: proyecto `enchulame-el-resume` conectado al
+  repo público por integración git (auto-deploy en push a `main`), build `pnpm run build`,
+  output `dist/`, `NODE_VERSION=24`. La demo queda en `https://enchulame-el-resume.pages.dev`
+  respondiendo 200 en sus cuatro rutas con el banner "Datos de ejemplo, no son datos reales"
+  y auditoría de identidad sobre el HTML publicado en 0. Sin cambios de archivos de producto
+  (solo metadata y hosting): sin suite, sin re-sync al staging y sin resync con el agente de
+  evidencias.
+- 28 oct 2026 (tarde): **fix del gate de identidad**: `capture-job-offer/SKILL.md` publicaba
+  una ruta absoluta de la máquina como ejemplo de dónde vive una skill externa; el texto queda
+  como referencia genérica ("si no la encontrás entre tus skills instaladas, preguntarle al
+  usuario dónde vive"). La auditoría de la salida del 27-oct no la había agarrado porque
+  grepeaba rutas con `\` y esta iba con `/`: **los barridos de identidad pasan a grepear las
+  dos variantes de slash** (barra invertida y barra normal, incluidas las rutas del perfil de
+  usuario). Corregido en
+  los dos árboles y publicado con commit nuevo encima, sin reescribir historia.

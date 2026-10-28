@@ -131,10 +131,9 @@ real de la oferta (no una página de login, no un authwall, no basura):
    no es gratis).
 6. **Fallback final**: pedir al usuario el texto completo de la oferta.
 
-Herramientas del entorno a usar en orden: la skill agent-reach si existe (si la
-ruta `J:/.webdev/.ia/.skills/Research/agent-reach/SKILL.md` no existe cuando la
-busques, preguntarle al usuario dónde vive y usarla desde ahí), curl, `gh` si
-está autenticado.
+Herramientas del entorno a usar en orden: la skill agent-reach si existe (si no
+la encontrás entre tus skills instaladas, preguntarle al usuario dónde vive y
+usarla desde ahí), curl, `gh` si está autenticado.
 
 Además: la skill browser-skill (BSK) para páginas con authwall o login (un
 perfil de LinkedIn que no abre con la Guest API, un portal que exige sesión).
